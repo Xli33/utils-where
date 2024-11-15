@@ -1,0 +1,67 @@
+{
+  "name": "utils-where",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "js util for web",
+  "main": "dist/cjs/index.cjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs"
+    },
+    "./events": {
+      "types": "./dist/events.d.ts",
+      "import": "./dist/esm/events.js",
+      "require": "./dist/cjs/events.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prepare": "husky",
+    "release": "commit-and-tag-version",
+    "prebuild": "node -e \"fs.rm('dist',{recursive:true},err=>{console.log(err)})\"",
+    "build": "rollup -c",
+    "postbuild": "node postBuild.js",
+    "test": "jest",
+    "prepublish": "npm run build",
+    "esbuild:cjs": "esbuild ./src/index.ts --bundle --target=esnext --outfile=dist/index.cjs --format=cjs",
+    "esbuild:esm": "esbuild ./src/index.ts --bundle --target=esnext --outfile=dist/index.js --format=esm",
+    "build-esb": "npm run esbuild:cjs && npm run esbuild:esm && tsc --allowJs --declaration --emitDeclarationOnly dist/index.cjs dist/index.js",
+    "build-ts": "tsc --build tsconfig.json tsconfig.esm.json"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xli33/utils-where.git"
+  },
+  "author": "Xli33",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Xli33/utils-where/issues"
+  },
+  "homepage": "https://github.com/Xli33/utils-where#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@eslint/js": "^9.14.0",
+    "@rollup/plugin-typescript": "^12.1.1",
+    "@types/jest": "^29.5.14",
+    "commit-and-tag-version": "^12.4.1",
+    "eslint": "^9.14.0",
+    "globals": "^15.12.0",
+    "husky": "^9.0.11",
+    "jest": "^29.7.0",
+    "rollup": "^4.25.0",
+    "rollup-plugin-flat-dts": "^2.8.0",
+    "ts-jest": "^29.2.5",
+    "tslib": "^2.8.1",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.14.0"
+  }
+}
