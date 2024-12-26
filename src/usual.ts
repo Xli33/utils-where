@@ -14,7 +14,26 @@ export function serialize(obj: Obj) {
 }
 
 /**
- * 获取给定对象的某属性值，路径以 . 形式，如 a.b.c.d
+ * 按给定key路径及末端值生成对应格式对象
+ * @param keyPath eg: a.b.c.d
+ * @param value
+ * @returns object
+ * @example makeObjectByPath('one.two.three', 0)
+ * 返回结果 { one: { two: { three: 0 } } }
+ */
+export function makeObjectByPath(keyPath: string, value?: any): Obj {
+  let curr: Obj = {};
+  const pureObj: Obj = curr,
+    arr = keyPath.split('.').map((e) => e.trim());
+  // 根据 keyPath 构建配置对象
+  for (let i = 0, len = arr.length; i < len; i++) {
+    if (!arr[i]) continue;
+    curr = curr[arr[i]] = i < len - 1 ? {} : value;
+  }
+  curr = null;
+  return pureObj;
+}
+
  * @param obj
  * @param keyPath
  * @returns any
