@@ -1,16 +1,14 @@
 {
-  "compilerOptions": {
-    "rootDir": "src/",
-    // "composite": true,
-    "declaration": true,
-    // "emitDeclarationOnly": true,
-    "skipLibCheck": true,
-    "target": "ESNext",
-    "module": "CommonJS",
-    "moduleResolution": "Node10",
-    "outDir": "dist/cjs",
-    "noImplicitAny": true
-  },
-  "include": ["src/index.ts"],
-  "exclude": ["__tests__/"]
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.cjs.json"
+    },
+    {
+      "path": "./tsconfig.esm.json"
+    },
+    {
+      "path": "./tsconfig.test.json"
+    }
+  ]
 }

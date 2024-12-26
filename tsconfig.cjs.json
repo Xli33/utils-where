@@ -2,14 +2,14 @@
   "compilerOptions": {
     "rootDir": "src/",
     "composite": true,
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.esm.tsbuildinfo",
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.cjs.tsbuildinfo",
     "declaration": true,
     // "emitDeclarationOnly": true,
     "skipLibCheck": true,
     "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "outDir": "dist/esm",
+    "module": "CommonJS",
+    "moduleResolution": "Node10",
+    "outDir": "dist/cjs",
     "noImplicitAny": true
   },
   "include": ["src/*.ts"],
