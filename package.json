@@ -27,7 +27,7 @@
     "build": "rollup -c",
     "postbuild": "node postBuild.js",
     "test": "jest",
-    "prepublish": "npm run build",
+    "prepublish": "npm run release && npm run build",
     "esbuild:cjs": "esbuild ./src/index.ts --bundle --target=esnext --outfile=dist/index.cjs --format=cjs",
     "esbuild:esm": "esbuild ./src/index.ts --bundle --target=esnext --outfile=dist/index.js --format=esm",
     "build-esb": "npm run esbuild:cjs && npm run esbuild:esm && tsc --allowJs --declaration --emitDeclarationOnly dist/index.cjs dist/index.js",
