@@ -34,27 +34,47 @@ export function makeObjectByPath(keyPath: string, value?: any): Obj {
   return pureObj;
 }
 
+/**
+ * 获取给定对象的某属性值，路径以 . 形式，如 a.b.c.d，也适用于数组
  * @param obj
- * @param keyPath
+ * @param keyPath 键路径，如 home.head.title
+ * @param check 检验 keyPath 是否有效。如对象{one:1}，keyPath为one.two，由于one上找不到属性“two”，故返回值里的 isValidKeys 是false
  * @returns any
- * @example getPathValue({a: []}, 'a')
+ * @example getPathValue({a: [ 1, { b: {0: [ 3 ] } } ]}, 'a.1.b.0.0') === 3
  * getPathValue({a: {b: 123} }, 'a.b')
+ * getPathValue({a: {b: null}}, 'a.b', true) => {isValidKeys: true, validKeys: 'a.b', value: null}
  */
-export const getPathValue = (obj: Obj, keyPath: string): any => {
-  if (typeof obj !== 'object') {
-    console.warn('typeof obj is not object');
+export function getPathValue(obj: Obj, keyPath: string, check?: boolean): any {
+  if (!obj || typeof obj !== 'object') {
+    console.warn('obj is not an object');
     return obj;
   }
-  if (!keyPath) return '';
-  const arr = keyPath.split('.');
+  const arr = (keyPath || '')
+      .split('.')
+      .map((e) => e.trim())
+      .filter((e) => !!e),
+    valids: string[] = check ? [] : undefined;
   let curr = obj;
   for (const v of arr) {
-    if (!v) continue;
+    // 进入循环，说明arr必然是包含非空key的数组，所以正常取到最终目标后，循环正好结束
+    // 若curr是null或undefined，说明无法获取到最终目标值，应直接跳出循环，并手动设置curr为undefined以避免可能获取到null
+    // eg. getPathValue({a: null}, 'a.p') 属性a已经是null，null不存在属性p，若不手动将curr改为undefined则返回值是null，但属性不存在时获取到的应该是undefined
+    if (curr == null) {
+      curr = undefined;
+      break;
+    }
+    // in 必须用在对象类型上，否则会报错
+    check && typeof curr === 'object' && v in curr && valids.push(v);
     curr = curr[v];
-    if (typeof curr !== 'object') break;
   }
-  return curr;
-};
+  return !check
+    ? curr
+    : {
+        isValidKeys: valids.length > 0 && arr.every((e, i) => e === valids[i]),
+        validKeys: valids.join('.'),
+        value: curr
+      };
+}
 
 /**
  * 变速滚动元素内容至顶部
