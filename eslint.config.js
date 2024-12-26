@@ -31,20 +31,20 @@ export default tseslint.config(
     rules: {
       '@typescript-eslint/no-unused-expressions': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
-      // '@typescript-eslint/no-unused-vars': ['error', { args: 'none' }],
+      '@typescript-eslint/no-unused-vars': ['error', { caughtErrors: 'none' }],
       // 'vue/multi-word-component-names': 'off',
       'no-prototype-builtins': 'off',
       'no-debugger': 'off',
-      'no-unused-vars': [
-        'error',
-        {
-          // vars: 'all',
-          // args: 'after-used',
-          caughtErrors: 'none'
-          // ignoreRestSiblings: false,
-          // reportUsedIgnorePattern: false
-        }
-      ],
+      // 'no-unused-vars': [
+      //   'error',
+      //   {
+      //     // vars: 'all',
+      //     // args: 'after-used',
+      //     caughtErrors: 'none'
+      //     // ignoreRestSiblings: false,
+      //     // reportUsedIgnorePattern: false
+      //   }
+      // ],
       'no-empty': ['error', { allowEmptyCatch: true }]
     }
   }
