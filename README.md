@@ -11,7 +11,7 @@ yarn add utils-where
 ``` 
 
 ## Usage
-```
+```js
 import { serialize, getPathValue, setClipboard, sprintf, makeObjectByPath, setPathValue, deepMerge, scroller, toTopOrBottom } from 'utils-where'; 
 // or use commonJS style if necessary: const {serialize} = require('utils-where')
 
@@ -73,7 +73,7 @@ toTopOrBottom(null, 'bottom', 'easeOut')
 ```
 
 ### class
-```
+```js
 import {StoreSimply, StoreById, StoreByIDB, CountDown, Clock} from 'utils-where';
 
 // result in localStorage[''] = {theme: 1}
@@ -103,7 +103,7 @@ d.onsuccess = () => {
 
 utils-where/events makes it possible to support "longpress" on mobile, which differs from contextmenu<br>
 it simulates longpress by touchstart, **only import it when contextmenu doesn't work well**
-```
+```js
 import 'utils-where/events'; // this will import code from utils-where/dist/esm/events.js, and then use the "longpress" just like original event
 
 const longPress = e => {
