@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [0.1.1](https://github.com/Xli33/utils-where/compare/v0.1.0...v0.1.1) (2024-12-26)
+
+
+### Bug Fixes
+
+* 调整husky回prepare ([8e818db](https://github.com/Xli33/utils-where/commit/8e818dba25cbba13296641c982d5654e2736494b))
+
 ## 0.1.0 (2024-12-26)
 
 
