@@ -1,7 +1,7 @@
 {
   "name": "utils-where",
   "type": "module",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "js util for web",
   "main": "dist/cjs/index.cjs",
   "types": "dist/index.d.ts",
