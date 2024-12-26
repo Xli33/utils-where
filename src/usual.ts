@@ -5,13 +5,13 @@ import type { Obj } from './types';
  * @param obj
  * @returns string
  */
-export const serialize = (obj: Obj) => {
+export function serialize(obj: Obj) {
   const arr: string[] = [];
   for (const i in obj) {
     arr.push(`${i}=${obj[i] ?? ''}`);
   }
   return arr.join('&');
-};
+}
 
 /**
  * 获取给定对象的某属性值，路径以 . 形式，如 a.b.c.d
@@ -77,7 +77,7 @@ export const backToTop = (selector = 'html', step = 5, cb?: () => void) => {
  * @param val
  * @returns boolean
  */
-export const setClipboard = (val: string) => {
+export function setClipboard(val: string) {
   if (!val) return;
   const el = document.createElement('textarea');
   el.value = val;
@@ -93,20 +93,22 @@ export const setClipboard = (val: string) => {
   const res = document.execCommand('copy');
   el.remove();
   return res;
-};
+}
 
 /**
  * 通过id判断性别 1：男，2：女
  * @param id
  * @returns 1: male, 2: female
  */
-export const getSexById = (id: string) =>
-  id ? (Number(id.slice(-2, -1)) % 2 !== 0 ? 1 : 2) : null;
+export function getSexById(id: string) {
+  return id ? (Number(id.slice(-2, -1)) % 2 !== 0 ? 1 : 2) : null;
+}
 
 /**
  * 通过id获取出生日期
  * @param id
  * @returns YYYY-MM-DD
  */
-export const getBirthById = (id: string) =>
-  id ? id.slice(6, 14).replace(/(\d{4})(\d{2})/, '$1-$2-') : '';
+export function getBirthById(id: string) {
+  return id ? id.slice(6, 14).replace(/(\d{4})(\d{2})/, '$1-$2-') : '';
+}
