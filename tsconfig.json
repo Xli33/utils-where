@@ -9,7 +9,7 @@
     "module": "CommonJS",
     "moduleResolution": "Node10",
     "outDir": "dist/cjs",
-    "noImplicitAny": true,
+    "noImplicitAny": true
   },
   "include": ["src/index.ts"],
   "exclude": ["__tests__/"]

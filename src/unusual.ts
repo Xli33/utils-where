@@ -36,11 +36,11 @@ export function sprintf(...[str, ...args]: [string, ...(string | number | object
     // const chars = str.match(/{[^{}]+}/g);
     // if (chars) {
     //   for (const v of chars) {
-    //     str = str.replace(v, getPath(rep, v.replace(/[{}]/g, '')) || '');
+    //     str = str.replace(v, getPath(rep, v.replace(/[{}]/g, '')) ?? '');
     //   }
     // }
     // return str;
-    return str.replace(/{[^{}]+}/g, (v) => getPathValue(rep, v.replace(/[{}]/g, '')) || '');
+    return str.replace(/{[^{}]+}/g, (v) => getPathValue(rep, v.replace(/[{}]/g, '')) ?? '');
   }
 
   return str;
