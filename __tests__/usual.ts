@@ -1,4 +1,4 @@
-import { serialize, getPathValue } from '../src';
+import { serialize, getPathValue, makeObjectByPath, setPathValue } from '../src';
 
 describe('usual modules', () => {
   test('serialize', () => {
@@ -33,5 +33,27 @@ describe('usual modules', () => {
         'a.b'
       )
     ).toEqual([]);
+  });
+  test('makeObjectByPath', () => {
+    expect(makeObjectByPath('one.two.three', null)).toEqual({
+      one: {
+        two: {
+          three: null
+        }
+      }
+    });
+  });
+  test('setPathValue', () => {
+    expect(
+      setPathValue(
+        {
+          one: {
+            two: [3, {}]
+          }
+        },
+        'one.two.1.four',
+        ''
+      )
+    ).toBe(true);
   });
 });
