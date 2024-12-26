@@ -21,7 +21,7 @@
     "dist"
   ],
   "scripts": {
-    "preinstall": "husky",
+    "prepare": "husky",
     "release": "commit-and-tag-version",
     "prebuild": "node -e \"fs.rm('dist',{recursive:true},err=>{console.log(err)})\"",
     "build": "rollup -c",
