@@ -240,8 +240,8 @@ export function scroller({
 export function toTopOrBottom(
   el?: Element,
   dir: 'top' | 'bottom' = 'top',
-  duration: number = 500,
-  type?: timingTypes
+  type?: timingTypes,
+  duration: number = 500
 ) {
   scroller({
     el,
