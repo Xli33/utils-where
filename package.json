@@ -2,7 +2,7 @@
   "name": "utils-where",
   "type": "module",
   "version": "0.1.3",
-  "description": "js util for web",
+  "description": "a pack of js utils for web",
   "main": "dist/cjs/index.cjs",
   "types": "dist/index.d.ts",
   "exports": {

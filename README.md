@@ -1,5 +1,5 @@
 # utils-where
-a util of js for web
+a pack of js utils for web
 
 ## Install
 ```
@@ -11,6 +11,8 @@ yarn add utils-where
 ``` 
 
 ## Usage
+
+### function
 ```js
 import { serialize, getPathValue, setClipboard, sprintf, makeObjectByPath, setPathValue, deepMerge, scroller, toTopOrBottom } from 'utils-where'; 
 // or use commonJS style if necessary: const {serialize} = require('utils-where')
@@ -24,7 +26,6 @@ serialize({
     more: false
 })
 
-// result is 3
 const obj = {
     first: {
         second: {
@@ -32,35 +33,93 @@ const obj = {
         }
     }
 }
+// result is 3
 getPathValue(obj, 'first.second.third')
 
 // result is true if copied or false if failed
 setClipboard('content to be copied')
 
 // the sprintf is inspired by template string `${}` from es6
-sprintf('this %s a %s and see', 'is', 'demo') // return 'this is a demo and see'
+// return 'this is a demo and see'
+sprintf('this %s a %s and see', 'is', 'demo')
+// return 'a demo to show and see'
 sprintf('a {first} to show and {second.txt}', {
     first: 'demo',
     second: {
         txt: 'see'
     }
-}) // return 'a demo to show and see'
+})
 
 // return an object like {one: {two: {three: null}}}
 makeObjectByPath('one.two.three', null)
 
-// return true
-setPathValue({one: {two: [3, {}]}}, 'one.two.1.three', '')
+const obj = {
+    one: {
+        two: [3, {}]
+    }
+}
+// return true 
+setPathValue(obj, 'one.two.1.three', '')
+obj.one.two[1].three === '' // true
 
-// return {a: {b: {c: 1, d: 2}}}
-deepMerge({a: { b: {c: 1} }}, {a: {b: { d: 2 }}})
+/* return {
+    a: {
+        b: {
+            c: 1,
+            nums: [
+                7,
+                {
+                    hi: 'hey',
+                    ok: 'ok'
+                },
+                9
+            ],
+            d: 2
+        }
+    }
+}
+*/
+deepMerge({
+    a: { 
+        b: {
+            c: 1,
+            nums: [6,{
+                hi: 'hey'
+            }]
+        } 
+    }
+}, {
+    a: {
+        b: {
+            d: 2,
+            nums: [7, {
+                ok: 'ok'
+            }, 9]
+        }
+    }
+})
+// merge on sparse arrays
+// return [1, 6, empty, 3]
+deepMerge([,2,,],[1,6,,3])
 
 // try the element's smooth scroll
 scroller({
     top: 0
 })
+// scroll element[id=list]
+scroller({
+    el: document.querySelector('#list'),
+    top: 0
+})
 // try other smooth scroll, done in 500ms
 scroller({
+    top: 0,
+    duration: 500,
+    type: 'easeOut'
+})
+// scroll element[id=list]
+scroller({
+    el: document.querySelector('#list'),
     top: 0,
     duration: 500,
     type: 'easeOut'
@@ -70,23 +129,29 @@ scroller({
 toTopOrBottom()
 // scroll page to bottom with easeOut transition
 toTopOrBottom(null, 'bottom', 'easeOut')
+// scroll some element
+toTopOrBottom(document.querySelector('#list'), 'top', /* 'easeIn' */)
 ```
 
 ### class
+the synchronous "setVal()" and "save()" of new StoreXXX() only change localStorage/indexedDB once(in setTimeout callback)<br>
+so `.setVal().setVal().save().save().setVal()` modify local only once
 ```js
 import {StoreSimply, StoreById, StoreByIDB, CountDown, Clock} from 'utils-where';
 
-// result in localStorage[''] = {theme: 1}
+// localStorage[''] be like {theme: 1}
 new StoreSimply('', {theme: 'auto'}).setVal('theme', 1).getVal('theme') === 1
 
-// localStorage.app = {theme: 1, head: {show: true, title: 0}, foot: {show: false, tip: 'xxx'}, {one: {two: {three: {four: null}}}}}
+// localStorage.app be like {theme: 1, head: {show: true, title: 0}, foot: {show: false, tip: 'xxx'}, {one: {two: {three: {four: null}}}}}
 new StoreById('app', {
     theme: 0,
     head: {
         show: false
     }
-}).setVal('head.show', true).save({theme: 1})
-  .setVal('foot.show', false).save({head: {title: 0}})
+}).setVal('head.show', true)
+  .save({theme: 1})
+  .setVal('foot.show', false)
+  .save({head: {title: 0}})
   .save({
     foot: {
         tip: 'xxx'
@@ -96,13 +161,36 @@ new StoreById('app', {
 // store in indexedDB
 const d = new StoreByIDB()
 d.onsuccess = () => {
-    console.log(d.data)
-    d.setVal('APP.ui.theme', 'auto').setVal('login.agree.read', true).get('login.agree.read')
+  console.log(d.data)
+  const read = d.setVal('APP.ui.theme', 'auto')
+                .setVal('login.agree.read', true)
+                .get('login.agree.read')
+  console.log(read) // true
 }
+
+// start a countdown in 1 min & 20 seconds
+new CountDown({minute: 1, second: 20}, false, ({minute, second}) => {
+    console.log(minute, second)
+})
+// start a countdown till the target time and only run when page visible
+new CountDown(new Date('2030-01-01 12:00:00'), true, ({day, hour, minute, second}) => {
+    console.log(`left tims:${day} days ${hour} hours ${minute} minutes ${second} seconds`)
+})
+
+// start a clock updating every second from now
+const padZero = num => (num + '').padStart(2, '0')
+new Clock(null, null or 1, false, ({year, month, day, week, hour, minute, second}, date) => {
+ console.log(`now: ${year}-${month}-${padZero(day)} ${padZero(hour)}:${padZero(minute)}:${padZero(second)}`)
+})
+// start a clock updating every 60 seconds from given time, the first param and only run when page visible
+new Clock(new Date('2000-01-01 00:00:00'), 60, true, (parts, date) => {
+    console.log(date.toLocaleString())
+})
 ```
 
+### events
 utils-where/events makes it possible to support "longpress" on mobile, which differs from contextmenu<br>
-it simulates longpress by touchstart, **only import it when contextmenu doesn't work well**
+it simulates longpress by touchstart and touchend, **only import it when the contextmenu doesn't work as u wish!**
 ```js
 import 'utils-where/events'; // this will import code from utils-where/dist/esm/events.js, and then use the "longpress" just like original event
 
@@ -147,6 +235,8 @@ document._longPressOption: {
 | checkMobile | check phone number | ` (val: string, lazy?: boolean) => boolean ` |
 | checkTel | check telephone number | ` (val: string) => boolean ` |
 | checkMail | check email address | ` (val: string) => boolean ` |
+
+<br>
 
 | class | functionality | type
 | :--: | :--: | :--: |
