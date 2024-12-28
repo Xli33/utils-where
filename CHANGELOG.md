@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [0.1.4](https://github.com/Xli33/utils-where/compare/v0.1.3...v0.1.4) (2024-12-28)
+
+
+### Bug Fixes
+
+* 修复StoreXXX的注释用例 ([5e962c7](https://github.com/Xli33/utils-where/commit/5e962c7f22e3fa56f118f83ff2afbf2a70951b7c))
+
 ## [0.1.3](https://github.com/Xli33/utils-where/compare/v0.1.2...v0.1.3) (2024-12-26)
 
 ## [0.1.2](https://github.com/Xli33/utils-where/compare/v0.1.1...v0.1.2) (2024-12-26)
