@@ -139,8 +139,11 @@ so `.setVal().setVal().save().save().setVal()` modify local only once
 ```js
 import {StoreSimply, StoreById, StoreByIDB, CountDown, Clock} from 'utils-where';
 
-// localStorage[''] be like {theme: 1}
-new StoreSimply('', {theme: 'auto'}).setVal('theme', 1).getVal('theme') === 1
+// localStorage[''] be like {theme: 1, other: ''}
+const GlobalIni = new StoreSimply('', {theme: 'auto', other: ''})
+    .setVal('theme', 1)
+// remove the "other" key and the data in local store be like {theme: 1}
+GlobalIni.setVal('other', undefined)
 
 // localStorage.app be like {theme: 1, head: {show: true, title: 0}, foot: {show: false, tip: 'xxx'}, {one: {two: {three: {four: null}}}}}
 new StoreById('app', {
@@ -157,6 +160,18 @@ new StoreById('app', {
         tip: 'xxx'
     }
   }).setVal('one.two.three.four', null)
+// remove some key in local store
+new StoreById('app2', {
+    custom: {
+        lang: '',
+        theme: 'light'
+    }
+}).setVal('custom.theme', undefined)
+  .save({
+    custom: {
+        lang: undefined
+    }
+  })
 
 // store in indexedDB
 const d = new StoreByIDB()
@@ -164,8 +179,10 @@ d.onsuccess = () => {
   console.log(d.data)
   const read = d.setVal('APP.ui.theme', 'auto')
                 .setVal('login.agree.read', true)
-                .get('login.agree.read')
+                .getVal('login.agree.read')
   console.log(read) // true
+  // remove key in local store
+  d.setVal('login.agree.read', undefined, {useJSON: true})
 }
 
 // start a countdown in 1 min & 20 seconds
@@ -232,8 +249,6 @@ document._longPressOption: {
 | moveTo | move some item to other "index" in an array | ` (arr: any[], from: number, to: number) => void ` |
 | getScrollBarSize | get the scrollbar size | ` (force?: boolean) => number ` |
 | deepMerge | deep merge for object & array | ` (target: Obj, source: Obj, skipHandle?: (key: string, target: Obj, from: any) => boolean \| void) => Obj ` |
-| checkMobile | check phone number | ` (val: string, lazy?: boolean) => boolean ` |
-| checkTel | check telephone number | ` (val: string) => boolean ` |
 | checkMail | check email address | ` (val: string) => boolean ` |
 
 <br>
