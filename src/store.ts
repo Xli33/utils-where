@@ -110,7 +110,7 @@ export class StoreById {
    * @param keyPath eg. login.agree
    * @param target 查询keyPath值的目标对象，不存在时从this.data上查询
    * @returns any
-   * @example get('login.agree')
+   * @example getVal('login.agree')
    */
   getVal(keyPath: string, target?: Obj) {
     return getPathValue(target || this.data, keyPath);
@@ -209,7 +209,7 @@ export class StoreById {
  * @example const d = new StoreByIDB()
  * d.onsuccess = () => {
  *  console.log(d.data)
- *  d.setVal('APP.ui.theme', 'auto').setVal('login.agree.read', true).get('login.agree.read')
+ *  d.setVal('APP.ui.theme', 'auto').setVal('login.agree.read', true).getVal('login.agree.read')
  * }
  */
 export class StoreByIDB {
@@ -253,7 +253,7 @@ export class StoreByIDB {
    * @param keyPath
    * @param target 查询keyPath值的目标对象，不存在时从this.data上查询
    * @returns any
-   * @example get('login.agree')
+   * @example getVal('login.agree')
    */
   getVal(keyPath: string, target?: Obj) {
     return getPathValue(target || this.data, keyPath);
