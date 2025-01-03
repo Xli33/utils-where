@@ -22,13 +22,13 @@ export function serialize(obj: Obj) {
  * 返回结果 { one: { two: { three: 0 } } }
  */
 export function makeObjectByPath(keyPath: string, value?: any): Obj {
-  let curr: Obj = {};
+  let curr: Obj | null = {};
   const pureObj: Obj = curr,
     arr = keyPath.split('.').map((e) => e.trim());
   // 根据 keyPath 构建配置对象
   for (let i = 0, len = arr.length; i < len; i++) {
     if (!arr[i]) continue;
-    curr = curr[arr[i]] = i < len - 1 ? {} : value;
+    curr = curr![arr[i]] = i < len - 1 ? {} : value;
   }
   curr = null;
   return pureObj;
@@ -53,8 +53,8 @@ export function getPathValue(obj: Obj, keyPath: string, check?: boolean): any {
       .split('.')
       .map((e) => e.trim())
       .filter((e) => !!e),
-    valids: string[] = check ? [] : undefined;
-  let curr = obj;
+    valids: string[] | void = check ? [] : undefined;
+  let curr: any = obj;
   for (const v of arr) {
     // 进入循环，说明arr必然是包含非空key的数组，所以正常取到最终目标后，循环正好结束
     // 若curr是null或undefined，说明无法获取到最终目标值，应直接跳出循环，并手动设置curr为undefined以避免可能获取到null
@@ -64,14 +64,14 @@ export function getPathValue(obj: Obj, keyPath: string, check?: boolean): any {
       break;
     }
     // in 必须用在对象类型上，否则会报错
-    check && typeof curr === 'object' && v in curr && valids.push(v);
+    check && typeof curr === 'object' && v in curr && valids!.push(v);
     curr = curr[v];
   }
   return !check
     ? curr
     : {
-        isValidKeys: valids.length > 0 && arr.every((e, i) => e === valids[i]),
-        validKeys: valids.join('.'),
+        isValidKeys: valids!.length > 0 && arr.every((e, i) => e === valids![i]),
+        validKeys: valids!.join('.'),
         value: curr
       };
 }
@@ -188,7 +188,7 @@ export function scroller({
   type?: timingTypes;
 }) {
   if (!el) el = document.documentElement;
-  if (el.scroll && !type && duration > 0) {
+  if (el.scroll && !type && !duration) {
     el.scroll({
       top,
       left,
@@ -196,8 +196,9 @@ export function scroller({
     });
     return;
   }
+  if (!duration) duration = 500;
   const begin = performance.now(),
-    curve = transit[type];
+    curve = transit[type!] || transit.easeOut;
   let fromTop: number,
     fromLeft: number,
     disTop: number,
@@ -243,6 +244,7 @@ export function toTopOrBottom(
   type?: timingTypes,
   duration: number = 500
 ) {
+  if (!el) el = document.documentElement;
   scroller({
     el,
     duration,
