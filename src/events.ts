@@ -1,3 +1,5 @@
+import type { Obj } from './types';
+
 /**
  * add custom longpress event for Node instance, default timeout is 500ms, which could be set by element's _longPressDelay /
  * 为Node实例添加 longpress（长按）事件，触发超时500ms，可通过元素的 _longPressDelay 进行设置
@@ -12,7 +14,7 @@ Node.prototype.addEventListener = function (type, listener, options) {
     return;
   }
   if (!this.hasOwnProperty('_longPressEvents')) {
-    this._longPressEvents = [];
+    (this as Obj)._longPressEvents = [];
   }
   let flag: true | null;
   const evt = {
@@ -26,19 +28,19 @@ Node.prototype.addEventListener = function (type, listener, options) {
               bubbles: e.bubbles,
               cancelable: e.cancelable,
               composed: e.composed,
-              ...this._longPressOption,
+              ...(this as Obj)._longPressOption,
               detail: e
             })
           );
         flag = null;
-      }, this._longPressDelay || 500);
+      }, (this as Obj)._longPressDelay || 500);
     },
     touchend() {
       flag = null;
     },
     longpress: listener
   };
-  this._longPressEvents.push(evt);
+  (this as Obj)._longPressEvents.push(evt);
   addListener.call(this, 'touchstart', evt.touchstart, options);
   addListener.call(this, type, listener, options); // to be able to be called by dispatchEvent
   addListener.call(this, 'touchend', evt.touchend);
@@ -56,12 +58,17 @@ Node.prototype.removeEventListener = function (type, listener, options) {
     removeListener.call(this, type, listener, options);
     return;
   }
-  const index: number = this._longPressEvents?.findIndex(
+  const index: number = (this as Obj)._longPressEvents?.findIndex(
     (e: { longpress: EventListenerOrEventListenerObject }) => e.longpress === listener
   );
   if (index === undefined || index < 0) return;
-  removeListener.call(this, 'touchstart', this._longPressEvents[index].touchstart, options);
-  removeListener.call(this, 'touchend', this._longPressEvents[index].touchend);
+  removeListener.call(
+    this,
+    'touchstart',
+    (this as Obj)._longPressEvents[index].touchstart,
+    options
+  );
+  removeListener.call(this, 'touchend', (this as Obj)._longPressEvents[index].touchend);
   removeListener.call(this, type, listener, options);
-  this._longPressEvents.splice(index, 1);
+  (this as Obj)._longPressEvents.splice(index, 1);
 };
