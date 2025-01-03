@@ -52,10 +52,11 @@ export function sprintf(...[str, ...args]: [string, ...(string | number | object
  * @param from 移动前的index
  * @param to 移动后的index
  */
-export function moveTo(arr: any[], from: number, to: number) {
+export function moveArrItem(arr: any[], from: number, to: number) {
   if (Array.isArray(arr) && arr.length > 0 && from != undefined && to != undefined) {
     arr.splice(to, 0, ...arr.splice(from, 1));
   }
+  return arr;
 }
 
 /**

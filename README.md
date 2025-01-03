@@ -246,7 +246,7 @@ document._longPressOption: {
 | toTopOrBottom | make scrollable element's content scroll to top/bottom | ` (el?: Element, dir: 'top' \| 'bottom' = 'top', type?: timingTypes, duration: number = 500) => void `|
 | setClipboard | copy text to clipboard | ` (val: string) => boolean ` |
 | sprintf | replace all %s or {a.b} in first param string | ` (...[str, ...args]: [string, ...(string \| number \| object)[]]) => string ` |
-| moveTo | move some item to other "index" in an array | ` (arr: any[], from: number, to: number) => void ` |
+| moveArrItem | move some item to other "index" in an array | ` (arr: any[], from: number, to: number) => any[] ` |
 | getScrollBarSize | get the scrollbar size | ` (force?: boolean) => number ` |
 | deepMerge | deep merge for object & array | ` (target: Obj, source: Obj, skipHandle?: (key: string, target: Obj, from: any) => boolean \| void) => Obj ` |
 | checkMail | check email address | ` (val: string) => boolean ` |
