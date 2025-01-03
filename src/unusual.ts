@@ -120,6 +120,7 @@ export function deepMerge(
  * @param arr any[]
  * @param indexes 包含待删除索引的数组
  * @returns 包含被删除项的数组
+ * @example delArrItem([null, 5, 'as', {}, false], [3,1,7]) => [5, {}]
  */
 // export function delArrItem(arr: any[], indexes: number[]): any[];
 // export function delArrItem(arr: any, indexes: any): void;

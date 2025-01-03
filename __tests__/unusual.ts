@@ -45,6 +45,6 @@ describe('unusual modules', () => {
     expect(moveArrItem(arr.slice(), 4, 1)).toEqual([true, undefined, 'abc', 7, null, { log: 123 }]);
   });
   test('delArrItem', () => {
-    expect(delArrItem([null, 5, 'as', {}, false], [3, 1, 7])).toEqual([null, 'as', false]);
+    expect(delArrItem([null, 5, 'as', {}, false], [3, 1, 7])).toEqual([5, {}]);
   });
 });
