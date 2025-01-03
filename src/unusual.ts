@@ -133,3 +133,44 @@ export function delArrItem(arr: any[], indexes: number[]) {
   });
   return res;
 }
+
+/**
+ * 复制到剪贴板
+ * @param val
+ * @returns boolean
+ */
+export function setClipboard(val: string) {
+  if (!val) return;
+  const el = document.createElement('textarea');
+  el.value = val;
+  el.readOnly = true;
+  el.style.position = 'fixed';
+  el.style.top = '0';
+  el.style.left = '0';
+  el.style.zIndex = '-1';
+  el.style.opacity = '0';
+  document.body.appendChild(el);
+  el.select();
+  el.setSelectionRange(0, val.length);
+  const res = document.execCommand('copy');
+  el.remove();
+  return res;
+}
+
+/**
+ * 通过id判断性别 1：男，2：女
+ * @param id
+ * @returns 1: male, 2: female
+ */
+export function getSexById(id: string) {
+  return id ? (Number(id.slice(-2, -1)) % 2 !== 0 ? 1 : 2) : null;
+}
+
+/**
+ * 通过id获取出生日期
+ * @param id
+ * @returns YYYY-MM-DD
+ */
+export function getBirthById(id: string) {
+  return id ? id.slice(6, 14).replace(/(\d{4})(\d{2})/, '$1-$2-') : '';
+}
