@@ -4,8 +4,8 @@
   "exclude": [],
   "compilerOptions": {
     "composite": true,
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.test.tsbuildinfo",
-    "lib": []
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.test.tsbuildinfo"
+    // "lib": ["DOM"]
     // "types": ["node", "jsdom"]
   }
 }
