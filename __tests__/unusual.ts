@@ -1,4 +1,4 @@
-import { sprintf, getSexById, getBirthById, deepMerge, moveArrItem } from '../src';
+import { sprintf, getSexById, getBirthById, deepMerge, moveArrItem, delArrItem } from '../src';
 
 describe('unusual modules', () => {
   test('sprintf', () => {
@@ -43,5 +43,8 @@ describe('unusual modules', () => {
     const arr = [true, 'abc', 7, null, undefined, { log: 123 }];
     expect(moveArrItem(arr.slice(), 2, 3)).toEqual([true, 'abc', null, 7, undefined, { log: 123 }]);
     expect(moveArrItem(arr.slice(), 4, 1)).toEqual([true, undefined, 'abc', 7, null, { log: 123 }]);
+  });
+  test('delArrItem', () => {
+    expect(delArrItem([null, 5, 'as', {}, false], [3, 1, 7])).toEqual([null, 'as', false]);
   });
 });
