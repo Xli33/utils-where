@@ -12,6 +12,7 @@
     "outDir": "dist/esm",
     // "noImplicitAny": true,
     "strict": true
+    // "noEmitOnError": true
   },
   "include": ["src/*.ts"],
   "exclude": ["__tests__/"]

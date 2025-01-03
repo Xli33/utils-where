@@ -26,7 +26,7 @@ export default tseslint.config(
     }
   },
   pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
+  tseslint.configs.recommended,
   {
     rules: {
       '@typescript-eslint/no-unused-expressions': 'off',
