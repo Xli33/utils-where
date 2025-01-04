@@ -1,4 +1,12 @@
-import { sprintf, getSexById, getBirthById, deepMerge, moveArrItem, delArrItem } from '../src';
+import {
+  sprintf,
+  getSexById,
+  getBirthById,
+  deepMerge,
+  moveArrItem,
+  delArrItem,
+  Emitter
+} from '../src';
 
 describe('unusual modules', () => {
   test('sprintf', () => {
@@ -46,5 +54,28 @@ describe('unusual modules', () => {
   });
   test('delArrItem', () => {
     expect(delArrItem([null, 5, 'as', {}, false], [3, 1, 7])).toEqual([5, {}]);
+  });
+  test('Emitter', () => {
+    const emitter = Emitter<{
+      add: [(n: number) => void];
+      minus: ((n: number) => void)[];
+    }>();
+    let num = 1;
+
+    emitter
+      .once('add', (n) => {
+        num += n;
+      })
+      .on('minus', (n) => {
+        num -= n;
+      })
+      .emit('add', 10)
+      .emit('minus', 2)
+      .emit('minus', 3)
+      .off('minus');
+
+    expect(num).toBe(1 + 10 - 2 - 3); // 6
+    expect(emitter.evts.add).toEqual([]);
+    expect(emitter.evts.minus).toEqual([]);
   });
 });
