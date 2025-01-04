@@ -14,7 +14,7 @@ yarn add utils-where
 
 ### function
 ```js
-import { serialize, getPathValue, setClipboard, sprintf, makeObjectByPath, setPathValue, deepMerge, scroller, toTopOrBottom } from 'utils-where'; 
+import { serialize, getPathValue, setClipboard, sprintf, makeObjectByPath, setPathValue, deepMerge, scroller, toTopOrBottom, delArrItem, Emitter } from 'utils-where'; 
 // or use commonJS style if necessary: const {serialize} = require('utils-where')
 
 // result is 'name=unknown&num=1&null=&undefined=&more=false'
@@ -131,6 +131,21 @@ toTopOrBottom()
 toTopOrBottom(null, 'bottom', 'easeOut')
 // scroll some element
 toTopOrBottom(document.querySelector('#list'), 'top', /* 'easeIn' */)
+
+// remove items at index 1,3, 5 and {}. return [5, {}]
+delArrItem([null, 5, 'as', {}, false], [3, 1, 7])
+
+// event emitter
+const emitter = Emitter<{
+  hi: [(m: string) => void]
+  tell: ((t: boolean) => boolean)[]
+ }>()
+emitter
+  .once('hi', (s) => alert(s))
+  .on('tell', (s) => !!s)
+  .emit('hi')
+  .emit('tell')
+  .off('tell')
 ```
 
 ### class
@@ -250,6 +265,8 @@ document._longPressOption: {
 | getScrollBarSize | get the scrollbar size | ` (force?: boolean) => number ` |
 | deepMerge | deep merge for object & array | ` (target: Obj, source: Obj, skipHandle?: (key: string, target: Obj, from: any) => boolean \| void) => Obj ` |
 | checkMail | check email address | ` (val: string) => boolean ` |
+| delArrItem | remove items by given indexes in an array | ` (arr: any[], indexes: number[]) => any[] ` |
+| Emitter | get an event emitter | ` Emitter<T extends Evt>() => Emitter<T> ` |
 
 <br>
 
