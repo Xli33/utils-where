@@ -1,6 +1,27 @@
 # Changelog
 
 
+## [0.2.0](https://github.com/Xli33/utils-where/compare/v0.1.4...v0.2.0) (2025-01-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* moveTo更名为moveArrItem避免与window.moveTo混淆
+
+### Features
+
+* 新增function delArrItem，根据索引删除数组对应项 ([84334fd](https://github.com/Xli33/utils-where/commit/84334fde74ce36addfda72547c3e976f92999903))
+* 新增function Emmitter<T extends Evt>() ([686ae97](https://github.com/Xli33/utils-where/commit/686ae97ed55456cf780787195fbc64c563f9dca6))
+
+
+### Bug Fixes
+
+* 完善Emitter对象方法返回类型定义 ([4112230](https://github.com/Xli33/utils-where/commit/4112230329cf101dc280faf8509c8b1ce8807128))
+* 完善scroller & toTopOrBottom ([ab224c0](https://github.com/Xli33/utils-where/commit/ab224c0548e2423d2e9078fe5c8a109919e83f2c))
+* 修复测试用例 ([d1848db](https://github.com/Xli33/utils-where/commit/d1848db98d101982b826e05cf45f1ed2ea2dd172))
+* 修复events.ts的type bug ([32078b6](https://github.com/Xli33/utils-where/commit/32078b6224d6051e0114d60e3a96953b73a1400a))
+* moveTo更名为moveArrItem避免与window.moveTo混淆 ([f61fe81](https://github.com/Xli33/utils-where/commit/f61fe816db5019fc1126c1ccf79424a95c1e7e1b))
+
 ## [0.1.4](https://github.com/Xli33/utils-where/compare/v0.1.3...v0.1.4) (2024-12-28)
 
 
