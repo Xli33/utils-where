@@ -178,6 +178,13 @@ export function getBirthById(id: string) {
 interface Evt {
   [x: string]: ((...args: any[]) => any)[];
 }
+interface Emitter<T extends Evt> {
+  evts: T;
+  on<K extends keyof T>(name: K, func: T[K][number]): this;
+  once<K extends keyof T>(name: K, func: T[K][number]): this;
+  off<K extends keyof T>(name: K, func?: T[K][number]): this;
+  emit(name: keyof T, ...args: any[]): this;
+}
 /**
  * event emitter
  *
@@ -212,7 +219,7 @@ export function Emitter<T extends Evt>() {
      *  hi: [(m:string) => void]
      * }>().on('hi', (s) => { alert(s) }).emit('hi', 'hiii')
      */
-    on<K extends keyof T>(name: K, func: T[K][number]) {
+    on<K extends keyof T>(name: K, func: T[K][number]): Emitter<T> {
       if (typeof name !== 'string' || typeof func !== 'function')
         throw new Error('require name of string and function');
       const list = this.evts[name];
@@ -233,7 +240,7 @@ export function Emitter<T extends Evt>() {
      *  hi: [(m:string) => void]
      * }>().once('hi', (s) => { alert(s) }).emit('hi', 'hiii')
      */
-    once<K extends keyof T>(name: K, func: T[K][number]) {
+    once<K extends keyof T>(name: K, func: T[K][number]): Emitter<T> {
       if (typeof func === 'function') (func as Obj)._once = true;
       return this.on(name, func);
     },
@@ -253,7 +260,7 @@ export function Emitter<T extends Evt>() {
      *        // remove all of the type 'hi'
      *        .off('hi')
      */
-    off<K extends keyof T>(name: K, func?: T[K][number]) {
+    off<K extends keyof T>(name: K, func?: T[K][number]): Emitter<T> {
       const arr = this.evts[name];
       if (!Array.isArray(arr)) return this;
       if (!func) {
@@ -277,7 +284,7 @@ export function Emitter<T extends Evt>() {
      *          .emit('run', '1st run')
      *          .emit('run', '2st run')
      */
-    emit(name: keyof T, ...args: any[]) {
+    emit(name: keyof T, ...args: any[]): Emitter<T> {
       const arr = this.evts[name];
       if (!Array.isArray(arr)) return this;
       for (let i = 0; i < arr.length; i++) {
