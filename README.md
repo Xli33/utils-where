@@ -1,5 +1,5 @@
 # utils-where
-a pack of js utils for web
+a pack of pure js utils for web, original output, clean & simple, without any extra dependencies
 
 ## Install
 ```
