@@ -1,6 +1,17 @@
 # Changelog
 
 
+## [0.3.0](https://github.com/Xli33/utils-where/compare/v0.2.0...v0.3.0) (2025-01-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename CountDown to Countdown
+
+### Features
+
+* rename CountDown to Countdown ([ee2d839](https://github.com/Xli33/utils-where/commit/ee2d83988dd3dc5c9f431a7e4e86fab791985eb5))
+
 ## [0.2.0](https://github.com/Xli33/utils-where/compare/v0.1.4...v0.2.0) (2025-01-04)
 
 
