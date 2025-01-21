@@ -152,7 +152,7 @@ emitter
 the synchronous "setVal()" and "save()" of new StoreXXX() only change localStorage/indexedDB once(in setTimeout callback)<br>
 so `.setVal().setVal().save().save().setVal()` modify local only once
 ```js
-import {StoreSimply, StoreById, StoreByIDB, CountDown, Clock} from 'utils-where';
+import {StoreSimply, StoreById, StoreByIDB, Countdown, Clock} from 'utils-where';
 
 // localStorage[''] be like {theme: 1, other: ''}
 const GlobalIni = new StoreSimply('', {theme: 'auto', other: ''})
@@ -201,11 +201,11 @@ d.onsuccess = () => {
 }
 
 // start a countdown in 1 min & 20 seconds
-new CountDown({minute: 1, second: 20}, false, ({minute, second}) => {
+new Countdown({minute: 1, second: 20}, false, ({minute, second}) => {
     console.log(minute, second)
 })
 // start a countdown till the target time and only run when page visible
-new CountDown(new Date('2030-01-01 12:00:00'), true, ({day, hour, minute, second}) => {
+new Countdown(new Date('2030-01-01 12:00:00'), true, ({day, hour, minute, second}) => {
     console.log(`left tims:${day} days ${hour} hours ${minute} minutes ${second} seconds`)
 })
 
@@ -275,7 +275,7 @@ document._longPressOption: {
 | StoreSimply | simple store with localStorage | ` constructor(id?: string \| null, data?: T) ` |
 | StoreById | store in object form with localStorage | ` constructor(id?: string \| null, data?: Obj) ` |
 | StoreByIDB | store in object form with indexedDB | ` constructor(id?: string, table?: string \| null, data?: Obj) ` |
-| CountDown | countdown in pure js | ` constructor(to: Date \| Partial<dhms>, runOnVisible?: boolean, onCount?: onCount) ` |
+| Countdown | countdown in pure js | ` constructor(to: Date \| Partial<dhms>, runOnVisible?: boolean, onCount?: onCount) ` |
 | Clock | clock in pure js | ` constructor(begin?: Date \| null, step?: number, runOnVisible?: boolean, onUpdate?: onUpdate) ` |
 
 
