@@ -19,7 +19,8 @@
     "smooth scroll",
     "make object by string path",
     "countdown",
-    "clock"
+    "clock",
+    "long press/tap"
   ],
   "main": "dist/cjs/index.cjs",
   "types": "dist/index.d.ts",
