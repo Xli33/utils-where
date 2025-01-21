@@ -14,20 +14,20 @@ type onCount = (rest: dhms, leftTime: number) => void;
 /**
  * 用于生成倒计时
  */
-export class CountDown {
+export class Countdown {
   /**
    * 用于配合visibilitychange事件批量处理计时的开始&暂停
    */
-  private static task: CountDown[];
+  private static task: Countdown[];
   /**
-   * 相当于 new CountDown(to, runOnVisible, onCount)
+   * 相当于 new Countdown(to, runOnVisible, onCount)
    * @param to 计时终止时间，可以是一个Date，也可以是包含day、hour、minute、second属性的对象
    * @param runOnVisible 是否仅在页面可见时进行计时。建议仅在以当前时间为基准时选择启用。一般情况下浏览器会对定时器进行节流，故可能需要通过visibilitychange刷新当前剩余计时
    * @param onCount 处于倒计时中的回调，可在此方法中获取剩余的day、hour、minute、second
    * @returns
    */
   static genInstance(to: Date | Partial<dhms>, runOnVisible?: boolean, onCount?: onCount) {
-    return new CountDown(to, runOnVisible, onCount);
+    return new Countdown(to, runOnVisible, onCount);
   }
   /**
    * 清理task中已停止计时的实例
@@ -41,13 +41,13 @@ export class CountDown {
     }
   }
   static onPageToggle() {
-    CountDown.toggleTask(document.visibilityState === 'hidden');
+    Countdown.toggleTask(document.visibilityState === 'hidden');
   }
   /**
    * 批量开始或暂停task中的计时
    */
   static toggleTask(pause?: boolean) {
-    const arr = CountDown.task.filter((e) => e._last > 0);
+    const arr = Countdown.task.filter((e) => e._last > 0);
     pause ? arr.forEach((e) => e.stop()) : arr.forEach((e) => e.start(true));
   }
   from;
@@ -68,7 +68,7 @@ export class CountDown {
    * @param onCount 处于倒计时中的回调，可在此方法中获取剩余的day、hour、minute、second
    * @example
    * 开始一个1分20秒的倒计时
-   * new CountDown({minute: 1, second: 20}, false, ({minute, second}) => {})
+   * new Countdown({minute: 1, second: 20}, false, ({minute, second}) => {})
    */
   constructor(to: Date | Partial<dhms>, runOnVisible?: boolean, onCount?: onCount) {
     const now = new Date();
@@ -132,13 +132,13 @@ export class CountDown {
     }
 
     // 若当前实例仅在页面可见时进行计时，计时时间也必须要>0，否则无需计时
-    if (!CountDown.task?.includes(this) && this.runOnVisible && this._last > 0) {
-      if (CountDown.task?.length) {
-        CountDown.task.push(this);
+    if (!Countdown.task?.includes(this) && this.runOnVisible && this._last > 0) {
+      if (Countdown.task?.length) {
+        Countdown.task.push(this);
       } else {
-        CountDown.task = [this];
-        document.removeEventListener('visibilitychange', CountDown.onPageToggle);
-        document.addEventListener('visibilitychange', CountDown.onPageToggle);
+        Countdown.task = [this];
+        document.removeEventListener('visibilitychange', Countdown.onPageToggle);
+        document.addEventListener('visibilitychange', Countdown.onPageToggle);
       }
     }
     this.process();
@@ -159,9 +159,9 @@ export class CountDown {
    */
   remove() {
     this.stop(true);
-    const index = CountDown.task?.indexOf(this);
+    const index = Countdown.task?.indexOf(this);
     if (index > -1) {
-      CountDown.task.splice(index, 1);
+      Countdown.task.splice(index, 1);
     }
     // 若onEnd返回值是Truthy，则不清除onCount
     if (!this.onEnd?.(this._last)) {
