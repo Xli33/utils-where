@@ -1,4 +1,4 @@
-import { serialize, getPathValue, makeObjectByPath, setPathValue } from '../src';
+import { serialize, getPathValue, makeObjectByPath, setPathValue, Emitter } from '../src/usual';
 
 describe('usual modules', () => {
   test('serialize', () => {
@@ -55,5 +55,39 @@ describe('usual modules', () => {
         ''
       )
     ).toBe(true);
+  });
+  test('Emitter', () => {
+    const emitter = Emitter<{
+      add: [(n: number) => void];
+      minus: ((n: number) => void)[];
+      log: (() => void)[];
+      clear: (() => void)[];
+    }>();
+    let num = 1;
+
+    emitter
+      .once('add', (n) => {
+        num += n;
+      })
+      .on('minus', (n) => {
+        num -= n;
+      })
+      .on('log', console.log)
+      .on('log', console.clear)
+      .on('clear', console.log)
+      .on('clear', console.debug)
+      .emit('add', 10)
+      .emit('minus', 2)
+      .emit('minus', 3)
+      .off('minus')
+      .off('log', console.clear)
+      .off('log', console.log)
+      .off('clear', console.log);
+
+    expect(num).toBe(1 + 10 - 2 - 3); // 6
+    expect(emitter.evts.add).toBe(undefined);
+    expect(emitter.evts.minus).toBe(undefined);
+    expect(emitter.evts.log).toBe(undefined);
+    expect(emitter.evts.clear).toEqual([console.debug]);
   });
 });

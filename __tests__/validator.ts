@@ -7,7 +7,7 @@ import {
   checkUnifiedIdeograph,
   checkLongitude,
   checkLatitude
-} from '../src';
+} from '../src/validator';
 
 describe('validator modules', () => {
   test('checkMobile', () => {
