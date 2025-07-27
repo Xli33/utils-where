@@ -20,7 +20,8 @@
     "make object by string path",
     "countdown",
     "clock",
-    "long press/tap"
+    "long press/tap",
+    "custom scrollbar"
   ],
   "main": "dist/cjs/index.cjs",
   "types": "dist/index.d.ts",
