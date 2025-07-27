@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [0.3.1](https://github.com/Xli33/utils-where/compare/v0.3.0...v0.3.1) (2025-07-27)
+
+
+### Features
+
+* 增加函数asyncCopy & 对象Scrollbar ([3b5cb1a](https://github.com/Xli33/utils-where/commit/3b5cb1a359e061755ae46d325e9927561c50c4bc))
+
 ## [0.3.0](https://github.com/Xli33/utils-where/compare/v0.2.0...v0.3.0) (2025-01-21)
 
 

@@ -1,7 +1,7 @@
 {
   "name": "utils-where",
   "type": "module",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "a pack of pure js utils for web, original output, clean & simple, without any extra dependencies",
   "keywords": [
     "js",
