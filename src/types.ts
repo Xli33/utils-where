@@ -49,7 +49,7 @@ export type CustomBar = {
   /**
    * 是否监听body&html的样式变化从而切换window的滚动条，默认禁用
    *
-   * 如需要展示modal时，通常组件会将body的overflow改为hidden从而隐藏滚动条以及尝试避免scroll chaining
+   * 如需要展示modal时，通常组件会将body的overflow改为hidden从而隐藏滚动条以及避免scroll chaining
    */
   watchPageStyle: boolean | null;
   /**

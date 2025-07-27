@@ -107,7 +107,7 @@ export class StoreById {
   }
   /**
    * 以点语法获取对应配置
-   * @param keyPath eg. login.agree
+   * @param keyPath e.g. login.agree
    * @param target 查询keyPath值的目标对象，不存在时从this.data上查询
    * @returns any
    * @example getVal('login.agree')

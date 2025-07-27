@@ -15,7 +15,7 @@ export function serialize(obj: Obj) {
 
 /**
  * 按给定key路径及末端值生成对应格式对象
- * @param keyPath eg: a.b.c.d
+ * @param keyPath e.g.: a.b.c.d
  * @param value
  * @returns object
  * @example makeObjectByPath('one.two.three', 0)
@@ -58,7 +58,7 @@ export function getPathValue(obj: Obj, keyPath: string, check?: boolean): any {
   for (const v of arr) {
     // 进入循环，说明arr必然是包含非空key的数组，所以正常取到最终目标后，循环正好结束
     // 若curr是null或undefined，说明无法获取到最终目标值，应直接跳出循环，并手动设置curr为undefined以避免可能获取到null
-    // eg. getPathValue({a: null}, 'a.p') 属性a已经是null，null不存在属性p，若不手动将curr改为undefined则返回值是null，但属性不存在时获取到的应该是undefined
+    // e.g. getPathValue({a: null}, 'a.p') 属性a已经是null，null不存在属性p，若不手动将curr改为undefined则返回值是null，但属性不存在时获取到的应该是undefined
     if (curr == null) {
       curr = undefined;
       break;
@@ -101,7 +101,7 @@ export function setPathValue(obj: Obj, keyPath: string, value?: any) {
   for (let i = 0; i < len; i++) {
     // 进入循环，说明arr必然是包含非空key的数组，所以正常取到最终目标后，循环正好结束
     // 若curr不是对象，则不能赋值，应直接return
-    // eg. 如 setPathValue({a: { b: 0 } }, 'a.b.c', 1)，传入对象的 a.b 是 0，不存在属性 c，故无法对其设置值（在严格模式下对原始值设置属性会报错）
+    // 如 setPathValue({a: { b: 0 } }, 'a.b.c', 1)，传入对象的 a.b 是 0，不存在属性 c，故无法对其设置值（在严格模式下对原始值设置属性会报错）
     if (curr == null || typeof curr !== 'object') return;
     // 若循环至最后一个key，则进行赋值，否则继续循环
     if (i < len - 1) {

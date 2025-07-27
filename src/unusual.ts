@@ -30,9 +30,7 @@ export function sprintf(...[str, ...args]: [string, ...(string | number | object
     return str.replace(/%s/g, () => <string>args[i++] ?? '%s');
   }
 
-  /**
-   * eg. the return value of sprintf('{a.b}', {a: {b: 33}}) should be string 33
-   */
+  // e.g. the return value of sprintf('{a.b}', {a: {b: 33}}) should be string 33
   if (typeof rep === 'object') {
     // const chars = str.match(/{[^{}]+}/g);
     // if (chars) {
