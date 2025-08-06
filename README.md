@@ -1,6 +1,6 @@
 # utils-where
 
-a pack of pure js utils for web, original output, clean & simple, without any extra dependencies
+pure js utils for web, original output for minimal integration, without any dependency
 
 taking advantage of modern features (e.g. `?.` `??`) and providing minimal size, **it contains neither syntax transformation nor api polyfill**
 
@@ -14,7 +14,7 @@ or
 yarn add utils-where
 ```
 
-## Usage
+## API
 
 ### function
 
@@ -296,11 +296,7 @@ createApp(App).mount('#app')
   <div class="custom">
     <div :class="['scroller', 'fill', {scrollClass}]">
       <div ref="list">
-        <slot>
-          <h1>1</h1>
-          <h1>2</h1>
-          <h1>3</h1>
-        </slot>
+        <slot></slot>
       </div>
     </div>
   </div>
@@ -453,7 +449,7 @@ document._longPressOption: {
 }
 ```
 
-## API list
+## type list
 
 |       name       |                     functionality                      |                                                    type                                                    |
 | :--------------: | :----------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: |
