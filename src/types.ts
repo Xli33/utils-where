@@ -3,6 +3,10 @@ export declare interface Obj {
 }
 // declare interface Obj extends Record<string, any> {}
 
+export type Falsy = null | undefined | false | '' | 0 | 0n;
+
+export type Truthy<T> = T extends Falsy ? never : T;
+
 /**
  * 滚动容器，即可滚动的元素自身，其overflow应为auto/scroll
  */

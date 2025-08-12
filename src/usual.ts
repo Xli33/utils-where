@@ -41,10 +41,17 @@ export function makeObjectByPath(keyPath: string, value?: any): Obj {
  * @param check 检验 keyPath 是否有效。如对象{one:1}，keyPath为one.two，由于one上找不到属性“two”，故返回值里的 isValidKeys 是false
  * @returns any
  * @example getPathValue({a: [ 1, { b: {0: [ 3 ] } } ]}, 'a.1.b.0.0') === 3
- * getPathValue({a: {b: 123} }, 'a.b')
+ * getPathValue<123>({a: {b: 123} }, 'a.b') === 123
  * getPathValue({a: {b: null}}, 'a.b', true) => {isValidKeys: true, validKeys: 'a.b', value: null}
+ * getPathValue<null>({a: {b: null}}, 'a.b', true) => {isValidKeys: true, validKeys: 'a.b', value: null}
  */
-export function getPathValue(obj: Obj, keyPath: string, check?: boolean): any {
+export function getPathValue<T = any>(
+  obj: Obj,
+  keyPath: string,
+  check: true
+): { isValidKeys: boolean; validKeys: string; value: T };
+export function getPathValue<T = any>(obj: Obj, keyPath: string, check?: any): T;
+export function getPathValue(obj: Obj, keyPath: string, check?: boolean) {
   if (!obj || typeof obj !== 'object') {
     console.warn('obj is not an object');
     return obj;
