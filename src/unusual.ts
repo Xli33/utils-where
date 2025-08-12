@@ -300,11 +300,7 @@ export const Scrollbar: CustomBar = {
       this.pageWatcher = new MutationObserver((mutations) => {
         if (
           !this.stylingPage &&
-          mutations.some(
-            (e) =>
-              e.type === 'attributes' &&
-              (e.attributeName === 'style' || e.attributeName === 'class')
-          )
+          mutations.some((e) => e.type === 'attributes' && (e.attributeName === 'style' || e.attributeName === 'class'))
         ) {
           //console.log('mutations updatebar')
           // this.updateBar(document.body);
@@ -395,8 +391,7 @@ export const Scrollbar: CustomBar = {
       barY!.hidden = false;
       thumbY!.style.height = (100 * scrollTarget.clientHeight) / scrollTarget.scrollHeight + '%'; //(barY.offsetHeight * scrollTarget.clientHeight) / scrollTarget.scrollHeight + 'px'
       thumbY!._ratio =
-        (barY!.offsetHeight - thumbY!.offsetHeight) /
-        (scrollTarget.scrollHeight - scrollTarget.clientHeight);
+        (barY!.offsetHeight - thumbY!.offsetHeight) / (scrollTarget.scrollHeight - scrollTarget.clientHeight);
     } else {
       barY!.hidden = true;
     }
@@ -409,8 +404,7 @@ export const Scrollbar: CustomBar = {
       barX!.hidden = false;
       thumbX!.style.width = (100 * scrollTarget.clientWidth) / scrollTarget.scrollWidth + '%';
       thumbX!._ratio =
-        (barX!.offsetWidth - thumbX!.offsetWidth) /
-        (scrollTarget.scrollWidth - scrollTarget.clientWidth);
+        (barX!.offsetWidth - thumbX!.offsetWidth) / (scrollTarget.scrollWidth - scrollTarget.clientWidth);
     } else {
       barX!.hidden = true;
     }
@@ -504,12 +498,7 @@ export const Scrollbar: CustomBar = {
           barX.onmousedown = (e) => {
             if (e.target !== thumbX) return;
             const fromX = e.clientX,
-              { distance, /*ratio,*/ lastScroll } = this.getDownData(
-                'X',
-                barX,
-                thumbX,
-                scrollTarget
-              );
+              { distance, /*ratio,*/ lastScroll } = this.getDownData('X', barX, thumbX, scrollTarget);
             onmousemove = (te) => {
               this.mouseMove(
                 'left',
@@ -527,12 +516,7 @@ export const Scrollbar: CustomBar = {
           barY.onmousedown = (e) => {
             if (e.target !== thumbY) return;
             const fromY = e.clientY,
-              { distance, /*ratio,*/ lastScroll } = this.getDownData(
-                'Y',
-                barY,
-                thumbY,
-                scrollTarget
-              );
+              { distance, /*ratio,*/ lastScroll } = this.getDownData('Y', barY, thumbY, scrollTarget);
             onmousemove = (te) => {
               this.mouseMove(
                 'top',
@@ -595,9 +579,7 @@ export const Scrollbar: CustomBar = {
           el =
             childs.length === 1
               ? childs[0]
-              : childs.find((e) =>
-                  e.hasOwnProperty('_barUpdated')
-                ); /*target.querySelector(':scope>[]')*/
+              : childs.find((e) => e.hasOwnProperty('_barUpdated')); /*target.querySelector(':scope>[]')*/
         if (el && !el._barUpdated) {
           // console.log('updated parent', el)
           this.updateBar(el!);

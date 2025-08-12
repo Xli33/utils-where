@@ -234,9 +234,7 @@ export class StoreByIDB {
     openRequest.onsuccess = () => {
       // 进行事务操作
       this._idb = openRequest.result;
-      this._idb.transaction(this.table, 'readonly').objectStore(this.table).get(0).onsuccess = (
-        e
-      ) => {
+      this._idb.transaction(this.table, 'readonly').objectStore(this.table).get(0).onsuccess = (e) => {
         const setting = (e.target as EventTarget & { result: Obj[] }).result;
         // console.log(setting)
         this.data = Object.assign({}, data, setting);
@@ -296,9 +294,7 @@ export class StoreByIDB {
     const configObj = makeObjectByPath(keyPath, value);
     // console.log(configObj)
     // 当 configObj 不为空对象时才需调用 save
-    return Object.keys(configObj).length > 0
-      ? this.save(configObj, target, useJSON, skipHandle)
-      : this;
+    return Object.keys(configObj).length > 0 ? this.save(configObj, target, useJSON, skipHandle) : this;
   }
   /**
    * 以对象形式修改配置，支持链式调用，默认进行深度合并

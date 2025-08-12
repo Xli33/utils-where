@@ -62,12 +62,7 @@ Node.prototype.removeEventListener = function (type, listener, options) {
     (e: { longpress: EventListenerOrEventListenerObject }) => e.longpress === listener
   );
   if (index === undefined || index < 0) return;
-  removeListener.call(
-    this,
-    'touchstart',
-    (this as Obj)._longPressEvents[index].touchstart,
-    options
-  );
+  removeListener.call(this, 'touchstart', (this as Obj)._longPressEvents[index].touchstart, options);
   removeListener.call(this, 'touchend', (this as Obj)._longPressEvents[index].touchend);
   removeListener.call(this, type, listener, options);
   (this as Obj)._longPressEvents.splice(index, 1);

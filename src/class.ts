@@ -199,12 +199,7 @@ export class Clock {
    * @param onUpdate 更新回调，可在此处获取当前的具体时间，包含年月日周时分秒
    * @returns
    */
-  static genInstance(
-    begin?: Date | null,
-    step?: number,
-    runOnVisible?: boolean,
-    onUpdate?: onUpdate
-  ) {
+  static genInstance(begin?: Date | null, step?: number, runOnVisible?: boolean, onUpdate?: onUpdate) {
     return new Clock(begin, step, runOnVisible, onUpdate);
   }
   /**

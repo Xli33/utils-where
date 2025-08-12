@@ -206,12 +206,7 @@ export function scroller({
   if (!duration) duration = 500;
   const begin = performance.now(),
     curve = transit[type!] || transit.easeOut;
-  let fromTop: number,
-    fromLeft: number,
-    disTop: number,
-    disLeft: number,
-    validTop: boolean,
-    validLeft: boolean;
+  let fromTop: number, fromLeft: number, disTop: number, disLeft: number, validTop: boolean, validLeft: boolean;
   if (typeof top === 'number') {
     fromTop = el.scrollTop;
     disTop = top - fromTop;
@@ -245,12 +240,7 @@ export function scroller({
  * @example toTopOrBottom()
  * toTopOrBottom(null, 'bottom')
  */
-export function toTopOrBottom(
-  el?: Element,
-  dir: 'top' | 'bottom' = 'top',
-  type?: timingTypes,
-  duration: number = 500
-) {
+export function toTopOrBottom(el?: Element, dir: 'top' | 'bottom' = 'top', type?: timingTypes, duration: number = 500) {
   if (!el) el = document.documentElement;
   scroller({
     el,
