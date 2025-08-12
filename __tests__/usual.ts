@@ -33,6 +33,9 @@ describe('usual modules', () => {
         'a.b'
       )
     ).toEqual([]);
+    expect(getPathValue<66>([{ six: 66 }], '0.six')).toBe(66);
+    expect(getPathValue([{ six: 66 }], '0.six', true).isValidKeys).toBe(true);
+    expect(getPathValue<Console['log']>([console], '0.log')).toBe(console.log);
   });
   test('makeObjectByPath', () => {
     expect(makeObjectByPath('one.two.three', null)).toEqual({
