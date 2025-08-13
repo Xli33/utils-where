@@ -112,14 +112,14 @@ export class StoreById {
    * @returns any
    * @example getVal('login.agree')
    */
-  getVal(keyPath: string, target?: Obj) {
-    return getPathValue(target || this.data, keyPath);
+  getVal<T = any>(keyPath: string, target?: Obj) {
+    return getPathValue<T>(target || this.data, keyPath);
   }
   /**
    * 以点语法修改配置，支持链式调用
    * @param keyPath 键路径，如 one.two.three
    * @param value 赋予的值
-   * @param deep 是否深度合并，默认不进行深度合并
+   * @param deep 当value是对象时是否深度合并，默认不进行深度合并
    * @param target 进行赋值的目标对象，存在target则赋值行为都是在target上进行，而不是this.data
    * @param skipHandle 用于处理合并过程中每一项的函数，返回Truthy则跳过该次的深度合并
    * @example
@@ -253,14 +253,14 @@ export class StoreByIDB {
    * @returns any
    * @example getVal('login.agree')
    */
-  getVal(keyPath: string, target?: Obj) {
-    return getPathValue(target || this.data, keyPath);
+  getVal<T = any>(keyPath: string, target?: Obj) {
+    return getPathValue<T>(target || this.data, keyPath);
   }
   /**
    * 以点语法修改配置，支持链式调用
    * @param keyPath 键路径，如 one.two.three
    * @param value 赋予的值
-   * @param deep 是否深度合并，默认不进行深度合并
+   * @param deep 当value是对象时是否深度合并，默认不进行深度合并
    * @param useJSON 将数据修改至数据库时是否使用JSON.parse(JSON.stringify(this.data))，对于无法进行结构化克隆的数据（如Proxy）可以采用该方式
    * @param target 进行赋值的目标对象，存在target则赋值行为都是在target上进行，而不是this.data
    * @param skipHandle 用于处理合并过程中每一项的函数，返回Truthy则跳过该次的深度合并

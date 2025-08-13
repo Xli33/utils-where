@@ -39,7 +39,7 @@ export function makeObjectByPath(keyPath: string, value?: any): Obj {
  * @param obj
  * @param keyPath 键路径，如 home.head.title
  * @param check 检验 keyPath 是否有效。如对象{one:1}，keyPath为one.two，由于one上找不到属性“two”，故返回值里的 isValidKeys 是false
- * @returns any
+ * @returns any | { isValidKeys: boolean; validKeys: string; value: any; }
  * @example getPathValue({a: [ 1, { b: {0: [ 3 ] } } ]}, 'a.1.b.0.0') === 3
  * getPathValue<123>({a: {b: 123} }, 'a.b') === 123
  * getPathValue({a: {b: null}}, 'a.b', true) => {isValidKeys: true, validKeys: 'a.b', value: null}
