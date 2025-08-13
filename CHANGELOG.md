@@ -1,6 +1,19 @@
 # Changelog
 
 
+## [0.3.2](https://github.com/Xli33/utils-where/compare/v0.3.1...v0.3.2) (2025-08-13)
+
+
+### Features
+
+* 优化StoreById与StoreByIDB的getVal，支持传入泛型参数以指定返回值类型 ([e7a5801](https://github.com/Xli33/utils-where/commit/e7a5801979353084a42eeff8a07da556a4f3acc0))
+* getPathValue支持传入泛型参数以限定返回值类型，并优化类型声明 ([402d0a3](https://github.com/Xli33/utils-where/commit/402d0a3b2b0987df04f80e761ab84a1164827c52))
+
+
+### Bug Fixes
+
+* 优化deepMerge ([e003afe](https://github.com/Xli33/utils-where/commit/e003afe5b05c450ae4df42818780a130814a3a2d))
+
 ## [0.3.1](https://github.com/Xli33/utils-where/compare/v0.3.0...v0.3.1) (2025-07-27)
 
 
