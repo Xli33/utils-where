@@ -8,8 +8,8 @@
     "skipLibCheck": true,
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "Bundler"
-    // "esModuleInterop": true
+    "moduleResolution": "Bundler",
+    "esModuleInterop": true
     // "lib": ["DOM"]
     // "types": ["node", "jsdom"]
   }

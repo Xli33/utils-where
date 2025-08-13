@@ -1,0 +1,54 @@
+import { StoreSimply, StoreById, StoreByIDB } from '../src/store';
+
+describe('local store', () => {
+  test('StoreSimply', () => {
+    const localConfig = new StoreSimply(null, {
+      lang: '',
+      'APP.theme': 'auto'
+    });
+    expect(localConfig.getVal('APP.theme')).toBe('auto');
+    expect(localConfig.setVal('lang', 1).getVal('lang')).toBe(1);
+  });
+  test('StoreById', () => {
+    const localConfig = new StoreById(null, {
+      APP: {
+        lang: '',
+        ui: {
+          theme: ''
+        }
+      },
+      login: {
+        accnt: {
+          id: '',
+          pwd: ''
+        }
+      }
+    });
+    expect(localConfig.getVal('APP.ui.theme')).toBe('');
+    expect(localConfig.setVal('login.accnt.id', 123).getVal('login.accnt.id')).toBe(123);
+    expect(localConfig.setVal('APP.lang', 'LANG').getVal<'LANG'>('APP.lang')).toBe('LANG');
+    localStorage.removeItem('');
+  });
+  test('StoreByIDB', () => {
+    const localConfig = new StoreByIDB(null, null, {
+      APP: {
+        lang: '',
+        ui: {
+          theme: ''
+        }
+      },
+      login: {
+        accnt: {
+          id: '',
+          pwd: ''
+        }
+      }
+    });
+    localConfig.onsuccess = () => {
+      expect(localConfig.getVal('APP.ui.theme')).toBe('');
+      expect(localConfig.setVal('login.accnt.id', 123).getVal('login.accnt.id')).toBe(123);
+      expect(localConfig.setVal('APP.lang', 'LANG').getVal<'LANG'>('APP.lang')).toBe('LANG');
+      indexedDB.deleteDatabase('-');
+    };
+  });
+});
