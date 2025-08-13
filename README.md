@@ -1,6 +1,6 @@
 # utils-where
 
-pure js utils for web, original output for minimal integration, without any dependent
+pure js utils for web, original output for minimal integration, without any dependency
 
 taking advantage of modern features (e.g. `?.` `??`) and providing minimal size, **it contains neither syntax transformation nor api polyfill**
 
