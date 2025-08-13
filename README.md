@@ -1,6 +1,6 @@
 # utils-where
 
-pure js utils for web, original output for minimal integration, without any dependency
+pure js utils for web, original output for minimal integration, without any dependent
 
 taking advantage of modern features (e.g. `?.` `??`) and providing minimal size, **it contains neither syntax transformation nor api polyfill**
 
@@ -36,7 +36,7 @@ serialize({
 
 `getPathValue`
 
-```js
+```ts
 import { getPathValue } from 'utils-where';
 
 const obj = {
@@ -48,6 +48,11 @@ const obj = {
 };
 // result is 3
 getPathValue(obj, 'first.second.third');
+// with generics
+getPathValue<3>(obj, 'first.second.third') === 3;
+// check the path
+getPathValue(obj, 'first.second.third', true) => {isValidKeys: true, validKeys: 'first.second.third', value: 3}
+getPathValue<3>(obj, 'first.second.third', true) => {isValidKeys: true, validKeys: 'first.second.third', value: 3}
 ```
 
 `makeObjectByPath`
@@ -110,49 +115,51 @@ sprintf('a {first} to show and {second.txt}', {
 ```js
 import { deepMerge } from 'utils-where';
 
+const obj = {
+  some: {
+    nums: [1, 3, 5, 7, 9]
+  },
+  all: {
+    ok: null
+  }
+};
+deepMerge(obj, {
+  some: {
+    nums: ['', false]
+  },
+  all: {
+    total: {
+      to: 0
+    }
+  }
+});
+/*
+{
+  some: { nums: ['', false, 5, 7, 9] },
+  all: { ok: null, total: { to: 0 } }
+}
+*/
+console.log(obj);
+
 /* return {
     a: {
-        b: {
-            c: 1,
-            nums: [
-                7,
-                {
-                    hi: 'hey',
-                    ok: 'ok'
-                },
-                9
-            ],
-            d: 2
-        }
+        c: 1,
+        nums: [ 7, { hi: 'hey', ok: 'ok' }, 9 ],
+        d: 2
     }
 }
 */
 deepMerge(
   {
     a: {
-      b: {
-        c: 1,
-        nums: [
-          6,
-          {
-            hi: 'hey'
-          }
-        ]
-      }
+      c: 1,
+      nums: [6, { hi: 'hey' }]
     }
   },
   {
     a: {
-      b: {
-        d: 2,
-        nums: [
-          7,
-          {
-            ok: 'ok'
-          },
-          9
-        ]
-      }
+      d: 2,
+      nums: [7, { ok: 'ok' }, 9]
     }
   }
 );
@@ -218,11 +225,11 @@ delArrItem([null, 5, 'as', {}, false], [3, 1, 7]);
 import { Emitter } from 'utils-where';
 
 // event emitter
-const globalEmitter = Emitter<{
+const appEmitter = Emitter<{
   start: [() => void];
   end: (() => void)[];
 }>();
-globalEmitter
+appEmitter
   .on('start', console.log)
   .on('start', console.info)
   .once('end', () => console.log(2))
@@ -244,7 +251,7 @@ emitter
 
 ### custom Scrollbar
 
-hide the default scrollbars and render custom ones, based on [`ResizeObserver`](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver#browser_compatibility)  
+only hide the default scrollbars and render custom ones for styling, based on [`ResizeObserver`](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver#browser_compatibility)  
 **it's unnecessary to manually call `Scrollbar.init` in advance, but it'd be ok/better to do so if not style window/page**
 
 - for page/window
@@ -318,7 +325,7 @@ createApp(App).mount('#app')
 ### class
 
 the synchronous "setVal()" and "save()" of new StoreXXX() only change localStorage/indexedDB once(in setTimeout callback)<br>
-so `.setVal().setVal().save().save().setVal()` modify local only once
+so call like `.setVal().setVal().save().save().setVal()` **modify local only once**
 
 `StoreSimply`
 
@@ -328,16 +335,16 @@ import { StoreSimply } from 'utils-where';
 // localStorage[''] be like {theme: 1, other: ''}
 const GlobalIni = new StoreSimply('', { theme: 'auto', other: '' }).setVal('theme', 1);
 // remove the "other" key and the data in local store be like {theme: 1}
-GlobalIni.setVal('other', undefined);
+GlobalIni.setVal('other' /* undefined */); // same as passing undefined
 ```
 
 `StoreById`
 
-```js
+```ts
 import { StoreById } from 'utils-where';
 
 // localStorage.app be like {theme: 1, head: {show: true, title: 0}, foot: {show: false, tip: 'xxx'}, {one: {two: {three: {four: null}}}}}
-new StoreById('app', {
+const ini = new StoreById('app', {
   theme: 0,
   head: {
     show: false
@@ -353,36 +360,39 @@ new StoreById('app', {
     }
   })
   .setVal('one.two.three.four', null);
-// remove some key in local store
+ini.getVal('foot.show') === ini.getVal<false>('foot.show');
+
 new StoreById('app2', {
   custom: {
     lang: '',
     theme: 'light'
   }
 })
-  .setVal('custom.theme', undefined)
+  // remove some key in local store
+  .setVal('custom.theme' /* undefined */) // same as passing undefined
   .save({
     custom: {
-      lang: undefined
+      lang: undefined // undefined is needed here
     }
   });
 ```
 
 `StoreByIDB`
 
-```js
+```ts
 import { StoreByIDB } from 'utils-where';
 
 // store in indexedDB
 const d = new StoreByIDB();
 d.onsuccess = () => {
   console.log(d.data);
-  const read = d
-    .setVal('APP.ui.theme', 'auto')
-    .setVal('login.agree.read', true)
-    .getVal('login.agree.read');
-  console.log(read); // true
-  // remove key in local store
+  d.setVal('APP.ui.theme', 'auto')
+    .setVal('login.agree.read', null)
+    .setVal('login.agree.remember', true)
+    .setVal('login.accnt', { id: 123, pwd: 'abc' });
+
+  console.log(d.getVal('login.agree.read') === d.getVal<true>('login.agree.read')); // true
+  // remove key in local store. if no useJSON:true here, the value will be actual undefined in indexedDB
   d.setVal('login.agree.read', undefined, { useJSON: true });
 };
 ```
@@ -451,23 +461,23 @@ document._longPressOption: {
 
 ## type list
 
-|       name       |                     functionality                      |                                                    type                                                    |
-| :--------------: | :----------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: |
-|    serialize     |         turn object into url param like a=1&b=         |                                           `(obj: Obj) => string`                                           |
-| makeObjectByPath |         make object from keypath like 'a.b.c'          |                                  `(keyPath: string, value?: any) => Obj`                                   |
-|   getPathValue   |     get value in obj with the key path like a.b.c      |                           `(obj: Obj, keyPath: string, check?: boolean) => any`                            |
-|   setPathValue   |     set value in obj with the key path like a.b.c      |                           `(obj: Obj, keyPath: string, value?: any) => boolean`                            |
-|     scroller     |        smooth scroll content to target position        |      `({el?: Element; duration?: number; top?: number; left?: number; type?: timingTypes;}) => void`       |
-|  toTopOrBottom   | make scrollable element's content scroll to top/bottom |    `(el?: Element, dir: 'top' \| 'bottom' = 'top', type?: timingTypes, duration: number = 500) => void`    |
-|   setClipboard   |                 copy text to clipboard                 |                                         `(val: string) => boolean`                                         |
-|     sprintf      |     replace all %s or {a.b} in first param string      |                `(...[str, ...args]: [string, ...(string \| number \| object)[]]) => string`                |
-|   moveArrItem    |      move some item to other "index" in an array       |                             `(arr: any[], from: number, to: number) => any[]`                              |
-| getScrollBarSize |                 get the scrollbar size                 |                                       `(force?: boolean) => number`                                        |
-|    deepMerge     |             deep merge for object & array              | `(target: Obj, source: Obj, skipHandle?: (key: string, target: Obj, from: any) => boolean \| void) => Obj` |
-|    checkMail     |                  check email address                   |                                         `(val: string) => boolean`                                         |
-|    delArrItem    |       remove items by given indexes in an array        |                                 `(arr: any[], indexes: number[]) => any[]`                                 |
-|     Emitter      |                  get an event emitter                  |                                  `Emitter<T extends Evt>() => Emitter<T>`                                  |
-|    Scrollbar     |       render a custom scrollbar for HTMLElement        |   `{disabled: boolean;watchPageStyle: boolean \| null;attach: (el?: HTMLElement \| null) => CustomBar}`    |
+|       name       |                     functionality                      |                                                         type                                                          |
+| :--------------: | :----------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------: |
+|    serialize     |         turn object into url param like a=1&b=         |                                                `(obj: Obj) => string`                                                 |
+| makeObjectByPath |         make object from keypath like 'a.b.c'          |                                        `(keyPath: string, value?: any) => Obj`                                        |
+|   getPathValue   |     get value in obj with the key path like a.b.c      | `<T = any>(obj: Obj, keyPath: string, check?: boolean) => T \| { isValidKeys: boolean; validKeys: string; value: T }` |
+|   setPathValue   |     set value in obj with the key path like a.b.c      |                                 `(obj: Obj, keyPath: string, value?: any) => boolean`                                 |
+|     scroller     |        smooth scroll content to target position        |            `({el?: Element; duration?: number; top?: number; left?: number; type?: timingTypes;}) =>void`             |
+|  toTopOrBottom   | make scrollable element's content scroll to top/bottom |         `(el?: Element, dir: 'top' \| 'bottom' = 'top', type?: timingTypes, duration: number = 500) => void`          |
+|   setClipboard   |                 copy text to clipboard                 |                                              `(val: string) => boolean`                                               |
+|     sprintf      |     replace all %s or {a.b} in first param string      |                     `(...[str, ...args]: [string, ...(string \| number \| object)[]]) => string`                      |
+|   moveArrItem    |      move some item to other "index" in an array       |                                   `(arr: any[], from: number, to: number) => any[]`                                   |
+| getScrollBarSize |                 get the scrollbar size                 |                                             `(force?: boolean) => number`                                             |
+|    deepMerge     |             deep merge for object & array              |      `(target: Obj, source: Obj, skipHandle?: (key: string, target: Obj, from: any) => boolean \| void) => Obj`       |
+|    checkMail     |                  check email address                   |                                              `(val: string) => boolean`                                               |
+|    delArrItem    |       remove items by given indexes in an array        |                                      `(arr: any[], indexes: number[]) => any[]`                                       |
+|     Emitter      |                  get an event emitter                  |                                       `Emitter<T extends Evt>() => Emitter<T>`                                        |
+|    Scrollbar     |       render a custom scrollbar for HTMLElement        |         `{disabled: boolean;watchPageStyle: boolean \| null;attach: (el?: HTMLElement \| null) => CustomBar}`         |
 
 <br>
 

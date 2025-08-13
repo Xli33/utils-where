@@ -8,6 +8,7 @@ import { isObject, deepMerge } from './unusual';
  * const ini = new StoreSimply('app', {theme: 0})
  * ini.getVal('theme') === 0
  * ini.setVal('theme', 1).getVal('theme') === 1
+ * ini.setVal('login.accnt', {id:3}).getVal('login.accnt').id === 3
  */
 export class StoreSimply<T extends object> {
   id: string;
@@ -30,7 +31,7 @@ export class StoreSimply<T extends object> {
    * @example
    * new StoreSimply('app', {num: 1, more: false})
    *  .setVal('num',null)
-   *  .setVal('more',undefined)
+   *  .setVal('more')
    */
   setVal(key: keyof T, value?: any) {
     if (key == null) throw 'key is required';
@@ -111,6 +112,7 @@ export class StoreById {
    * @param target 查询keyPath值的目标对象，不存在时从this.data上查询
    * @returns any
    * @example getVal('login.agree')
+   * getVal<true>('login.remember')
    */
   getVal<T = any>(keyPath: string, target?: Obj) {
     return getPathValue<T>(target || this.data, keyPath);
@@ -251,6 +253,7 @@ export class StoreByIDB {
    * @param target 查询keyPath值的目标对象，不存在时从this.data上查询
    * @returns any
    * @example getVal('login.agree')
+   * getVal<false>('login.remember')
    */
   getVal<T = any>(keyPath: string, target?: Obj) {
     return getPathValue<T>(target || this.data, keyPath);
