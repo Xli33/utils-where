@@ -36,9 +36,9 @@ export class StoreSimply<T extends object> {
     if (key == null) throw 'key is required';
     this.data[key] = value;
     clearTimeout(this._tid);
-    this._tid = window.setTimeout(() => {
+    this._tid = setTimeout(() => {
       localStorage.setItem(this.id, JSON.stringify(this.data));
-    });
+    }) as any;
     return this;
   }
 }
@@ -155,7 +155,7 @@ export class StoreById {
   /**
    * 以对象形式修改配置，支持链式调用，默认进行深度合并
    * @param value
-   * @param targetOrReplace 若为true，则直接将this.data替换为value；若为对象，则赋值行为都是在该对象上进行，而不是this.data
+   * @param targetOrReplace 若为true，则直接将this.data替换为value；若为对象，则合并行为都是在该对象上进行，而不是this.data
    * @param skipHandle 用于处理合并过程中每一项的函数，返回Truthy则跳过该次的深度合并
    * @example
    * // 只修改 login 中 agree 的 read
@@ -184,7 +184,6 @@ export class StoreById {
               target[k] = fromValue;
               return true;
             }
-            return;
           })
       );
     } else {
@@ -192,10 +191,10 @@ export class StoreById {
     }
     if (!targetOrReplace || targetOrReplace === true || targetOrReplace === this.data) {
       clearTimeout(this._tid);
-      this._tid = window.setTimeout(() => {
+      this._tid = setTimeout(() => {
         localStorage.setItem(this.id, JSON.stringify(this.data));
         // console.log(`修改了本地 ${this.id} 的配置`)
-      });
+      }) as any;
     }
     return this;
   }
@@ -299,7 +298,7 @@ export class StoreByIDB {
   /**
    * 以对象形式修改配置，支持链式调用，默认进行深度合并
    * @param value
-   * @param targetOrReplace 若为true，则直接将this.data替换为value；若为对象，则赋值行为都是在该对象上进行，而不是this.data
+   * @param targetOrReplace 若为true，则直接将this.data替换为value；若为对象，则合并行为都是在该对象上进行，而不是this.data
    * @param useJSON 将数据修改至数据库时是否使用JSON.parse(JSON.stringify(this.data))，对于无法进行结构化克隆的数据（如Proxy）可以采用该方式
    * @param skipHandle 用于处理合并过程中每一项的函数，返回Truthy则跳过该次的深度合并
    * @example
@@ -330,7 +329,6 @@ export class StoreByIDB {
               target[k] = fromValue;
               return true;
             }
-            return;
           })
       );
     } else {
@@ -338,7 +336,7 @@ export class StoreByIDB {
     }
     if (!targetOrReplace || targetOrReplace === true || targetOrReplace === this.data) {
       clearTimeout(this._tid);
-      this._tid = window.setTimeout(() => {
+      this._tid = setTimeout(() => {
         const tmp = this._idb
           .transaction(this.table, 'readwrite')
           .objectStore(this.table)
@@ -348,7 +346,7 @@ export class StoreByIDB {
           // console.log(`修改了本地数据库 ${this.id} ~ ${this.table} 的配置`)
         };
         tmp.onerror = this.onerror;
-      });
+      }) as any;
     }
     return this;
   }

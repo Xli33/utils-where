@@ -109,7 +109,7 @@ export class Countdown {
   process() {
     if (this._last >= 0) {
       if (!this._tid) {
-        this._tid = window.setInterval(() => this.process(), 1000);
+        this._tid = setInterval(() => this.process(), 1000) as any;
       }
       this.onCount?.(this.getRest(), this._last);
       this._last--;
@@ -281,7 +281,7 @@ export class Clock {
   }
   process(skip?: boolean) {
     if (!this._tid) {
-      this._tid = window.setInterval(() => this.process(), this.step * 1000);
+      this._tid = setInterval(() => this.process(), this.step * 1000) as any;
     }
     if (this.begin) {
       // 此处若直接用Date.now()可能导致后续根据Clock.pauseAt校准经过的毫秒数时有些许毫秒的误差

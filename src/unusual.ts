@@ -424,14 +424,14 @@ export const Scrollbar: CustomBar = {
     Scrollbar.hideBar(this);
   },
   hideBar(obj) {
-    obj._scrollTid = window.setTimeout(() => {
+    obj._scrollTid = setTimeout(() => {
       // console.log('!!')
       if (obj === document.documentElement) {
         this.stylingPage = true;
       }
       obj._scrollTid = obj._scrollAt = null;
       obj.classList.contains('show-bar') && obj.classList.remove('show-bar');
-    }, 3500);
+    }, 3500) as any;
   },
   init() {
     // 观测滚动元素内容区域
