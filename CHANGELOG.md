@@ -1,6 +1,8 @@
 # Changelog
 
 
+## [0.3.3](https://github.com/Xli33/utils-where/compare/v0.3.2...v0.3.3) (2025-08-13)
+
 ## [0.3.2](https://github.com/Xli33/utils-where/compare/v0.3.1...v0.3.2) (2025-08-13)
 
 
