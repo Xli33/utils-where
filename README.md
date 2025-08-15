@@ -269,7 +269,7 @@ only hide the default scrollbars and render custom ones for styling, based on [`
 <html class="scroller">
   <body>
     <script>
-      <!-- call attach without param -->
+      // call attach without param
       Scrollbar.attach();
     </script>
   </body>
