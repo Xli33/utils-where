@@ -6,7 +6,7 @@ taking advantage of modern features (e.g. `?.` `??`) and providing minimal size,
 
 ## Install
 
-```
+```bash
 npm install utils-where
 
 or
@@ -52,7 +52,8 @@ getPathValue(obj, 'first.second.third');
 getPathValue<3>(obj, 'first.second.third') === 3;
 // check the path
 getPathValue(obj, 'first.second.third', true) => {isValidKeys: true, validKeys: 'first.second.third', value: 3}
-getPathValue<3>(obj, 'first.second.third', true) => {isValidKeys: true, validKeys: 'first.second.third', value: 3}
+obj.first.second.third = 'str'
+getPathValue<'str'>(obj, 'first.second.third', true) => {isValidKeys: true, validKeys: 'first.second.third', value: 'str'}
 ```
 
 `makeObjectByPath`
@@ -61,7 +62,11 @@ getPathValue<3>(obj, 'first.second.third', true) => {isValidKeys: true, validKey
 import { makeObjectByPath } from 'utils-where';
 
 // return an object like {one: {two: {three: null}}}
-makeObjectByPath('one.two.three', null);
+const obj = makeObjectByPath('one.two.three', null);
+obj => { one: { two: { three: null } } }
+
+// return empty object if keyPath is invalid
+makeObjectByPath('') => {}
 ```
 
 `setPathValue`
@@ -77,6 +82,9 @@ const obj = {
 // return true
 setPathValue(obj, 'one.two.1.three', '');
 obj.one.two[1].three === ''; // true
+
+// return undefined if unable to find path end
+setPathValue(obj, 'one.two.four.five', []);
 ```
 
 `setClipboard` & `asyncCopy`
