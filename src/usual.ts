@@ -21,13 +21,14 @@ export function serialize(obj: Obj) {
  * @example makeObjectByPath('one.two.three', 0)
  * 返回结果 { one: { two: { three: 0 } } }
  */
-export function makeObjectByPath(keyPath: string, value?: any): Obj {
+export function makeObjectByPath(keyPath: string, value?: any) {
   let curr: Obj | null = {};
+  if (!keyPath) return curr;
   const pureObj: Obj = curr,
-    arr = keyPath.split('.').map((e) => e.trim());
+    arr = keyPath.split('.'); //.map((e) => e.trim());
   // 根据 keyPath 构建配置对象
   for (let i = 0, len = arr.length; i < len; i++) {
-    if (!arr[i]) continue;
+    // if (!arr[i]) continue;
     curr = curr![arr[i]] = i < len - 1 ? {} : value;
   }
   curr = null;
@@ -52,26 +53,22 @@ export function getPathValue<T = any>(
 ): { isValidKeys: boolean; validKeys: string; value: T };
 export function getPathValue<T = any>(obj: Obj, keyPath: string, check?: any): T;
 export function getPathValue(obj: Obj, keyPath: string, check?: boolean) {
-  if (!obj || typeof obj !== 'object') {
-    console.warn('obj is not an object');
+  if (!obj || typeof obj !== 'object' || !keyPath) {
+    console.warn('wrong obj or keyPath');
     return obj;
   }
-  const arr = (keyPath || '')
-      .split('.')
-      .map((e) => e.trim())
-      .filter((e) => !!e),
+  const arr = keyPath.split('.'), // .map((e) => e.trim()).filter((e) => !!e)
     valids: string[] | void = check ? [] : undefined;
+  // curr初始值一定是非空的对象
   let curr: any = obj;
   for (const v of arr) {
-    // 进入循环，说明arr必然是包含非空key的数组，所以正常取到最终目标后，循环正好结束
-    // 若curr是null或undefined，说明无法获取到最终目标值，应直接跳出循环，并手动设置curr为undefined以避免可能获取到null
+    // 若中途curr是null或undefined，说明无法获取到最终目标值，应直接跳出循环，并手动设置curr为undefined以避免可能获取到null
     // e.g. getPathValue({a: null}, 'a.p') 属性a已经是null，null不存在属性p，若不手动将curr改为undefined则返回值是null，但属性不存在时获取到的应该是undefined
     if (curr == null) {
       curr = undefined;
       break;
     }
-    // in 必须用在对象类型上，否则会报错
-    check && typeof curr === 'object' && v in curr && valids!.push(v);
+    check && v in (typeof curr === 'object' || typeof curr === 'function' ? curr : Object(curr)) && valids!.push(v);
     curr = curr[v];
   }
   return !check
@@ -94,28 +91,23 @@ export function getPathValue(obj: Obj, keyPath: string, check?: boolean) {
  * a.one.two[1].four === 1
  */
 export function setPathValue(obj: Obj, keyPath: string, value?: any) {
-  if (!obj || typeof obj !== 'object') {
-    console.warn('obj is not an object');
+  if (!obj || typeof obj !== 'object' || !keyPath) {
+    console.warn('wrong obj or keyPath');
     return;
   }
-  let len,
-    curr = obj;
-  const arr = (keyPath || '')
-    .split('.')
-    .map((e) => e.trim())
-    .filter((e) => !!e);
-  if ((len = arr.length) < 0) return;
-  for (let i = 0; i < len; i++) {
-    // 进入循环，说明arr必然是包含非空key的数组，所以正常取到最终目标后，循环正好结束
+  let curr = obj;
+  const arr = keyPath.split('.'); //.map((e) => e.trim()).filter((e) => !!e);
+  for (let i = 0, len = arr.length; i < len; i++) {
     // 若curr不是对象，则不能赋值，应直接return
     // 如 setPathValue({a: { b: 0 } }, 'a.b.c', 1)，传入对象的 a.b 是 0，不存在属性 c，故无法对其设置值（在严格模式下对原始值设置属性会报错）
-    if (curr == null || typeof curr !== 'object') return;
+    if (curr == null || (typeof curr !== 'object' && typeof curr !== 'function')) return;
     // 若循环至最后一个key，则进行赋值，否则继续循环
-    if (i < len - 1) {
-      curr = curr[arr[i]];
-    } else {
-      curr[arr[i]] = value;
-    }
+    i < len - 1 ? (curr = (<Obj>curr)[arr[i]]) : ((<Obj>curr)[arr[i]] = value);
+    // if (i < len - 1) {
+    //   curr = (<Obj>curr)[arr[i]];
+    // } else {
+    //   (<Obj>curr)[arr[i]] = value;
+    // }
   }
   return true;
 }
