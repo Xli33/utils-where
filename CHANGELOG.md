@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [0.3.6](https://github.com/Xli33/utils-where/compare/v0.3.5...v0.3.6) (2025-08-15)
+
+
+### Features
+
+* unusual模块新增delArrItemByVal函数，用于从给定数组中根据值移除指定项 ([746ec88](https://github.com/Xli33/utils-where/commit/746ec88b97527cb735e43b3313baf89ad1741158))
+
 ## [0.3.5](https://github.com/Xli33/utils-where/compare/v0.3.4...v0.3.5) (2025-08-15)
 
 
