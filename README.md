@@ -266,12 +266,14 @@ only hide the default scrollbars and render custom ones for styling, based on [`
 
 ```html
 <!-- add class scroller for <html> -->
-<html class="scroller"></html>
-
-<!-- call attach without param -->
-<script>
-  Scrollbar.attach();
-</script>
+<html class="scroller">
+  <body>
+    <script>
+      <!-- call attach without param -->
+      Scrollbar.attach();
+    </script>
+  </body>
+</html>
 ```
 
 - for some HTMLElement
