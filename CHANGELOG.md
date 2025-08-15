@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [0.3.4](https://github.com/Xli33/utils-where/compare/v0.3.3...v0.3.4) (2025-08-15)
+
+
+### Features
+
+* 优化makeObjectByPath、getPathValue、setPathValue，不再过滤空字符键 '' 与空白符键如' ' ([865a223](https://github.com/Xli33/utils-where/commit/865a2234f534e608eb18ccb72685f4f8bca970de))
+
 ## [0.3.3](https://github.com/Xli33/utils-where/compare/v0.3.2...v0.3.3) (2025-08-13)
 
 ## [0.3.2](https://github.com/Xli33/utils-where/compare/v0.3.1...v0.3.2) (2025-08-13)
