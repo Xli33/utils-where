@@ -287,12 +287,9 @@ export const Scrollbar: CustomBar = {
     if (this.disabled || !(el instanceof HTMLElement)) return this;
     if (el === document.body) el = document.documentElement;
     const isPage = el === document.documentElement;
-    if (this.sizeWatcher) {
-      this.sizeWatcher.unobserve(el); // maybe unnecessary
-      this.sizeWatcher.observe(el);
-    } else {
-      this.init!();
-    }
+    !this.sizeWatcher && this.init!();
+    this.sizeWatcher!.unobserve(el); // maybe unnecessary
+    this.sizeWatcher!.observe(el);
     if (!isPage) {
       this.scrollerWatcher!.unobserve(el.parentElement!);
       this.scrollerWatcher!.observe(el.parentElement!);
