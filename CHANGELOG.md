@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [0.3.5](https://github.com/Xli33/utils-where/compare/v0.3.4...v0.3.5) (2025-08-15)
+
+
+### Bug Fixes
+
+* 修复在未手动调用Scrollbar.init的情况下第一次调用Scrollbar.attach时不会监听元素 ([550fea6](https://github.com/Xli33/utils-where/commit/550fea658aaedd05bafdde553fb2ec5d3a9e834c))
+
 ## [0.3.4](https://github.com/Xli33/utils-where/compare/v0.3.3...v0.3.4) (2025-08-15)
 
 
