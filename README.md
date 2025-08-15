@@ -220,11 +220,24 @@ toTopOrBottom(document.querySelector('#list'), 'top' /* 'easeIn' */);
 
 `delArrItem`
 
+remove array items by indexes
+
 ```js
 import { delArrItem } from 'utils-where';
 
 // remove items at index 1,3. return the removed [5, {}]
-delArrItem([null, 5, 'as', {}, false], [3, 1, 7]);
+delArrItem([null, 5, 'as', {}, false], [3, 1, 7]) => [5, {}]
+```
+
+`delArrItemByVal`
+
+remove array items by equal values
+
+```js
+import { delArrItemByVal } from 'utils-where';
+
+// remove all same items from second param. return the handled array(first param) [2, false]
+delArrItemByVal([2, '', alert, console, false, NaN], ['', alert, console, NaN]) => [2, false]
 ```
 
 `Emitter`
@@ -287,8 +300,8 @@ only hide the default scrollbars and render custom ones for styling, based on [`
   </div>
 </div>
 
-<!-- then call Scrollbar.attach -->
 <script>
+  // then call Scrollbar.attach
   Scrollbar.attach(document.getElementById('list'));
 </script>
 ```
