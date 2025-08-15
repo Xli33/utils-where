@@ -1,11 +1,4 @@
-import {
-  sprintf,
-  getSexById,
-  getBirthById,
-  deepMerge,
-  moveArrItem,
-  delArrItem
-} from '../src/unusual';
+import { sprintf, getSexById, getBirthById, deepMerge, moveArrItem, delArrItem, delArrItemByVal } from '../src/unusual';
 
 describe('unusual modules', () => {
   test('sprintf', () => {
@@ -25,24 +18,18 @@ describe('unusual modules', () => {
         {
           a: 1,
           b: [{ c: '' }],
-          c: {
-            d: [2, {}]
-          }
+          c: { d: [2, {}] }
         },
         {
           b: [{ cc: 33 }, true],
-          c: {
-            d: [22, { e: false }]
-          },
+          c: { d: [22, { e: false }] },
           f: ''
         }
       )
     ).toEqual({
       a: 1,
       b: [{ c: '', cc: 33 }, true],
-      c: {
-        d: [22, { e: false }]
-      },
+      c: { d: [22, { e: false }] },
       f: ''
     });
   });
@@ -53,5 +40,8 @@ describe('unusual modules', () => {
   });
   test('delArrItem', () => {
     expect(delArrItem([null, 5, 'as', {}, false], [3, 1, 7])).toEqual([5, {}]);
+  });
+  test('delArrItemByVal', () => {
+    expect(delArrItemByVal([2, '', fetch, console, false, NaN], ['', fetch, console, NaN])).toEqual([2, false]);
   });
 });
