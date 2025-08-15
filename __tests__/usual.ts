@@ -14,50 +14,46 @@ describe('usual modules', () => {
     ).toBe('a=1&b=66&c=&d=&e=false&f=NaN');
   });
   test('getPathValue', () => {
-    expect(
-      getPathValue(
-        {
-          a: 1,
-          b: '66'
-        },
-        'a'
-      )
-    ).toBe(1);
-    expect(
-      getPathValue(
-        {
-          a: {
-            b: []
-          }
-        },
-        'a.b'
-      )
-    ).toEqual([]);
+    expect(getPathValue({ a: 1, b: '66' }, 'a')).toBe(1);
+    expect(getPathValue({ a: { b: [] } }, 'a.b')).toEqual([]);
     expect(getPathValue<66>([{ six: 66 }], '0.six')).toBe(66);
     expect(getPathValue([{ six: 66 }], '0.six', true).isValidKeys).toBe(true);
     expect(getPathValue<Console['log']>([console], '0.log')).toBe(console.log);
+    expect(getPathValue({ 1: { 2: null } }, '1.2')).toBe(null);
+    expect(getPathValue({ a: { p: '' } }, 'a.p.at', true)).toEqual({
+      isValidKeys: true,
+      validKeys: 'a.p.at',
+      value: String.prototype.at
+    });
+    expect(getPathValue({ a: { p: { '': { ' ': {} } } } }, 'a.p.', true)).toEqual({
+      isValidKeys: true,
+      validKeys: 'a.p.',
+      value: { ' ': {} }
+    });
+    expect(getPathValue({ a: { p: { '': { ' ': {} } } } }, 'a.p.. ', true)).toEqual({
+      isValidKeys: true,
+      validKeys: 'a.p.. ',
+      value: {}
+    });
   });
   test('makeObjectByPath', () => {
     expect(makeObjectByPath('one.two.three', null)).toEqual({
-      one: {
-        two: {
-          three: null
-        }
-      }
+      one: { two: { three: null } }
     });
+    expect(makeObjectByPath('')).toEqual({});
+    expect(makeObjectByPath('k.a. .', 33)).toEqual({ k: { a: { ' ': { '': 33 } } } });
   });
   test('setPathValue', () => {
-    expect(
-      setPathValue(
-        {
-          one: {
-            two: [3, {}]
-          }
-        },
-        'one.two.1.four',
-        ''
-      )
-    ).toBe(true);
+    const temp = { one: { two: [3, {} as any] } };
+    expect(setPathValue(temp, 'one.two.1.six', [])).toBe(true);
+    expect(setPathValue(temp, 'one.two.1.six.0', 0n)).toBe(true);
+    expect(setPathValue(temp, 'one.two.1.four', '')).toBe(true);
+    expect(setPathValue(temp, 'one.two.1.four.2', false)).toBe(undefined);
+    expect(temp.one.two[1].four === '').toBe(true);
+    expect(setPathValue(temp, 'one.', 0)).toBe(true);
+    expect(setPathValue(temp, 'one..', 0)).toBe(undefined);
+    expect(setPathValue(temp, 'one.. ', 0)).toBe(undefined);
+    expect(temp).toEqual({ one: { '': 0, two: [3, { four: '', six: [0n] }] } });
   });
   test('Emitter', () => {
     const emitter = Emitter<{
