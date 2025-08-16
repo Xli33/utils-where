@@ -18,7 +18,8 @@ yarn add utils-where
 
 ### function
 
-`serialize`
+`serialize`  
+turn object into url param like 'a=1&b='
 
 ```js
 import { serialize } from 'utils-where';
@@ -34,9 +35,16 @@ serialize({
 });
 ```
 
-`getPathValue`
+- type
 
 ```ts
+serialize(obj: Obj): string;
+```
+
+`getPathValue`  
+get value in object with the key path like a.b.c
+
+```js
 import { getPathValue } from 'utils-where';
 
 const obj = {
@@ -56,7 +64,15 @@ obj.first.second.third = 'str'
 getPathValue<'str'>(obj, 'first.second.third', true) => {isValidKeys: true, validKeys: 'first.second.third', value: 'str'}
 ```
 
-`makeObjectByPath`
+- type
+
+```ts
+serialize<T = any>(obj: Obj, keyPath: string, check: true): { isValidKeys: boolean; validKeys: string; value: T };
+serialize<T = any>(obj: Obj, keyPath: string, check?: any): T;
+```
+
+`makeObjectByPath`  
+make object from key path like 'a.b.c'
 
 ```js
 import { makeObjectByPath } from 'utils-where';
@@ -69,7 +85,14 @@ obj => { one: { two: { three: null } } }
 makeObjectByPath('') => {}
 ```
 
-`setPathValue`
+- type
+
+```ts
+makeObjectByPath(keyPath: string, value?: any): Obj;
+```
+
+`setPathValue`  
+set value in object with the key path like a.b.c
 
 ```js
 import { setPathValue } from 'utils-where';
@@ -87,7 +110,14 @@ obj.one.two[1].three === ''; // true
 setPathValue(obj, 'one.two.four.five', []);
 ```
 
-`setClipboard` & `asyncCopy`
+- type
+
+```ts
+setPathValue(obj: Obj, keyPath: string, value?: any): boolean;
+```
+
+`setClipboard` & `asyncCopy`  
+synchronously or asynchronously copy text to clipboard
 
 ```js
 import { setClipboard, asyncCopy } from 'utils-where';
@@ -101,7 +131,15 @@ asyncCopy('xxx').then((res) => {
 });
 ```
 
-`sprintf`
+- type
+
+```ts
+setClipboard(val: string): boolean;
+asyncCopy(val: string): Promise<void> | Promise<boolean>;
+```
+
+`sprintf`  
+replace all `%s` or `{a.b}` in first string param
 
 ```js
 import { sprintf } from 'utils-where';
@@ -109,6 +147,7 @@ import { sprintf } from 'utils-where';
 // the sprintf is inspired by template string `${}` from es6
 // return 'this is a demo and see'
 sprintf('this %s a %s and see', 'is', 'demo');
+
 // return 'a demo to show and see'
 sprintf('a {first} to show and {second.txt}', {
   first: 'demo',
@@ -118,28 +157,25 @@ sprintf('a {first} to show and {second.txt}', {
 });
 ```
 
-`deepMerge`
+- type
+
+```ts
+sprintf(str: string, ...args: (string | number)[] | [object]): string
+```
+
+`deepMerge`  
+deep merge for object & array
 
 ```js
 import { deepMerge } from 'utils-where';
 
 const obj = {
-  some: {
-    nums: [1, 3, 5, 7, 9]
-  },
-  all: {
-    ok: null
-  }
+  some: { nums: [1, 3, 5, 7, 9] },
+  all: { ok: null }
 };
 deepMerge(obj, {
-  some: {
-    nums: ['', false]
-  },
-  all: {
-    total: {
-      to: 0
-    }
-  }
+  some: { nums: ['', false] },
+  all: { total: { to: 0 } }
 });
 /*
 {
@@ -159,24 +195,26 @@ console.log(obj);
 */
 deepMerge(
   {
-    a: {
-      c: 1,
-      nums: [6, { hi: 'hey' }]
-    }
+    a: { c: 1, nums: [6, { hi: 'hey' }] }
   },
   {
-    a: {
-      d: 2,
-      nums: [7, { ok: 'ok' }, 9]
-    }
+    a: { d: 2, nums: [7, { ok: 'ok' }, 9] }
   }
 );
+
 // merge on sparse arrays
 // return [1, 6, empty, 3]
 deepMerge([, 2, ,], [1, 6, , 3]);
 ```
 
-`scroller`
+- type
+
+```ts
+deepMerge(target: Obj, source: Obj, skipHandle?: (key: string, target: Obj, from: any) => boolean | void): Obj;
+```
+
+`scroller`  
+smooth scroll content to target position
 
 ```js
 import { scroller } from 'utils-where';
@@ -205,7 +243,14 @@ scroller({
 });
 ```
 
-`toTopOrBottom`
+- type
+
+```ts
+scroller({ el, duration, top, left, type }: { el?: Element; duration?: number; top?: number; left?: number; type?: timingTypes; }): void;
+```
+
+`toTopOrBottom`  
+make scrollable element's content scroll to top/bottom
 
 ```js
 import { toTopOrBottom } from 'utils-where';
@@ -218,8 +263,13 @@ toTopOrBottom(null, 'bottom', 'easeOut');
 toTopOrBottom(document.querySelector('#list'), 'top' /* 'easeIn' */);
 ```
 
-`delArrItem`
+- type
 
+```ts
+toTopOrBottom(el?: Element, dir?: 'top' | 'bottom', type?: timingTypes, duration?: number): void;
+```
+
+`delArrItem`  
 remove array items by indexes
 
 ```js
@@ -229,8 +279,13 @@ import { delArrItem } from 'utils-where';
 delArrItem([null, 5, 'as', {}, false], [3, 1, 7]) => [5, {}]
 ```
 
-`delArrItemByVal`
+- type
 
+```ts
+delArrItem(arr: any[], indexes: number[]): any[];
+```
+
+`delArrItemByVal`  
 remove array items by equal values
 
 ```js
@@ -240,7 +295,14 @@ import { delArrItemByVal } from 'utils-where';
 delArrItemByVal([2, '', alert, console, false, NaN], ['', alert, console, NaN]) => [2, false]
 ```
 
-`Emitter`
+- type
+
+```ts
+delArrItemByVal(arr: any[], items: any[]): any[];
+```
+
+`Emitter`  
+get an event emitter
 
 ```ts
 import { Emitter } from 'utils-where';
@@ -268,6 +330,22 @@ emitter
   .emit('hi')
   .emit('tell')
   .off('tell');
+```
+
+- type
+
+```ts
+interface Evt {
+  [x: string]: ((...args: any[]) => any)[];
+}
+interface Emitter<T extends Evt> {
+  evts: T;
+  on<K extends keyof T>(name: K, func: T[K][number]): this;
+  once<K extends keyof T>(name: K, func: T[K][number]): this;
+  off<K extends keyof T>(name: K, func?: T[K][number]): this;
+  emit(name: keyof T, ...args: any[]): this;
+}
+Emitter<T extends Evt>() => Emitter<T>
 ```
 
 ### custom Scrollbar
@@ -345,12 +423,27 @@ createApp(App).mount('#app')
 </script>
 ```
 
+- type
+
+```ts
+Scrollbar: {
+  disabled: boolean;
+  clearSelection: boolean | null;
+  stopSelect: boolean | null;
+  watchPageStyle: boolean | null;
+  syncPos: boolean | null;
+  attach: (el?: HTMLElement | null) => this;
+  init?: () => void;
+}
+```
+
 ### class
 
 the synchronous "setVal()" and "save()" of new StoreXXX() only change localStorage/indexedDB once(in setTimeout callback)<br>
 so call like `.setVal().setVal().save().save().setVal()` **modify local only once**
 
-`StoreSimply`
+`StoreSimply`  
+simple store with localStorage
 
 ```js
 import { StoreSimply } from 'utils-where';
@@ -361,7 +454,14 @@ const GlobalIni = new StoreSimply('', { theme: 'auto', other: '' }).setVal('them
 GlobalIni.setVal('other' /* undefined */); // same as passing undefined
 ```
 
-`StoreById`
+- type
+
+```ts
+StoreSimply<T extends object>(id?: string | null, data?: T): StoreSimply<T>
+```
+
+`StoreById`  
+store in object form with localStorage
 
 ```ts
 import { StoreById } from 'utils-where';
@@ -400,7 +500,14 @@ new StoreById('app2', {
   });
 ```
 
-`StoreByIDB`
+- type
+
+```ts
+StoreById(id?: string | null, data?: Obj): StoreById
+```
+
+`StoreByIDB`  
+store in object form with indexedDB
 
 ```ts
 import { StoreByIDB } from 'utils-where';
@@ -420,7 +527,14 @@ d.onsuccess = () => {
 };
 ```
 
-`Countdown`
+- type
+
+```ts
+StoreByIDB(id?: string, table?: string | null, data?: Obj): StoreByIDB
+```
+
+`Countdown`  
+countdown in pure js
 
 ```js
 import { Countdown } from 'utils-where';
@@ -435,7 +549,14 @@ new Countdown(new Date('2030-01-01 12:00:00'), true, ({ day, hour, minute, secon
 });
 ```
 
-`Clock`
+- type
+
+```ts
+Countdown(to: Date | Partial<dhms>, runOnVisible?: boolean, onCount?: onCount): Countdown
+```
+
+`Clock`  
+clock in pure js
 
 ```js
 import { Clock } from 'utils-where';
@@ -451,13 +572,19 @@ new Clock(new Date('2000-01-01 00:00:00'), 60, true, (parts, date) => {
 })
 ```
 
+- type
+
+```ts
+Clock(begin?: Date | null, step?: number, runOnVisible?: boolean, onUpdate?: onUpdate): Clock
+```
+
 ### events
 
 utils-where/events makes it possible to support "longpress" on mobile, which differs from contextmenu<br>
 it simulates longpress by touchstart and touchend, **only import it when the contextmenu doesn't work as u wish!**
 
 ```js
-import 'utils-where/events'; // this will import code from utils-where/dist/esm/events.js, and then use the "longpress" just like original event
+import 'utils-where/events'; // this will import code from utils-where/dist/esm/events.js, and then add the "longpress" just like original event
 
 const longPress = e => {
     console.log('the longpress event will happen after 500ms')
@@ -482,35 +609,15 @@ document._longPressOption: {
 }
 ```
 
-## type list
+## ~~type list~~(deprecated)
 
-|       name       |                     functionality                      |                                                         type                                                          |
-| :--------------: | :----------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------: |
-|    serialize     |         turn object into url param like a=1&b=         |                                                `(obj: Obj) => string`                                                 |
-| makeObjectByPath |         make object from keypath like 'a.b.c'          |                                        `(keyPath: string, value?: any) => Obj`                                        |
-|   getPathValue   |     get value in obj with the key path like a.b.c      | `<T = any>(obj: Obj, keyPath: string, check?: boolean) => T \| { isValidKeys: boolean; validKeys: string; value: T }` |
-|   setPathValue   |     set value in obj with the key path like a.b.c      |                                 `(obj: Obj, keyPath: string, value?: any) => boolean`                                 |
-|     scroller     |        smooth scroll content to target position        |            `({el?: Element; duration?: number; top?: number; left?: number; type?: timingTypes;}) =>void`             |
-|  toTopOrBottom   | make scrollable element's content scroll to top/bottom |         `(el?: Element, dir: 'top' \| 'bottom' = 'top', type?: timingTypes, duration: number = 500) => void`          |
-|   setClipboard   |                 copy text to clipboard                 |                                              `(val: string) => boolean`                                               |
-|     sprintf      |     replace all %s or {a.b} in first param string      |                     `(...[str, ...args]: [string, ...(string \| number \| object)[]]) => string`                      |
-|   moveArrItem    |      move some item to other "index" in an array       |                                   `(arr: any[], from: number, to: number) => any[]`                                   |
-| getScrollBarSize |                 get the scrollbar size                 |                                             `(force?: boolean) => number`                                             |
-|    deepMerge     |             deep merge for object & array              |      `(target: Obj, source: Obj, skipHandle?: (key: string, target: Obj, from: any) => boolean \| void) => Obj`       |
-|    checkMail     |                  check email address                   |                                              `(val: string) => boolean`                                               |
-|    delArrItem    |       remove items by given indexes in an array        |                                      `(arr: any[], indexes: number[]) => any[]`                                       |
-|     Emitter      |                  get an event emitter                  |                                       `Emitter<T extends Evt>() => Emitter<T>`                                        |
-|    Scrollbar     |       render a custom scrollbar for HTMLElement        |         `{disabled: boolean;watchPageStyle: boolean \| null;attach: (el?: HTMLElement \| null) => CustomBar}`         |
+| ~~name~~ | ~~functionality~~ | ~~type~~ |
+| :------: | :---------------: | :------: |
+|          |                   |          |
 
-<br>
-
-|    class    |             functionality              |                                              type                                               |
-| :---------: | :------------------------------------: | :---------------------------------------------------------------------------------------------: |
-| StoreSimply |     simple store with localStorage     |                          `constructor(id?: string \| null, data?: T)`                           |
-|  StoreById  | store in object form with localStorage |                         `constructor(id?: string \| null, data?: Obj)`                          |
-| StoreByIDB  |  store in object form with indexedDB   |                 `constructor(id?: string, table?: string \| null, data?: Obj)`                  |
-|  Countdown  |          countdown in pure js          |       `constructor(to: Date \| Partial<dhms>, runOnVisible?: boolean, onCount?: onCount)`       |
-|    Clock    |            clock in pure js            | `constructor(begin?: Date \| null, step?: number, runOnVisible?: boolean, onUpdate?: onUpdate)` |
+| ~~class~~ | ~~functionality~~ | ~~type~~ |
+| :-------: | :---------------: | :------: |
+|           |                   |          |
 
 ## License
 
