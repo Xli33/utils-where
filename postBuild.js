@@ -31,7 +31,7 @@ import { /* readdir, unlink , */ copyFile, rename } from 'node:fs/promises';
 // unlink(dist + 'tsconfig.tsbuildinfo').catch(() => {});
 // unlink(dist + 'tsconfig.esm.tsbuildinfo').catch(() => {});
 
-copyFile('src/events.d.ts', 'dist/events.d.ts').catch((err) => {
+copyFile('types/events.d.ts', 'dist/events.d.ts').catch((err) => {
   console.warn(`failed to copy src/events.d.ts and the error is:`, err);
 });
 
