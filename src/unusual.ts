@@ -11,7 +11,8 @@ import { getPathValue } from './usual';
  * @example sprintf('hel %s %s', 'l', 'o');
  * sprintf('he{a} {b.c}', {a: 'l', b: {c: 'lo'}})
  */
-export function sprintf(...[str, ...args]: [string, ...(string | number | object)[]]): string {
+// export function sprintf(...[str, ...args]: [string, ...((string | number)[] | [object])]): string {
+export function sprintf(str: string, ...args: (string | number)[] | [object]) {
   if (typeof str !== 'string') {
     console.warn('the 1st argument must be a string!');
     return '';
@@ -31,7 +32,7 @@ export function sprintf(...[str, ...args]: [string, ...(string | number | object
   }
 
   // e.g. the return value of sprintf('{a.b}', {a: {b: 33}}) should be string 33
-  if (typeof rep === 'object') {
+  if (rep != null && typeof rep === 'object') {
     // const chars = str.match(/{[^{}]+}/g);
     // if (chars) {
     //   for (const v of chars) {
