@@ -35,6 +35,11 @@
       "types": "./dist/events.d.ts",
       "import": "./dist/esm/events.js",
       "require": "./dist/cjs/events.cjs"
+    },
+    "./validator": {
+      "types": "./dist/validator.d.ts",
+      "import": "./dist/esm/validator.js",
+      "require": "./dist/cjs/validator.cjs"
     }
   },
   "files": [

@@ -33,8 +33,45 @@ export default [
         file: 'dist/esm/index.js',
         format: 'esm',
         plugins: flatDts({
+          // entries: {
+          //   index: {
+          //     file: 'index.d.ts'
+          //   }
+          // },
+          // file: 'index.d.ts',
           tsconfig: {
             files: ['src/index.ts']
+          }
+        })
+      }
+    ],
+    plugins
+  },
+  {
+    input: 'src/validator.ts',
+    // input: {
+    //   validator: 'src/validator.ts'
+    // },
+    output: [
+      {
+        file: 'dist/cjs/validator.cjs',
+        // dir: 'dist/cjs',
+        format: 'cjs'
+      },
+      {
+        file: 'dist/esm/validator.js',
+        // dir: 'dist/esm',
+        format: 'esm',
+        plugins: flatDts({
+          // entries: {
+          //   validator: {
+          //     file: 'validator.d.ts'
+          //   }
+          // },
+          file: 'validator.d.ts',
+          moduleName: 'utils-where/validator',
+          tsconfig: {
+            files: ['src/validator.ts']
           }
         })
       }

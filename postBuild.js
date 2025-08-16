@@ -35,6 +35,8 @@ copyFile('types/events.d.ts', 'dist/events.d.ts').catch((err) => {
   console.warn(`failed to copy src/events.d.ts and the error is:`, err);
 });
 
-rename('dist/esm/index.d.ts', 'dist/index.d.ts').catch((err) => {
-  console.warn('failed to move index.d.ts and the error is:', err);
+['index.d.ts', 'validator.d.ts'].forEach((e) => {
+  rename('dist/esm/' + e, 'dist/' + e).catch((err) => {
+    console.warn(`failed to move ${e} and the error is:`, err);
+  });
 });
