@@ -1,6 +1,19 @@
 # Changelog
 
 
+## [0.3.7](https://github.com/Xli33/utils-where/compare/v0.3.6...v0.3.7) (2025-08-16)
+
+
+### Features
+
+* 在types/events.d.ts扩展Node接口以提供longpress事件相关属性的类型检查 ([7021c10](https://github.com/Xli33/utils-where/commit/7021c107cbc8fae1b72e861597c49d87631f6f91))
+
+
+### Bug Fixes
+
+* 优化events.ts，完善longpress事件监听&移除逻辑 ([0b2ae2c](https://github.com/Xli33/utils-where/commit/0b2ae2c466613bbfb3c080f4329921ab2ac985fa))
+* 优化sprintf参数类型声明，修复当第2个参数为null时仍可能会处理字符 ([21d031e](https://github.com/Xli33/utils-where/commit/21d031ea62d3621bf2d9636eb30ad290b2da5ee4))
+
 ## [0.3.6](https://github.com/Xli33/utils-where/compare/v0.3.5...v0.3.6) (2025-08-15)
 
 
