@@ -13,7 +13,7 @@ import { isObject, deepMerge } from './unusual';
 export class StoreSimply<T extends object> {
   id: string;
   data: T;
-  private _tid!: number;
+  private _tid!: number | null;
   // private data: { [x in keyof T]?: any } = {}
   constructor(id?: string | null, data?: T) {
     this.id = id || '';
@@ -36,9 +36,10 @@ export class StoreSimply<T extends object> {
   setVal(key: keyof T, value?: any) {
     if (key == null) throw 'key is required';
     this.data[key] = value;
-    clearTimeout(this._tid);
+    clearTimeout(this._tid!);
     this._tid = setTimeout(() => {
       localStorage.setItem(this.id, JSON.stringify(this.data));
+      this._tid = null;
     }) as any;
     return this;
   }
@@ -100,7 +101,7 @@ export class StoreSimply<T extends object> {
 export class StoreById {
   id: string;
   data: Obj;
-  private _tid!: number;
+  private _tid!: number | null;
   constructor(id?: string | null, data?: Obj) {
     this.id = id || '';
     const setting = localStorage.getItem(this.id);
@@ -192,9 +193,10 @@ export class StoreById {
       this.data = value;
     }
     if (!targetOrReplace || targetOrReplace === true || targetOrReplace === this.data) {
-      clearTimeout(this._tid);
+      clearTimeout(this._tid!);
       this._tid = setTimeout(() => {
         localStorage.setItem(this.id, JSON.stringify(this.data));
+        this._tid = null;
         // console.log(`修改了本地 ${this.id} 的配置`)
       }) as any;
     }
@@ -219,7 +221,7 @@ export class StoreByIDB {
   data!: Obj;
   onsuccess?: () => void;
   onerror!: (e: Event) => void;
-  private _tid!: number;
+  private _tid!: number | null;
   private _idb!: IDBDatabase;
   constructor(id?: string, table?: string | null, data?: Obj) {
     this.id = id || '-';
@@ -338,17 +340,18 @@ export class StoreByIDB {
       this.data = value;
     }
     if (!targetOrReplace || targetOrReplace === true || targetOrReplace === this.data) {
-      clearTimeout(this._tid);
+      clearTimeout(this._tid!);
       this._tid = setTimeout(() => {
-        const tmp = this._idb
+        let tmp = this._idb
           .transaction(this.table, 'readwrite')
           .objectStore(this.table)
           .put(useJSON ? JSON.parse(JSON.stringify(this.data)) : this.data, 0);
         tmp.onsuccess = () => {
-          tmp.onerror = null;
+          (<unknown>tmp) = tmp.onerror = null;
           // console.log(`修改了本地数据库 ${this.id} ~ ${this.table} 的配置`)
         };
         tmp.onerror = this.onerror;
+        this._tid = null;
       }) as any;
     }
     return this;

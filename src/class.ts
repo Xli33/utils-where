@@ -58,7 +58,7 @@ export class Countdown {
    * 在计时终止并移除后触发，返回Truthy可阻止置空onCount
    */
   onEnd?: (leftTime: number) => boolean | void;
-  private _tid?: number;
+  private _tid?: number | null;
   private _last!: number;
   /**
    * 生成倒计时，实例化即自动开始计时，实例化后立即调用stop可暂停计时
@@ -148,8 +148,8 @@ export class Countdown {
    * @param end 是否终止计时
    */
   stop(end?: boolean) {
-    clearInterval(this._tid);
-    this._tid = undefined;
+    clearInterval(this._tid!);
+    this._tid = null;
     // 暂停计时后手动让_last自增，避免调用process恢复计时后会立刻减少了1秒
     // 若是停止计时，且不再会继续，应将_last改为负数避免仍可调用process
     end ? (this._last = -1) : this._last++;
@@ -241,7 +241,7 @@ export class Clock {
   step: number;
   runOnVisible?: boolean;
   onUpdate?: onUpdate;
-  private _tid?: number;
+  private _tid?: number | null;
   private _prev!: number;
   /**
    * 生成时钟，实例化即自动开始运行，实例化后立即调用stop可暂停
@@ -325,8 +325,8 @@ export class Clock {
    * 停止运行
    */
   stop() {
-    clearInterval(this._tid);
-    this._tid = undefined;
+    clearInterval(this._tid!);
+    this._tid = null;
   }
   /**
    * 终止并将实例从Clock.tasks中移除
