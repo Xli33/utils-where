@@ -22,7 +22,7 @@ export class Countdown {
   /**
    * 相当于 new Countdown(to, runOnVisible, onCount)
    * @param to 计时终止时间，可以是一个Date，也可以是包含day、hour、minute、second属性的对象
-   * @param runOnVisible 是否仅在页面可见时进行计时。建议仅在以当前时间为基准时选择启用。一般情况下浏览器会对定时器进行节流，故可能需要通过visibilitychange刷新当前剩余计时
+   * @param runOnVisible 是否仅在页面可见时进行计时。建议仅在以当前时间为基准时启用。一般情况下浏览器会对定时器进行节流，故可能需要通过visibilitychange刷新当前剩余计时
    * @param onCount 处于倒计时中的回调，可在此方法中获取剩余的day、hour、minute、second
    * @returns
    */
@@ -64,11 +64,18 @@ export class Countdown {
    * 生成倒计时，实例化即自动开始计时，实例化后立即调用stop可暂停计时
    *
    * @param to 计时终止时间，可以是一个Date，也可以是包含day、hour、minute、second属性的对象
-   * @param runOnVisible 是否仅在页面可见时进行计时。建议仅在以当前时间为基准时选择启用。一般情况下浏览器会对定时器进行节流，故可能需要通过visibilitychange刷新当前剩余计时
+   * @param runOnVisible 是否仅在页面可见时进行计时。建议仅在以当前时间为基准时启用。一般情况下浏览器会对定时器进行节流，故可能需要通过visibilitychange刷新当前剩余计时
    * @param onCount 处于倒计时中的回调，可在此方法中获取剩余的day、hour、minute、second
    * @example
    * 开始一个1分20秒的倒计时
    * new Countdown({minute: 1, second: 20}, false, ({minute, second}) => {})
+   *
+   * 开始一个距当前时间剩余1小时的倒计时，但暂停以待手动开始计时
+   * const countdown = new Countdown(new Date(Date.now() + 3600000), false, ({minute, second}) => {})
+   * countdown.stop()
+   *
+   * 3秒后开始计时，若调用start(true)，则会以当前时刻为计时终止时间
+   * setTimeout(() => countdown.start(), 3000)
    */
   constructor(to: Date | Partial<dhms>, runOnVisible?: boolean, onCount?: onCount) {
     const now = new Date();
@@ -151,7 +158,7 @@ export class Countdown {
     clearInterval(this._tid!);
     this._tid = null;
     // 暂停计时后手动让_last自增，避免调用process恢复计时后会立刻减少了1秒
-    // 若是停止计时，且不再会继续，应将_last改为负数避免仍可调用process
+    // 若是停止计时，且不会再继续，应将_last改为负数避免仍可调用process
     end ? (this._last = -1) : this._last++;
   }
   /**
@@ -256,6 +263,13 @@ export class Clock {
    * new Clock(null, null or 1, false, ({year, month, day, week, hour, minute, second}, date) => {
    *  console.log(`now: ${year}-${month}-${padZero(day)} ${padZero(hour)}:${padZero(minute)}:${padZero(second)}`)
    * })
+   *
+   * 从2000-01-01 00:00:00起，每5秒更新时间，但暂停以待手动启用
+   * const clock = new Clock(new Date(2000, 0,1,0,0,0), 5)
+   * clock.stop()
+   *
+   * 3秒后开始，若调用的是clock.start(true)，则会变成从当前时刻开始
+   * setTimeout(() => clock.start(), 3000)
    */
   constructor(begin?: Date | null, step?: number, runOnVisible?: boolean, onUpdate?: onUpdate) {
     // 若begin是new Date，则直接使用实时模式

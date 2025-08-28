@@ -139,12 +139,11 @@ asyncCopy(val: string): Promise<void> | Promise<boolean>;
 ```
 
 `sprintf`  
-replace all `%s` or `{a.b}` in first string param
+replace all `%s` or `{a.b}` in first string param, inspired by template string `${}` from es
 
 ```js
 import { sprintf } from 'utils-where';
 
-// the sprintf is inspired by template string `${}` from es6
 // return 'this is a demo and see'
 sprintf('this %s a %s and see', 'is', 'demo');
 
@@ -540,11 +539,20 @@ countdown in pure js
 import { Countdown } from 'utils-where';
 
 // start a countdown in 1 min & 20 seconds
-new Countdown({ minute: 1, second: 20 }, false, ({ minute, second }) => {
+new Countdown({minute: 1, second: 20}, false, ({minute, second}) => {
   console.log(minute, second);
 });
+
+// start a countdown in 1 hour but paused, then start it manually
+const cd = new Countdown(new Date(Date.now() + 3600000), false, ({day, hour, minute, second}) => {
+  console.log(`days: ${day} hours: ${hour} minutes: ${minute} seconds: ${second}`)
+})
+cd.stop()
+// start in 3s. if call cd.start(true), it ends at current time!!
+setTimeout(() => cd.start(), 3000)
+
 // start a countdown till the target time and only run when page visible
-new Countdown(new Date('2030-01-01 12:00:00'), true, ({ day, hour, minute, second }) => {
+new Countdown(new Date(2030,1,1,0,0,0), true, ({ day, hour, minute, second }) => {
   console.log(`left tims:${day} days ${hour} hours ${minute} minutes ${second} seconds`);
 });
 ```
@@ -566,8 +574,16 @@ const padZero = num => (num + '').padStart(2, '0')
 new Clock(null, null or 1, false, ({year, month, day, week, hour, minute, second}, date) => {
  console.log(`now: ${year}-${month}-${padZero(day)} ${padZero(hour)}:${padZero(minute)}:${padZero(second)}`)
 })
+
+// start from 2000-01-01 00:00:00 and updates every 5s, but paused to manually start
+const clock = new Clock(new Date(2000, 0,1,0,0,0), 5, false, ({year, month, day, week, hour, minute, second}, date) => {})
+clock.stop()
+
+// start in 3s. if call clock.start(true), it will start from now!!
+setTimeout(() => clock.start(), 3000)
+
 // start a clock updating every 60 seconds from given time, the first param and only run when page visible
-new Clock(new Date('2000-01-01 00:00:00'), 60, true, (parts, date) => {
+new Clock(new Date(2000, 0,1,0,0,0), 60, true, (parts, date) => {
     console.log(date.toLocaleString())
 })
 ```
