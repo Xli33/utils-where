@@ -1,3 +1,5 @@
+import type { TimeoutId } from './types';
+
 type dhms = {
   day: number;
   hour: number;
@@ -58,7 +60,7 @@ export class Countdown {
    * 在计时终止并移除后触发，返回Truthy可阻止置空onCount
    */
   onEnd?: (leftTime: number) => boolean | void;
-  private _tid?: number | null;
+  private _tid?: TimeoutId | null;
   private _last!: number;
   /**
    * 生成倒计时，实例化即自动开始计时，实例化后立即调用stop可暂停计时
@@ -116,7 +118,7 @@ export class Countdown {
   process() {
     if (this._last >= 0) {
       if (!this._tid) {
-        this._tid = setInterval(() => this.process(), 1000) as any;
+        this._tid = setInterval(() => this.process(), 1000);
       }
       this.onCount?.(this.getRest(), this._last);
       this._last--;
@@ -248,7 +250,7 @@ export class Clock {
   step: number;
   runOnVisible?: boolean;
   onUpdate?: onUpdate;
-  private _tid?: number | null;
+  private _tid?: TimeoutId | null;
   private _prev!: number;
   /**
    * 生成时钟，实例化即自动开始运行，实例化后立即调用stop可暂停
@@ -295,7 +297,7 @@ export class Clock {
   }
   process(skip?: boolean) {
     if (!this._tid) {
-      this._tid = setInterval(() => this.process(), this.step * 1000) as any;
+      this._tid = setInterval(() => this.process(), this.step * 1000);
     }
     if (this.begin) {
       // 此处若直接用Date.now()可能导致后续根据Clock.pauseAt校准经过的毫秒数时有些许毫秒的误差

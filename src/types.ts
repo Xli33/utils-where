@@ -1,7 +1,15 @@
 export declare interface Obj {
   [x: string]: any;
 }
-// declare interface Obj extends Record<string, any> {}
+
+// export type AnyFunc<T extends Obj = object> = ((...args: any[]) => any) & T;
+// export type SomeFunc<F extends (...args: any[]) => any = (...args: any[]) => any, T extends Obj = object> = F & T;
+
+export type Func<T extends Obj = object, F = (...args: any[]) => any> = F extends (...args: infer A) => infer R // 判断F是否是函数类型
+  ? ((...args: A) => R) & T
+  : never;
+
+export type TimeoutId = ReturnType<typeof setTimeout>;
 
 export type Falsy = null | undefined | false | '' | 0 | 0n;
 

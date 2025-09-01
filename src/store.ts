@@ -1,4 +1,4 @@
-import type { Obj } from './types';
+import type { Obj, TimeoutId } from './types';
 import { getPathValue, makeObjectByPath } from './usual';
 import { isObject, deepMerge } from './unusual';
 
@@ -13,7 +13,7 @@ import { isObject, deepMerge } from './unusual';
 export class StoreSimply<T extends object> {
   id: string;
   data: T;
-  private _tid!: number | null;
+  private _tid!: TimeoutId | null;
   // private data: { [x in keyof T]?: any } = {}
   constructor(id?: string | null, data?: T) {
     this.id = id || '';
@@ -38,9 +38,9 @@ export class StoreSimply<T extends object> {
     this.data[key] = value;
     clearTimeout(this._tid!);
     this._tid = setTimeout(() => {
-      localStorage.setItem(this.id, JSON.stringify(this.data));
       this._tid = null;
-    }) as any;
+      localStorage.setItem(this.id, JSON.stringify(this.data));
+    });
     return this;
   }
 }
@@ -101,7 +101,7 @@ export class StoreSimply<T extends object> {
 export class StoreById {
   id: string;
   data: Obj;
-  private _tid!: number | null;
+  private _tid!: TimeoutId | null;
   constructor(id?: string | null, data?: Obj) {
     this.id = id || '';
     const setting = localStorage.getItem(this.id);
@@ -195,10 +195,10 @@ export class StoreById {
     if (!targetOrReplace || targetOrReplace === true || targetOrReplace === this.data) {
       clearTimeout(this._tid!);
       this._tid = setTimeout(() => {
-        localStorage.setItem(this.id, JSON.stringify(this.data));
         this._tid = null;
+        localStorage.setItem(this.id, JSON.stringify(this.data));
         // console.log(`修改了本地 ${this.id} 的配置`)
-      }) as any;
+      });
     }
     return this;
   }
@@ -221,7 +221,7 @@ export class StoreByIDB {
   data!: Obj;
   onsuccess?: () => void;
   onerror!: (e: Event) => void;
-  private _tid!: number | null;
+  private _tid!: TimeoutId | null;
   private _idb!: IDBDatabase;
   constructor(id?: string, table?: string | null, data?: Obj) {
     this.id = id || '-';
@@ -342,6 +342,7 @@ export class StoreByIDB {
     if (!targetOrReplace || targetOrReplace === true || targetOrReplace === this.data) {
       clearTimeout(this._tid!);
       this._tid = setTimeout(() => {
+        this._tid = null;
         let tmp = this._idb
           .transaction(this.table, 'readwrite')
           .objectStore(this.table)
@@ -351,8 +352,7 @@ export class StoreByIDB {
           // console.log(`修改了本地数据库 ${this.id} ~ ${this.table} 的配置`)
         };
         tmp.onerror = this.onerror;
-        this._tid = null;
-      }) as any;
+      });
     }
     return this;
   }

@@ -1,3 +1,5 @@
+import type { TimeoutId } from './types';
+
 /**
  * add custom longpress event for Node instance, default timeout is 500ms, which could be set by Node's _longPressDelay /
  * 为Node实例添加 longpress（长按）事件，触发超时500ms，可通过元素的 _longPressDelay 进行设置
@@ -16,7 +18,7 @@ Node.prototype.addEventListener = function (type, listener, options) {
   }
   // 若绑定过同选项的longpress则直接跳过
   if (this._longPressEvents!.some((e) => e.longpress === listener && e.options === options)) return;
-  let tid: number | null;
+  let tid: TimeoutId | null;
   const evt = {
     touchstart(e: Event) {
       tid = setTimeout(() => {
@@ -30,7 +32,7 @@ Node.prototype.addEventListener = function (type, listener, options) {
             detail: e
           })
         );
-      }, (<Node>(<unknown>this))._longPressDelay || 500) as any;
+      }, (<Node>(<unknown>this))._longPressDelay || 500);
     },
     touchend() {
       clearTimeout(tid!);
