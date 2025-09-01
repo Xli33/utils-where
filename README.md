@@ -295,7 +295,7 @@ delArrItemByVal([2, '', alert, console, false, NaN], ['', alert, console, NaN]) 
 ```
 
 `throttle`  
-get a throttled function, only to be **sync** called after `interval`. an `onEnd` listener async called could be added to the returned function
+get a throttled function, only to be **sync** called after `interval`. an `onEnd` listener to be async called could be added to the returned function
 
 ```js
 import { throttle } from 'utils-where';
