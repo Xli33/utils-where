@@ -1,4 +1,4 @@
-import type { Obj } from './types';
+import type { Func, Obj, TimeoutId } from './types';
 
 /**
  * 将对象转为url param
@@ -371,5 +371,104 @@ export function Emitter<T extends Evt>() {
       arr.length < 1 && delete this.evts[name];
       return this;
     }
+  };
+}
+
+interface ThrottleWrap<T extends Func> {
+  (...args: Parameters<T>): ReturnType<T> | void;
+  _last?: number;
+  onEnd?: Func<{ _tid?: TimeoutId | null }>;
+}
+/**
+ * get a throttled function, only to be called after `interval`. an `onEnd` listener could be added to the returned function
+ * @param callback function to invoke every `interval` ms
+ * @param interval milliseconds between each call
+ * @returns function
+ * @example
+ * const o = {
+ *  click: throttle(() => {console.log(this); return 1}, 1000),
+ *  move: throttle(function () {console.log(this); return ''}, 500)
+ * }
+ *
+ * o.click() === 1 // the logged 'this' is not o
+ * o.move() === '' // the logged 'this' is o itself
+ *
+ * // add an end listener if need, maybe unnecessary in some events like 'mousemove'. and `onEnd` is in task queue
+ * click.onEnd = () => console.log('the end call maybe unnecessary')
+ */
+export function throttle<T extends Func>(
+  callback: T,
+  interval: number
+): ThrottleWrap<T> /* (...args: Parameters<T>) => ReturnType<T> | void */ {
+  return function wrap(this: any, ...args: Parameters<T>) {
+    if (Date.now() - ((<Obj>wrap)._last || 0) >= interval) {
+      (<Obj>wrap).onEnd && clearTimeout((<Obj>wrap).onEnd._tid!);
+      (<Obj>wrap)._last = Date.now();
+      return callback.apply(this, args);
+    }
+    // debounceLast((<Obj>wrap).onEnd, interval).apply(this, args);
+    if ((<Obj>wrap).onEnd) {
+      clearTimeout((<Obj>wrap).onEnd._tid!);
+      (<Obj>wrap).onEnd._tid = setTimeout(() => {
+        (<Obj>wrap).onEnd._tid = null;
+        (<Obj>wrap).onEnd.apply(this, args);
+      }, interval);
+    }
+  };
+}
+
+interface DebounceFirstWrap<T extends Func> {
+  (...args: Parameters<T>): ReturnType<T> | void;
+  _tid?: number;
+  flag?: true | null;
+}
+/**
+ * the next call will be triggerd after `timeout` the last call went by
+ * @param callback function to invoke only once till `timeout`
+ * @param timeout  milliseconds
+ * @returns function
+ * @example
+ * // not click for at least 1s and to be triggered
+ * onclick = debounceFirst(() => console.log('1'), 1000)
+ */
+export function debounceFirst<T extends Func>(callback: T, timeout: number): DebounceFirstWrap<T> {
+  return function wrap(this: any, ...args: Parameters<T>) {
+    clearTimeout((<Obj>wrap)._tid);
+    (<Obj>wrap)._tid = setTimeout(() => {
+      (<Obj>wrap)._tid = (<Obj>wrap).flag = null;
+    }, timeout);
+    if ((<Obj>wrap).flag == null) {
+      (<Obj>wrap).flag = true;
+      return callback.apply(this, args);
+    }
+  };
+}
+
+interface DebounceLastWrap<T extends Func> {
+  (...args: Parameters<T>): void;
+  _tid?: number;
+}
+/**
+ * each call will be triggerd always after `timeout`
+ * @param callback function to invoke only once after `timeout`
+ * @param timeout milliseconds
+ * @returns function
+ * @example
+ * // resize window and callback triggered only after 1s when stop resizing
+ * onresize = debounceLast(() => console.log('only happens after 1s when stop'), 1000)
+ *
+ * // use clearTimeout to stop the next trigger if necessary
+ * addEventListener('resize', debounceLast(() => {
+ *  clearTimeout(onresize._tid);
+ *  console.log('cleared')
+ * }, 999))
+ */
+export function debounceLast<T extends Func>(callback: T, timeout: number): DebounceLastWrap<T> {
+  return function wrap(this: any, ...args: Parameters<T>) {
+    clearTimeout((<Obj>wrap)._tid);
+    (<Obj>wrap)._tid = setTimeout(() => {
+      (<Obj>wrap)._tid = null;
+      callback.apply(this, args);
+    }, timeout);
   };
 }
