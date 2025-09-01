@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [0.3.8](https://github.com/Xli33/utils-where/compare/v0.3.7...v0.3.8) (2025-09-01)
+
+
+### Features
+
+* 添加函数：`throttle`  `debounceFirst` `debounceLast` ([2264dfc](https://github.com/Xli33/utils-where/commit/2264dfc92f52413985f8817e2e371c639918569f))
+
 ## [0.3.7](https://github.com/Xli33/utils-where/compare/v0.3.6...v0.3.7) (2025-08-16)
 
 
