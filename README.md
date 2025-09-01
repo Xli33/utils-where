@@ -294,10 +294,110 @@ import { delArrItemByVal } from 'utils-where';
 delArrItemByVal([2, '', alert, console, false, NaN], ['', alert, console, NaN]) => [2, false]
 ```
 
+`throttle`  
+get a throttled function, only to be **sync** called after `interval`. an `onEnd` listener async called could be added to the returned function
+
+```js
+import { throttle } from 'utils-where';
+
+const o = {
+  click: throttle(() => {
+    console.log(this);
+    return 1;
+  }, 1000),
+  move: throttle(function () {
+    console.log(this);
+    return '';
+  }, 500)
+};
+o.click() === 1; // the logged 'this' is not o
+o.move() === ''; // the logged 'this' is o itself
+
+// add an end listener if need, maybe unnecessary in some events like 'mousemove'. and `onEnd` is in task queue
+const click = throttle(() => console.log(1), 500);
+click.onEnd = () => console.log('the end call maybe unnecessary');
+```
+
 - type
 
 ```ts
-delArrItemByVal(arr: any[], items: any[]): any[];
+throttle<T extends Func>(callback: T, interval: number): ThrottleWrap<T>
+```
+
+`debounceFirst`  
+the next call will be **sync** triggerd after `timeout` the last call went by
+
+```js
+import { debounceFirst } from 'utils-where';
+
+// not click for at least 1s and to be triggered
+onclick = debounceFirst(() => console.log('1'), 1000);
+```
+
+use `debounceFirst` and `debounceLast` together to achieve some effect usually in video player  
+when cursor moves, it shows as well, then it be hidden if it stops for about 2s.
+
+the original code could be like
+
+```js
+let tid;
+onmousemove = () => {
+  clearTimeout(tid);
+  if (!tid) {
+    document.body.style.cursor = '';
+    console.log('%cshow', 'font-size:15px');
+  }
+  tid = setTimeout(() => {
+    tid = null;
+    document.body.style.cursor = 'none';
+    console.log('%chidden', 'font-size:15px;color:coral');
+  }, 2000);
+};
+```
+
+with debounceFirst & debounceLast
+
+```js
+import { debounceFirst, debounceLast } from 'utils-where';
+
+const showCursor = debounceFirst(() => document.body.style.cursor = '', 2000),
+  hideCursor = debounceLast(() => document.body.style.cursor = 'none', 2000)
+
+// or use addEventListener
+// addEventListener('mousemove', showCursor);
+// addEventListener('mousemove', hideCursor);
+onmousemove = () => {
+  showCursor()
+  hideCursor()
+}
+```
+
+- type
+
+```ts
+debounceFirst<T extends Func>(callback: T, timeout: number): DebounceFirstWrap<T>
+```
+
+`debounceLast`  
+each call will be **async** triggerd always after `timeout`
+
+```js
+import { debounceLast } from 'utils-where';
+
+// resize window and callback triggered only after 1s when stop resizing
+onresize = debounceLast(() => console.log('only happens after 1s when stop'), 1000);
+
+// use clearTimeout to stop the next trigger if necessary
+addEventListener('resize', debounceLast(() => {
+  clearTimeout(onresize._tid);
+  console.log('cleared');
+}, 999));
+```
+
+- type
+
+```ts
+debounceLast<T extends Func>(callback: T, timeout: number): DebounceLastWrap<T>
 ```
 
 `Emitter`  
@@ -352,7 +452,7 @@ Emitter<T extends Evt>() => Emitter<T>
 only hide the default scrollbars and render custom ones for styling, based on [`ResizeObserver`](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver#browser_compatibility)  
 **it's unnecessary to manually call `Scrollbar.init` in advance, but it'd be ok/better to do so if not style window/page**
 
-- for page/window
+- used for page/window
 
 ```html
 <!-- add class scroller for <html> -->
@@ -366,7 +466,7 @@ only hide the default scrollbars and render custom ones for styling, based on [`
 </html>
 ```
 
-- for some HTMLElement
+- used for some HTMLElement
 
 ```html
 <div style="width:200px;height:300px">
@@ -383,7 +483,7 @@ only hide the default scrollbars and render custom ones for styling, based on [`
 </script>
 ```
 
-- for others like Vue
+- integrated with others like Vue
 
 ```js
 // in main.js
@@ -396,11 +496,11 @@ call 'Scrollbar.attach()' if style window, or only call 'Scrollbar.init()' in ad
 createApp(App).mount('#app')
 ```
 
-- vue sfc
+- and vue sfc
 
 ```html
 <template>
-  <div class="custom">
+  <div class="custom" style="max-height: 50vh">
     <div :class="['scroller', 'fill', {scrollClass}]">
       <div ref="list">
         <slot></slot>
@@ -420,6 +520,51 @@ createApp(App).mount('#app')
     Scrollbar.attach($list.value);
   });
 </script>
+```
+
+- integrated with others like react
+
+```jsx
+// in main.js
+import { Scrollbar } from 'utils-where';
+import React, { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+
+call 'Scrollbar.attach()' if style window, or only call 'Scrollbar.init()' in advance if not style window, which would be better for performance
+
+const app = createRoot(document.getElementById('app'));
+
+app.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
+```
+
+- and react component
+
+```jsx
+import { Scrollbar } from 'utils-where';
+import React, { useRef, useEffect } from 'react';
+
+export default function ({ scrollClass, children }) {
+  const listRef = useRef();
+
+  useEffect(() => {
+    if (listRef.current) {
+      Scrollbar.attach(listRef.current);
+    }
+  }, []);
+
+  return (
+    <div className="custom" style={{ height: '60vh' }}>
+      <div className={`scroller fill ${scrollClass || ''}`}>
+        <div ref={listRef}>{children}</div>
+      </div>
+    </div>
+  );
+}
 ```
 
 - type
@@ -539,22 +684,109 @@ countdown in pure js
 import { Countdown } from 'utils-where';
 
 // start a countdown in 1 min & 20 seconds
-new Countdown({minute: 1, second: 20}, false, ({minute, second}) => {
+new Countdown({ minute: 1, second: 20 }, false, ({ minute, second }) => {
   console.log(minute, second);
 });
 
 // start a countdown in 1 hour but paused, then start it manually
-const cd = new Countdown(new Date(Date.now() + 3600000), false, ({day, hour, minute, second}) => {
-  console.log(`days: ${day} hours: ${hour} minutes: ${minute} seconds: ${second}`)
-})
-cd.stop()
+const cd = new Countdown(new Date(Date.now() + 3600000), false, ({ day, hour, minute, second }) => {
+  console.log(`days: ${day} hours: ${hour} minutes: ${minute} seconds: ${second}`);
+});
+cd.stop();
 // start in 3s. if call cd.start(true), it ends at current time!!
-setTimeout(() => cd.start(), 3000)
+setTimeout(() => cd.start(), 3000);
 
 // start a countdown till the target time and only run when page visible
-new Countdown(new Date(2030,1,1,0,0,0), true, ({ day, hour, minute, second }) => {
+new Countdown(new Date(2030, 1, 1, 0, 0, 0), true, ({ day, hour, minute, second }) => {
   console.log(`left tims:${day} days ${hour} hours ${minute} minutes ${second} seconds`);
 });
+```
+
+- integrated with vue
+
+```jsx
+import { ref, onBeforeUnmount, onDeactivated } from 'vue';
+import { Countdown } from 'utils-where';
+
+export default {
+  props: {
+    end: Number
+  },
+  setup(props, ctx) {
+    const leftH = ref(),
+      leftM = ref(),
+      leftS = ref();
+    const cd = new Countdown(new Date(Date.now() + props.end), false, ({ hour, minute, second }) => {
+      leftH.value = hour;
+      leftM.value = minute;
+      leftS.value = second;
+    });
+    cd.stop();
+
+    ctx.expose({ cd });
+
+    onBeforeUnmount(() => {
+      cd.remove();
+    });
+    onDeactivated(() => {
+      cd.stop();
+    });
+
+    return () => (
+      <p>
+        {leftH.value}:{leftM.value}:{leftS.value}
+      </p>
+    );
+  }
+};
+```
+
+- integrated with react
+
+```jsx
+import React, { useState, useEffect, useRef } from 'react';
+import { Countdown } from 'utils-where';
+
+export default function ({ end, run }) {
+  const [leftH, setLeftH] = useState(0),
+    [leftM, setLeftM] = useState(0),
+    [leftS, setLeftS] = useState(0);
+
+  const cdRef = useRef(null);
+
+  useEffect(() => {
+    if (!cdRef.current) {
+      cdRef.current = new Countdown(new Date(Date.now() + end), false, ({ hour, minute, second }) => {
+        setLeftH(hour);
+        setLeftM(minute);
+        setLeftS(second);
+      });
+      cdRef.current.stop();
+    }
+
+    return () => {
+      cdRef.current.remove();
+      cdRef.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    cdRef.current[run ? 'start' : 'stop']();
+
+    return () => {
+      if (cdRef.current) {
+        cdRef.current.remove();
+        cdRef.current = null;
+      }
+    };
+  }, [run]);
+
+  return (
+    <p>
+      {leftH}:{leftM}:{leftS}
+    </p>
+  );
+}
 ```
 
 - type
@@ -586,6 +818,94 @@ setTimeout(() => clock.start(), 3000)
 new Clock(new Date(2000, 0,1,0,0,0), 60, true, (parts, date) => {
     console.log(date.toLocaleString())
 })
+```
+
+- integrated with vue
+
+```jsx
+import { ref, onBeforeUnmount, onDeactivated } from 'vue';
+import { Clock } from 'utils-where';
+
+export default {
+  setup(props, ctx) {
+    const y = ref(),
+      m = ref(),
+      d = ref(),
+      h = ref(),
+      w = ref(),
+      mn = ref(),
+      s = ref();
+    const ck = new Clock(null, 1, false, ({ year, month, day, week, hour, minute, second }) => {
+      y.value = year;
+      m.value = month;
+      d.value = day;
+      w.value = week;
+      h.value = hour;
+      mn.value = minute;
+      s.value = second;
+    });
+    const padZero = (num) => (num + '').padStart(2, '0');
+
+    onBeforeUnmount(() => {
+      ck.remove();
+    });
+    onDeactivated(() => {
+      ck.stop();
+    });
+
+    return () => (
+      <p>
+        {y.value}-{m.value}-{d.value} day of week: {w.value} &nbsp;&nbsp; {padZero(h.value)}:{padZero(m.value)}:
+        {padZero(s.value)}
+      </p>
+    );
+  }
+};
+```
+
+- integrated with react
+
+```jsx
+import React, { useState, useEffect, useRef } from 'react';
+import { Clock } from 'utils-where';
+
+export default function ({ end, run }) {
+  const [y, setY] = useState(),
+    [m, setM] = useState(),
+    [d, setD] = useState(),
+    [h, setH] = useState(),
+    [w, setW] = useState(),
+    [mn, setMn] = useState(),
+    [s, setS] = useState();
+
+  const ckRef = useRef(null);
+  const padZero = (num) => (num + '').padStart(2, '0');
+
+  useEffect(() => {
+    if (!ckRef.current) {
+      ckRef.current = new Clock(null, 1, false, ({ year, month, day, week, hour, minute, second }) => {
+        setY(year);
+        setM(month);
+        setD(day);
+        setW(week);
+        setH(hour);
+        setMn(minute);
+        setS(second);
+      });
+    }
+
+    return () => {
+      ckRef.current.remove();
+      ckRef.current = null;
+    };
+  }, []);
+
+  return (
+    <p>
+      {y}-{m}-{d} day of week: {w} &nbsp;&nbsp; {padZero(h)}:{padZero(mn)}:{padZero(s)}
+    </p>
+  );
+}
 ```
 
 - type
