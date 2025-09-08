@@ -236,10 +236,10 @@ export function getBirthById(id: string) {
 export const Scrollbar: CustomBar = {
   // 移动端上应该不需要用到吧~ ~
   // 具体到特定环境 Scrollbar.disabled = Scrollbar.disabled && /Firefox|Linux|Macintosh/.test(navigator.userAgent)
-  disabled:
+  disabled: /*@__PURE__*/ (() =>
     typeof ResizeObserver !== 'function' ||
     (navigator as Navigator & { userAgentData: { mobile?: boolean } }).userAgentData?.mobile ||
-    navigator.userAgent.includes('Mobile'),
+    navigator.userAgent.includes('Mobile'))(),
   // 是否在使用滚动条时清除已选项
   clearSelection: null,
   // 是否在使用滚动条时阻止默认的selectstart事件
