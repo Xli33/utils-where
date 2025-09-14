@@ -1,6 +1,18 @@
 # Changelog
 
 
+## [0.3.9](https://github.com/Xli33/utils-where/compare/v0.3.8...v0.3.9) (2025-09-14)
+
+
+### Features
+
+* 添加数组去重函数：onlyify ([667f711](https://github.com/Xli33/utils-where/commit/667f711d61e47c72c5051f3dcf92681699fc08df))
+
+
+### Bug Fixes
+
+* 优化部分涉及全局api的代码，使用/*@__PURE__*/防止rollup等打包工具在未导入相关api时依旧会打包部分代码 ([a14d3bd](https://github.com/Xli33/utils-where/commit/a14d3bdb474230933a1f4d733d6a4464814535d2))
+
 ## [0.3.8](https://github.com/Xli33/utils-where/compare/v0.3.7...v0.3.8) (2025-09-01)
 
 
