@@ -485,15 +485,15 @@ export function debounceLast<T extends Func>(callback: T, timeout: number): Debo
  * // get an array within only id at last: [{ id: 2 }, { id: 1, num: 3 }]
  * onlyify(arr, (res, from) => arr.findLast((e) => e.id === from.id) === from && res.every((e) => e.id !== from.id));
  */
-export function onlyify(source: any[], compare: (result: any[], sourceItem: any) => boolean | void) {
+export function onlyify<T>(source: T[], compare: (result: T[], sourceItem: T) => boolean | void) {
   if (!Array.isArray(source)) return [];
   /* const map = {};
   for (const v of source) {
     if (!map.hasOwnProperty(v.id)) map[v.id] = v;
   }
   return Object.values(map); */
-  const tmp: any[] = [];
-  let item: any;
+  const tmp: T[] = [];
+  let item;
   for (let i = 0, len = source.length; i < len; i++) {
     item = source[i];
     // if (!tmp.some((e) => e.id == item.id)) tmp.push(item);
