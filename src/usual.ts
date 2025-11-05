@@ -449,7 +449,7 @@ interface DebounceLastWrap<T extends Func> {
   _tid?: number;
 }
 /**
- * each call will be triggerd always after `timeout`
+ * each call will be **async** triggerd always after `timeout`
  * @param callback function to invoke only once after `timeout`
  * @param timeout milliseconds
  * @returns function

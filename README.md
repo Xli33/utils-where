@@ -360,16 +360,16 @@ with debounceFirst & debounceLast
 ```js
 import { debounceFirst, debounceLast } from 'utils-where';
 
-const showCursor = debounceFirst(() => document.body.style.cursor = '', 2000),
-  hideCursor = debounceLast(() => document.body.style.cursor = 'none', 2000)
+const showCursor = debounceFirst(() => (document.body.style.cursor = ''), 2000),
+  hideCursor = debounceLast(() => (document.body.style.cursor = 'none'), 2000);
 
 // or use addEventListener
 // addEventListener('mousemove', showCursor);
 // addEventListener('mousemove', hideCursor);
 onmousemove = () => {
-  showCursor()
-  hideCursor()
-}
+  showCursor();
+  hideCursor();
+};
 ```
 
 - type
@@ -388,10 +388,13 @@ import { debounceLast } from 'utils-where';
 onresize = debounceLast(() => console.log('only happens after 1s when stop'), 1000);
 
 // use clearTimeout to stop the next trigger if necessary
-addEventListener('resize', debounceLast(() => {
-  clearTimeout(onresize._tid);
-  console.log('cleared');
-}, 999));
+addEventListener(
+  'resize',
+  debounceLast(() => {
+    clearTimeout(onresize._tid);
+    console.log('cleared');
+  }, 999)
+);
 ```
 
 - type
@@ -664,6 +667,20 @@ new StoreById('app2', {
       lang: undefined // undefined is needed here
     }
   });
+
+// check keypath if necessary
+import type { SelfKeyPath } from 'utils-where';
+
+type Config = {
+  user: {
+    id: string;
+    pwd: string;
+  };
+  app: {
+    theme: string;
+  };
+};
+new StoreById<SelfKeyPath<Config>>().setVal('app.theme', '').getVal('user.id');
 ```
 
 - type
@@ -690,6 +707,23 @@ d.onsuccess = () => {
   console.log(d.getVal('login.agree.read') === d.getVal<true>('login.agree.read')); // true
   // remove key in local store. if no useJSON:true here, the value will be actual undefined in indexedDB
   d.setVal('login.agree.read', undefined, { useJSON: true });
+};
+
+// check keypath if necessary
+import type { SelfKeyPath } from 'utils-where';
+
+type Config = {
+  user: {
+    id: string;
+    pwd: string;
+  };
+  app: {
+    theme: string;
+  };
+};
+const d = new StoreByIDB<SelfKeyPath<Config>>();
+d.onsuccess = () => {
+  d.setVal('app.theme', '').getVal('user.id');
 };
 ```
 
