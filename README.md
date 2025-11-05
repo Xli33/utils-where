@@ -633,7 +633,7 @@ StoreSimply<T extends object>(id?: string | null, data?: T): StoreSimply<T>
 store in object form with localStorage
 
 ```ts
-import { StoreById } from 'utils-where';
+import { type SelfKeyPath, StoreById } from 'utils-where';
 
 // localStorage.app be like {theme: 1, head: {show: true, title: 0}, foot: {show: false, tip: 'xxx'}, {one: {two: {three: {four: null}}}}}
 const ini = new StoreById('app', {
@@ -669,8 +669,6 @@ new StoreById('app2', {
   });
 
 // check keypath if necessary
-import type { SelfKeyPath } from 'utils-where';
-
 type Config = {
   user: {
     id: string;
@@ -686,14 +684,14 @@ new StoreById<SelfKeyPath<Config>>().setVal('app.theme', '').getVal('user.id');
 - type
 
 ```ts
-StoreById(id?: string | null, data?: Obj): StoreById
+StoreById<K extends string>(id?: string | null, data?: Obj): StoreById
 ```
 
 `StoreByIDB`  
 store in object form with indexedDB
 
 ```ts
-import { StoreByIDB } from 'utils-where';
+import { type SelfKeyPath, StoreByIDB } from 'utils-where';
 
 // store in indexedDB
 const d = new StoreByIDB();
@@ -710,8 +708,6 @@ d.onsuccess = () => {
 };
 
 // check keypath if necessary
-import type { SelfKeyPath } from 'utils-where';
-
 type Config = {
   user: {
     id: string;
@@ -730,7 +726,7 @@ d.onsuccess = () => {
 - type
 
 ```ts
-StoreByIDB(id?: string, table?: string | null, data?: Obj): StoreByIDB
+StoreByIDB<K extends string>(id?: string, table?: string | null, data?: Obj): StoreByIDB
 ```
 
 `Countdown`  
