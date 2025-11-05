@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [0.3.10](https://github.com/Xli33/utils-where/compare/v0.3.9...v0.3.10) (2025-11-05)
+
+
+### Features
+
+* 优化StoreById & StoreByIDB，支持在实例化时传入泛型参数用于限制读写时的keyPath ([1cbf02d](https://github.com/Xli33/utils-where/commit/1cbf02dabd946d0cbdae977202428c5c6325139e))
+
 ## [0.3.9](https://github.com/Xli33/utils-where/compare/v0.3.8...v0.3.9) (2025-09-14)
 
 
