@@ -97,8 +97,20 @@ export class StoreSimply<T extends object> {
  *        tip: 'xxx'
  *      }
  *   }).setVal('one.two.three.four', null)
+ *
+ * 在读写时检测路径并获得路径提示
+ * type Config = {
+ *   user: {
+ *     id: string;
+ *     pwd: string;
+ *   };
+ *   app: {
+ *     theme: string;
+ *   };
+ * };
+ * new StoreById<SelfKeyPath<Config>>()
  */
-export class StoreById {
+export class StoreById<K extends string> {
   id: string;
   data: Obj;
   private _tid!: TimeoutId | null;
@@ -115,7 +127,7 @@ export class StoreById {
    * @example getVal('login.agree')
    * getVal<true>('login.remember')
    */
-  getVal<T = any>(keyPath: string, target?: Obj) {
+  getVal<T = any>(keyPath: K, target?: Obj) {
     return getPathValue<T>(target || this.data, keyPath);
   }
   /**
@@ -130,7 +142,7 @@ export class StoreById {
    * 若不存在 {login: {agree: {read: any}}}，也可保存成功，且保存后的对象为 {login: {agree: {read: true}}}
    */
   setVal(
-    keyPath: string,
+    keyPath: K,
     value?: any,
     {
       deep,
@@ -209,13 +221,26 @@ export class StoreById {
  * @param id 数据库名称，不传使用 '-'
  * @param table 数据库中的仓库（表）名称，不传使用数据库名
  * @param data 初始化的数据
- * @example const d = new StoreByIDB()
+ * @example
+ * const d = new StoreByIDB()
  * d.onsuccess = () => {
  *  console.log(d.data)
  *  d.setVal('APP.ui.theme', 'auto').setVal('login.agree.read', true).getVal('login.agree.read')
  * }
+ *
+ * 在读写时检测路径并获得路径提示
+ * type Config = {
+ *   user: {
+ *     id: string;
+ *     pwd: string;
+ *   };
+ *   app: {
+ *     theme: string;
+ *   };
+ * };
+ *  const d = new StoreByIDB<SelfKeyPath<Config>>()
  */
-export class StoreByIDB {
+export class StoreByIDB<K extends string> {
   id: string;
   table: string;
   data!: Obj;
@@ -257,7 +282,7 @@ export class StoreByIDB {
    * @example getVal('login.agree')
    * getVal<false>('login.remember')
    */
-  getVal<T = any>(keyPath: string, target?: Obj) {
+  getVal<T = any>(keyPath: K, target?: Obj) {
     return getPathValue<T>(target || this.data, keyPath);
   }
   /**
@@ -273,7 +298,7 @@ export class StoreByIDB {
    * 若不存在 {login: {agree: {read: any}}}，也可保存成功，且保存后的对象为 {login: {agree: {read: true}}}
    */
   setVal(
-    keyPath: string,
+    keyPath: K,
     value: any,
     {
       deep,
