@@ -425,8 +425,27 @@ onlyify(arr, (res, item) => arr.findLast((e) => e.id === item.id) === item && re
 onlyify<T>(source: T[], compare: (result: T[], sourceItem: T) => boolean | void): T[]
 ```
 
+`genUID`  
+generate a unique id with given prefix
+
+```js
+import { genUID } from 'utils-where';
+
+// get a random number id without prefix
+genUID();
+
+// get a unique id with prefix, should be 'Some' + number less than 1000
+genUID('Some', 1000);
+```
+
+- type
+
+```ts
+genUID(prefix?: string, level?: number, step?: number): string
+```
+
 `Emitter`  
-get an event emitter
+get an event emitter with generics
 
 ```ts
 import { Emitter } from 'utils-where';

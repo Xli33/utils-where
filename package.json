@@ -13,6 +13,8 @@
     "deep merge",
     "sprintf",
     "serialize",
+    "onlyify",
+    "unique id",
     "local store",
     "custom scrollbar",
     "smooth scroll",
