@@ -197,6 +197,24 @@ export function asyncCopy(val: string) {
 }
 
 /**
+ * 使用给定string结合随机数生成唯一id
+ * @param prefix id前缀，默认无前缀
+ * @param level 调用Math.random时的取值范围，默认 100
+ * @param step 取到重复值时会将 step 加到 level 上重新计算随机值，默认 50
+ * @returns prefix + random uid
+ */
+export function genUID(prefix?: string, level = 100, step = 50): string {
+  if (!(<Obj>genUID).uids) (<Obj>genUID).uids = [];
+  const uid = (prefix || '') + (Math.random() * level).toFixed();
+  if (!(<Obj>genUID).uids.includes(uid)) {
+    (<Obj>genUID).uids.push(uid);
+    return uid;
+  }
+  // 若出现重复则将 level+step 增大随机数取值范围，避免因范围过小可能导致取不到“新”的随机数而陷入死循环
+  return genUID(prefix, level + step, step);
+}
+
+/**
  * 通过id判断性别 1：男，2：女
  * @param id
  * @returns 1: male, 2: female
