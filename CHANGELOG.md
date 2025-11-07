@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [0.3.12](https://github.com/Xli33/utils-where/compare/v0.3.11...v0.3.12) (2025-11-07)
+
+
+### Features
+
+* 新增函数 genUID 用于生成唯一id ([b53a578](https://github.com/Xli33/utils-where/commit/b53a578aa653807c277b732bc8fc837b498fe3fd))
+
 ## [0.3.11](https://github.com/Xli33/utils-where/compare/v0.3.10...v0.3.11) (2025-11-05)
 
 ## [0.3.10](https://github.com/Xli33/utils-where/compare/v0.3.9...v0.3.10) (2025-11-05)
