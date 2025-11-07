@@ -1,4 +1,13 @@
-import { sprintf, getSexById, getBirthById, deepMerge, moveArrItem, delArrItem, delArrItemByVal } from '../src/unusual';
+import {
+  sprintf,
+  getSexById,
+  getBirthById,
+  deepMerge,
+  moveArrItem,
+  delArrItem,
+  delArrItemByVal,
+  genUID
+} from '../src/unusual';
 
 describe('unusual modules', () => {
   test('sprintf', () => {
@@ -43,5 +52,11 @@ describe('unusual modules', () => {
   });
   test('delArrItemByVal', () => {
     expect(delArrItemByVal([2, '', fetch, console, false, NaN], ['', fetch, console, NaN])).toEqual([2, false]);
+  });
+  test('genUID', () => {
+    expect(+genUID(null, 1)).toBeCloseTo(0, 0);
+    expect(+genUID(null, 1)).toBeCloseTo(1, 0);
+    expect(+genUID(null, 1000)).toBeLessThanOrEqual(1000);
+    expect(genUID('Some')).toMatch(/^Some\d{1,3}$/);
   });
 });
