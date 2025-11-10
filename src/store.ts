@@ -110,11 +110,11 @@ export class StoreSimply<T extends object> {
  * };
  * new StoreById<SelfKeyPath<Config>>()
  */
-export class StoreById<K extends string> {
+export class StoreById<K extends string, T extends Obj = Obj> {
   id: string;
-  data: Obj;
+  data: T;
   private _tid!: TimeoutId | null;
-  constructor(id?: string | null, data?: Obj) {
+  constructor(id?: string | null, data?: T) {
     this.id = id || '';
     const setting = localStorage.getItem(this.id);
     this.data = Object.assign({}, data, setting ? JSON.parse(setting) : null);
@@ -127,8 +127,8 @@ export class StoreById<K extends string> {
    * @example getVal('login.agree')
    * getVal<true>('login.remember')
    */
-  getVal<T = any>(keyPath: K, target?: Obj) {
-    return getPathValue<T>(target || this.data, keyPath);
+  getVal<V = any>(keyPath: K, target?: Obj) {
+    return getPathValue<V>(target || this.data, keyPath);
   }
   /**
    * 以点语法修改配置，支持链式调用
@@ -202,7 +202,7 @@ export class StoreById<K extends string> {
           })
       );
     } else {
-      this.data = value;
+      this.data = value as T;
     }
     if (!targetOrReplace || targetOrReplace === true || targetOrReplace === this.data) {
       clearTimeout(this._tid!);
@@ -240,15 +240,15 @@ export class StoreById<K extends string> {
  * };
  *  const d = new StoreByIDB<SelfKeyPath<Config>>()
  */
-export class StoreByIDB<K extends string> {
+export class StoreByIDB<K extends string, T extends Obj = Obj> {
   id: string;
   table: string;
-  data!: Obj;
+  data!: T;
   onsuccess?: () => void;
   onerror!: (e: Event) => void;
   private _tid!: TimeoutId | null;
   private _idb!: IDBDatabase;
-  constructor(id?: string, table?: string | null, data?: Obj) {
+  constructor(id?: string, table?: string | null, data?: T) {
     this.id = id || '-';
     this.table = table || this.id;
     const openRequest = indexedDB.open(this.id, 1);
@@ -282,8 +282,8 @@ export class StoreByIDB<K extends string> {
    * @example getVal('login.agree')
    * getVal<false>('login.remember')
    */
-  getVal<T = any>(keyPath: K, target?: Obj) {
-    return getPathValue<T>(target || this.data, keyPath);
+  getVal<V = any>(keyPath: K, target?: Obj) {
+    return getPathValue<V>(target || this.data, keyPath);
   }
   /**
    * 以点语法修改配置，支持链式调用
@@ -296,10 +296,15 @@ export class StoreByIDB<K extends string> {
    * @example
    * setVal('login.agree.read', true)
    * 若不存在 {login: {agree: {read: any}}}，也可保存成功，且保存后的对象为 {login: {agree: {read: true}}}
+   *
+   * // 移除键
+   * setVal('login.agree.read', undefined, {useJSON: true})
+   * // 将值设为undefined但不移除该键
+   * setVal('login.agree.read')
    */
   setVal(
     keyPath: K,
-    value: any,
+    value?: any,
     {
       deep,
       useJSON,
@@ -362,7 +367,7 @@ export class StoreByIDB<K extends string> {
           })
       );
     } else {
-      this.data = value;
+      this.data = value as T;
     }
     if (!targetOrReplace || targetOrReplace === true || targetOrReplace === this.data) {
       clearTimeout(this._tid!);

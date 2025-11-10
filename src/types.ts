@@ -1,4 +1,4 @@
-export declare interface Obj {
+export interface Obj {
   [x: string]: any;
 }
 
