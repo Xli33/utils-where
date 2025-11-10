@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [0.3.13](https://github.com/Xli33/utils-where/compare/v0.3.12...v0.3.13) (2025-11-10)
+
+
+### Features
+
+* 优化StoreByIDB，原型方法setVal允许省略第2个参数，并支持传入第二个泛型参数用于指定实例data的类型（同StoreById) ([078f861](https://github.com/Xli33/utils-where/commit/078f861e7cf4f4b9b928690a9a1b955eb08c1108))
+
 ## [0.3.12](https://github.com/Xli33/utils-where/compare/v0.3.11...v0.3.12) (2025-11-07)
 
 
