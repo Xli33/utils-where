@@ -695,6 +695,9 @@ type Config = {
   };
 };
 new StoreById<SelfKeyPath<Config>>().setVal('app.theme', '').getVal('user.id');
+
+// 需要访问 `data` 时获取其具体类型
+new StoreById<SelfKeyPath<Config>, Config>().data.user;
 ```
 
 - type
@@ -721,6 +724,8 @@ d.onsuccess = () => {
   console.log(d.getVal('login.agree.read') === d.getVal<true>('login.agree.read')); // true
   // 移除本地存储中的键。如果此处没有 useJSON:true，则值在 indexedDB 中将是实际的 undefined
   d.setVal('login.agree.read', undefined, { useJSON: true });
+  // 仅设置成 `undefined`
+  d.setVal('login.agree.read');
 };
 
 // 如果需要，检查键路径
@@ -736,6 +741,12 @@ type Config = {
 const d = new StoreByIDB<SelfKeyPath<Config>>();
 d.onsuccess = () => {
   d.setVal('app.theme', '').getVal('user.id');
+};
+
+// 需要访问 `data` 时获取其具体类型
+const d = new StoreById<SelfKeyPath<Config>, Config>();
+d.onsuccess = () => {
+  d.data.user;
 };
 ```
 

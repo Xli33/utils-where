@@ -700,6 +700,9 @@ type Config = {
   };
 };
 new StoreById<SelfKeyPath<Config>>().setVal('app.theme', '').getVal('user.id');
+
+// get the actual type of `data` when u need access to it
+new StoreById<SelfKeyPath<Config>, Config>().data.user;
 ```
 
 - type
@@ -726,6 +729,8 @@ d.onsuccess = () => {
   console.log(d.getVal('login.agree.read') === d.getVal<true>('login.agree.read')); // true
   // remove key in local store. if no useJSON:true here, the value will be actual undefined in indexedDB
   d.setVal('login.agree.read', undefined, { useJSON: true });
+  // or just set `undefined`
+  d.setVal('login.agree.read');
 };
 
 // check keypath if necessary
@@ -741,6 +746,12 @@ type Config = {
 const d = new StoreByIDB<SelfKeyPath<Config>>();
 d.onsuccess = () => {
   d.setVal('app.theme', '').getVal('user.id');
+};
+
+// get the actual type of `data` when u need access to it
+const d = new StoreById<SelfKeyPath<Config>, Config>();
+d.onsuccess = () => {
+  d.data.user;
 };
 ```
 
