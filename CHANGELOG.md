@@ -1,6 +1,17 @@
 # Changelog
 
 
+## [0.4.0](https://github.com/Xli33/utils-where/compare/v0.3.13...v0.4.0) (2025-11-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* 对调 StoreById 与 StoreByIDB 的泛型参数顺序，第一个为 data 类型，第二个为有效键路径
+
+### Features
+
+* 对调 StoreById 与 StoreByIDB 的泛型参数顺序，第一个为 data 类型，第二个为有效键路径 ([6588f62](https://github.com/Xli33/utils-where/commit/6588f62fcf01a9bfcb36e147a701d4b8c924cd99))
+
 ## [0.3.13](https://github.com/Xli33/utils-where/compare/v0.3.12...v0.3.13) (2025-11-10)
 
 
