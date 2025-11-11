@@ -689,7 +689,6 @@ new StoreById('app2', {
     }
   });
 
-// check keypath if necessary
 type Config = {
   user: {
     id: string;
@@ -699,16 +698,18 @@ type Config = {
     theme: string;
   };
 };
-new StoreById<SelfKeyPath<Config>>().setVal('app.theme', '').getVal('user.id');
 
 // get the actual type of `data` when u need access to it
-new StoreById<SelfKeyPath<Config>, Config>().data.user;
+new StoreById<Config>().data.user;
+
+// check keypath if necessary
+new StoreById<Config, SelfKeyPath<Config>>().setVal('app.theme', '').getVal('user.id');
 ```
 
 - type
 
 ```ts
-StoreById<K extends string>(id?: string | null, data?: Obj): StoreById
+StoreById<T extends Obj = Obj, K extends string = string>(id?: string | null, data?: T): StoreById<T, K>
 ```
 
 `StoreByIDB`  
@@ -733,7 +734,6 @@ d.onsuccess = () => {
   d.setVal('login.agree.read');
 };
 
-// check keypath if necessary
 type Config = {
   user: {
     id: string;
@@ -743,22 +743,24 @@ type Config = {
     theme: string;
   };
 };
-const d = new StoreByIDB<SelfKeyPath<Config>>();
-d.onsuccess = () => {
-  d.setVal('app.theme', '').getVal('user.id');
-};
 
 // get the actual type of `data` when u need access to it
-const d = new StoreById<SelfKeyPath<Config>, Config>();
+const d = new StoreByIDB<Config>();
 d.onsuccess = () => {
   d.data.user;
+};
+
+// check keyPath if necessary
+const d = new StoreByIDB<Config, SelfKeyPath<Config>>();
+d.onsuccess = () => {
+  d.setVal('app.theme', '').getVal('user.id');
 };
 ```
 
 - type
 
 ```ts
-StoreByIDB<K extends string>(id?: string, table?: string | null, data?: Obj): StoreByIDB
+StoreByIDB<T extends Obj = Obj, K extends string = string>(id?: string, table?: string | null, data?: T): StoreByIDB<T, K>
 ```
 
 `Countdown`  
