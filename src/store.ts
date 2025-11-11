@@ -108,7 +108,7 @@ export class StoreSimply<T extends object> {
  *     theme: string;
  *   };
  * };
- * new StoreById<SelfKeyPath<Config>>()
+ * new StoreById<Config, SelfKeyPath<Config>>()
  */
 export class StoreById<T extends Obj = Obj, K extends string = string> {
   id: string;
@@ -238,7 +238,7 @@ export class StoreById<T extends Obj = Obj, K extends string = string> {
  *     theme: string;
  *   };
  * };
- *  const d = new StoreByIDB<SelfKeyPath<Config>>()
+ *  const d = new StoreByIDB<Config, SelfKeyPath<Config>>()
  */
 export class StoreByIDB<T extends Obj = Obj, K extends string = string> {
   id: string;
