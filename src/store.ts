@@ -110,7 +110,7 @@ export class StoreSimply<T extends object> {
  * };
  * new StoreById<SelfKeyPath<Config>>()
  */
-export class StoreById<K extends string, T extends Obj = Obj> {
+export class StoreById<T extends Obj = Obj, K extends string = string> {
   id: string;
   data: T;
   private _tid!: TimeoutId | null;
@@ -240,7 +240,7 @@ export class StoreById<K extends string, T extends Obj = Obj> {
  * };
  *  const d = new StoreByIDB<SelfKeyPath<Config>>()
  */
-export class StoreByIDB<K extends string, T extends Obj = Obj> {
+export class StoreByIDB<T extends Obj = Obj, K extends string = string> {
   id: string;
   table: string;
   data!: T;
