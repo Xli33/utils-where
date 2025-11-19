@@ -67,8 +67,9 @@ getPathValue<'str'>(obj, 'first.second.third', true) => {isValidKeys: true, vali
 - type
 
 ```ts
-serialize<T = any>(obj: Obj, keyPath: string, check: true): { isValidKeys: boolean; validKeys: string; value: T };
-serialize<T = any>(obj: Obj, keyPath: string, check?: any): T;
+getPathValue<T = any>(obj: Obj, keyPath: string): T;
+getPathValue<T = any>(obj: Obj, keyPath: string, check: false | undefined): T;
+getPathValue<T = any>(obj: Obj, keyPath: string, check: true): { isValidKeys: boolean; validKeys: string; value: T };
 ```
 
 `makeObjectByPath`  
