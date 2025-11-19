@@ -1,4 +1,4 @@
-import { serialize, getPathValue, makeObjectByPath, setPathValue, Emitter, onlyify } from '../src/usual';
+import { serialize, getPathValue, makeObjectByPath, setPathValue, Emitter, onlyify, omitOwnKeys } from '../src/usual';
 
 describe('usual modules', () => {
   test('serialize', () => {
@@ -95,5 +95,16 @@ describe('usual modules', () => {
     expect(
       onlyify(arr, (res, from) => arr.findLast((e) => e.id === from.id) === from && res.every((e) => e.id !== from.id))
     ).toEqual([{ id: 2 }, { id: 1, num: 3 }]);
+  });
+  test('omitOwnKeys', () => {
+    expect(omitOwnKeys({ a: 1, b: 2 }, ['b'])).toEqual({
+      a: 1
+    });
+    expect(omitOwnKeys({ a: 1, b: 2 } as const, ['b'] as const)).toEqual({
+      a: 1
+    });
+    expect(omitOwnKeys<{ a: 1; b: 2 }, ['a']>({ a: 1, b: 2 }, ['a'])).toEqual({
+      b: 2
+    });
   });
 });
