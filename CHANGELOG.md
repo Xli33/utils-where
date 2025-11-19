@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [0.4.2](https://github.com/Xli33/utils-where/compare/v0.4.1...v0.4.2) (2025-11-19)
+
+
+### Features
+
+* usual模块添加函数 `omitOwnKeys`：返回去除指定自有属性的新对象或原对象 ([f7416d5](https://github.com/Xli33/utils-where/commit/f7416d50a9b7e15f08366c004ed2d9316be8a634))
+
 ## [0.4.1](https://github.com/Xli33/utils-where/compare/v0.4.0...v0.4.1) (2025-11-19)
 
 
