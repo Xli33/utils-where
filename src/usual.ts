@@ -46,12 +46,13 @@ export function makeObjectByPath(keyPath: string, value?: any) {
  * getPathValue({a: {b: null}}, 'a.b', true) => {isValidKeys: true, validKeys: 'a.b', value: null}
  * getPathValue<null>({a: {b: null}}, 'a.b', true) => {isValidKeys: true, validKeys: 'a.b', value: null}
  */
+export function getPathValue<T = any>(obj: Obj, keyPath: string): T;
+export function getPathValue<T = any>(obj: Obj, keyPath: string, check: false | undefined): T;
 export function getPathValue<T = any>(
   obj: Obj,
   keyPath: string,
   check: true
 ): { isValidKeys: boolean; validKeys: string; value: T };
-export function getPathValue<T = any>(obj: Obj, keyPath: string, check?: any): T;
 export function getPathValue(obj: Obj, keyPath: string, check?: boolean) {
   if (!obj || typeof obj !== 'object' || !keyPath) {
     console.warn('wrong obj or keyPath');
