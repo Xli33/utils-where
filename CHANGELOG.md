@@ -1,6 +1,14 @@
 # Changelog
 
 
+## [0.4.1](https://github.com/Xli33/utils-where/compare/v0.4.0...v0.4.1) (2025-11-19)
+
+
+### Bug Fixes
+
+* 优化deepMerge，优先尝试执行skipHandle，避免判断到自赋值时直接continue而漏跑skipHandle ([4dbe245](https://github.com/Xli33/utils-where/commit/4dbe2450cc2a5aa24b3043377027310a6c43bafe))
+* 优化getPathValue的重载声明 ([1877ae3](https://github.com/Xli33/utils-where/commit/1877ae3812ae4a1dfa9df806f2c86677979436d7))
+
 ## [0.4.0](https://github.com/Xli33/utils-where/compare/v0.3.13...v0.4.0) (2025-11-11)
 
 
