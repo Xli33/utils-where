@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [0.4.3](https://github.com/Xli33/utils-where/compare/v0.4.2...v0.4.3) (2025-12-09)
+
+
+### Features
+
+* 新增 `polling` 方法，轮询给定函数 ([45e10ab](https://github.com/Xli33/utils-where/commit/45e10aba0ac0253451189d00acc978afbe164eb2))
+
 ## [0.4.2](https://github.com/Xli33/utils-where/compare/v0.4.1...v0.4.2) (2025-11-19)
 
 
