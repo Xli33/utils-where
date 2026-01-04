@@ -627,12 +627,13 @@ export const Scrollbar: CustomBar = {
     const css = document.createElement('style'),
       targetClass = '.scroller',
       barClass = '.scrollbar',
-      notRule = ':not(.baring):not(.show-bar)';
+      notRule = ':not(.baring):not(.show-bar)',
+      inherit = 'inherit';
 
     css.textContent =
       `body :has(>${targetClass}){position:relative}${targetClass}{scrollbar-width:none}${targetClass}::-webkit-scrollbar{display:none;width:0;height:0}` +
       `${targetClass}:not(html){overflow:auto}${targetClass}${notRule}>body>${barClass},${targetClass}${notRule}~${barClass}{visibility:hidden;opacity:0}` +
-      `${targetClass}.fill{height:inherit;min-height:inherit;max-height:inherit}${barClass}{position:absolute;z-index:10;transition:visibility .1s,opacity .1s}` +
+      `${targetClass}.fill{height:${inherit};min-height:${inherit};max-height:${inherit}}${barClass}{position:absolute;z-index:10;transition:visibility .1s,opacity .1s}` +
       `body>${barClass}{position:fixed}${barClass}-x{right:0;bottom:0;left:0;height:12px}${barClass}-y{top:0;right:0;bottom:0;width:12px}` +
       `${barClass}-thumb{box-sizing:border-box;position:absolute;opacity:.3;transition:padding .1s}${barClass}-thumb:hover{opacity:.5}` +
       `${barClass}-thumb:active{opacity:.7}${barClass}-thumb::before{content:"";display:block;width:100%;height:100%;background:currentColor;border-radius:5px}` +
