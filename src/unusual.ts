@@ -204,15 +204,17 @@ export function asyncCopy(val: string) {
  * @param step 取到重复值时会将 step 加到 level 上重新计算随机值，默认 50
  * @returns prefix + random uid
  */
-export function genUID(prefix?: string, level = 100, step = 50): string {
-  if (!(<Obj>genUID).uids) (<Obj>genUID).uids = [];
-  const uid = (prefix || '') + (Math.random() * level).toFixed();
-  if (!(<Obj>genUID).uids.includes(uid)) {
-    (<Obj>genUID).uids.push(uid);
-    return uid;
+export function genUID(prefix: string = '', level = 100, step = 50): string {
+  if (!(<Obj>genUID).uids) (<Obj>genUID).uids = new Set();
+  const uids: Set<string> = (<Obj>genUID).uids;
+  let uid;
+  while (true) {
+    uid = prefix + ~~(Math.random() * level);
+    if (!uids.has(uid)) break;
+    level += step;
   }
-  // 若出现重复则将 level+step 增大随机数取值范围，避免因范围过小可能导致取不到“新”的随机数而陷入死循环
-  return genUID(prefix, level + step, step);
+  uids.add(uid);
+  return uid;
 }
 
 /**
@@ -360,10 +362,10 @@ export const Scrollbar: CustomBar = {
   },
   updatePos(thumbX, thumbY, scrollTarget) {
     if (!thumbY.parentElement!.hidden) {
-      thumbY.style.top = +(thumbY._ratio * scrollTarget.scrollTop).toFixed(0) + 'px'; //(100 * scrollTarget.scrollTop) / scrollTarget.scrollHeight + '%'
+      thumbY.style.transform = `translateY(${~~(thumbY._ratio * scrollTarget.scrollTop)}px)`; //(100 * scrollTarget.scrollTop) / scrollTarget.scrollHeight + '%'
     }
     if (!thumbX.parentElement!.hidden) {
-      thumbX.style.left = +(thumbX._ratio * scrollTarget.scrollLeft).toFixed(0) + 'px'; //(100 * scrollTarget.scrollLeft) / scrollTarget.scrollWidth + '%'
+      thumbX.style.transform = `translateX(${~~(thumbX._ratio * scrollTarget.scrollLeft)}px)`; //(100 * scrollTarget.scrollLeft) / scrollTarget.scrollWidth + '%'
     }
   },
   getDownData(dir, bar, thumb, scrollTarget) {
@@ -379,22 +381,20 @@ export const Scrollbar: CustomBar = {
     return {
       distance,
       // ratio,
-      lastScroll: +(scrollTarget[arr[3]] * thumb._ratio).toFixed(0) //thumb.getBoundingClientRect().top - bar.getBoundingClientRect().top
+      lastScroll: ~~(scrollTarget[arr[3]] * thumb._ratio) //thumb.getBoundingClientRect().top - bar.getBoundingClientRect().top
       // fromX: e.clientX,
     };
   },
   mouseMove(dir, type, pos, distance, /*ratio,*/ thumb, scrollTarget) {
     pos = pos <= 0 ? 0 : pos >= distance ? distance : pos;
-    thumb.style[dir] = pos + 'px';
+    thumb.style.transform = `translate${dir}(${pos}px)`;
     // setTimeout(() => {
-    scrollTarget[type] = +(pos / thumb._ratio).toFixed(0);
+    scrollTarget[type] = ~~(pos / thumb._ratio); // (pos / ratio) + .5 | 0 接近 ~~ 的效率同时四舍五入
     // })
     // scrollTarget.scroll({
     // 	[dir]: pos / ratio,
     // 	// behavior: Math.abs((pos - (this.prev || 0))) / distance >= .1 ?  'smooth' : 'auto'
     // })
-    // console.log(distance, Math.abs((pos - (this.prev || 0))) / distance >= .1)
-    // if(this.prev !== pos) this.prev = pos
   },
   // document上触发mouseup时解绑相关事件，并设置在捕获阶段以保证触发，因为滚动条祖先元素可以阻止事件冒泡
   addMouseUp(onmousemove, listenOn, scrollTarget, onScroll) {
@@ -538,7 +538,7 @@ export const Scrollbar: CustomBar = {
               { distance, /*ratio,*/ lastScroll } = this.getDownData('X', barX, thumbX, scrollTarget);
             onmousemove = (te) => {
               this.mouseMove(
-                'left',
+                'X',
                 'scrollLeft',
                 lastScroll + te.clientX - fromX,
                 distance,
@@ -556,7 +556,7 @@ export const Scrollbar: CustomBar = {
               { distance, /*ratio,*/ lastScroll } = this.getDownData('Y', barY, thumbY, scrollTarget);
             onmousemove = (te) => {
               this.mouseMove(
-                'top',
+                'Y',
                 'scrollTop',
                 lastScroll + te.clientY - fromY,
                 distance,

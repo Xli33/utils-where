@@ -127,7 +127,7 @@ export type CustomBar = {
     lastScroll: number;
   };
   mouseMove: (
-    dir: 'top' | 'left',
+    dir: 'X' | 'Y',
     type: 'scrollTop' | 'scrollLeft',
     pos: number,
     distance: number,
