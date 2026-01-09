@@ -1,3 +1,4 @@
+import { readFileSync, writeFileSync } from 'node:fs';
 import { /* readdir, unlink , */ copyFile, rename } from 'node:fs/promises';
 
 // to handle .d.ts
@@ -27,9 +28,12 @@ import { /* readdir, unlink , */ copyFile, rename } from 'node:fs/promises';
 //     console.error('read the dist directory failed, ' + err);
 //   });
 
-// // remove the unecessary
-// unlink(dist + 'tsconfig.tsbuildinfo').catch(() => {});
-// unlink(dist + 'tsconfig.esm.tsbuildinfo').catch(() => {});
+writeFileSync(
+  'dist/esm/index.d.ts',
+  readFileSync('dist/esm/index.d.ts', 'utf-8')
+    .replace(/}\s*declare module "utils-where" {/g, '')
+    .replace('export interface Obj', 'interface Obj')
+);
 
 copyFile('types/events.d.ts', 'dist/events.d.ts').catch((err) => {
   console.warn(`failed to copy src/events.d.ts and the error is:`, err);
