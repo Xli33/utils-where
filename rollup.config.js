@@ -1,5 +1,6 @@
 import typescript from '@rollup/plugin-typescript';
-import flatDts from 'rollup-plugin-flat-dts';
+// import flatDts from 'rollup-plugin-flat-dts';
+import { dts } from 'rollup-plugin-dts';
 
 const plugins = [
   typescript({
@@ -31,21 +32,31 @@ export default [
       },
       {
         file: 'dist/esm/index.js',
-        format: 'esm',
-        plugins: flatDts({
-          // entries: {
-          //   index: {
-          //     file: 'index.d.ts'
-          //   }
-          // },
-          // file: 'index.d.ts',
-          tsconfig: {
-            files: ['src/index.ts']
-          }
-        })
+        format: 'esm'
+        // plugins: flatDts({
+        //   // entries: {
+        //   //   index: {
+        //   //     file: 'index.d.ts'
+        //   //   }
+        //   // },
+        //   // file: 'index.d.ts',
+        //   tsconfig: {
+        //     files: ['src/index.ts']
+        //   }
+        // })
       }
     ],
     plugins
+  },
+  {
+    input: 'src/index.ts',
+    output: [
+      {
+        file: 'dist/index.d.ts',
+        format: 'es'
+      }
+    ],
+    plugins: [dts()]
   },
   {
     input: 'src/validator.ts',
@@ -61,22 +72,32 @@ export default [
       {
         file: 'dist/esm/validator.js',
         // dir: 'dist/esm',
-        format: 'esm',
-        plugins: flatDts({
-          // entries: {
-          //   validator: {
-          //     file: 'validator.d.ts'
-          //   }
-          // },
-          file: 'validator.d.ts',
-          moduleName: 'utils-where/validator',
-          tsconfig: {
-            files: ['src/validator.ts']
-          }
-        })
+        format: 'esm'
+        // plugins: flatDts({
+        //   // entries: {
+        //   //   validator: {
+        //   //     file: 'validator.d.ts'
+        //   //   }
+        //   // },
+        //   file: 'validator.d.ts',
+        //   moduleName: 'utils-where/validator',
+        //   tsconfig: {
+        //     files: ['src/validator.ts']
+        //   }
+        // })
       }
     ],
     plugins
+  },
+  {
+    input: 'src/validator.ts',
+    output: [
+      {
+        file: 'dist/validator.d.ts',
+        format: 'es'
+      }
+    ],
+    plugins: [dts()]
   }
 ];
 
