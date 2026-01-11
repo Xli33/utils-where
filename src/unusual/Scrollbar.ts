@@ -1,239 +1,133 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
-import type { List, Obj, CustomBar, Scroller, Thumb } from './types';
-import { getPathValue } from './usual';
 
 /**
- * 替换字符串中的 "%s"
- *
- * 当第二个参数是对象时，以相应的属性值替换字符串中的“{}”插值部分
- *
- * @returns string
- * @example sprintf('hel %s %s', 'l', 'o');
- * sprintf('he{a} {b.c}', {a: 'l', b: {c: 'lo'}})
+ * 滚动容器，即可滚动的元素自身，其overflow应为auto/scroll
  */
-// export function sprintf(...[str, ...args]: [string, ...((string | number)[] | [object])]): string {
-export function sprintf(str: string, ...args: (string | number)[] | [object]) {
-  if (typeof str !== 'string') {
-    console.warn('the 1st argument must be a string!');
-    return '';
-  }
-
-  // if(rep == undefined) return str
-  const rep = args[0];
-  if (typeof rep === 'string' || typeof rep === 'number') {
-    /*var i
-        for (i = 1; i < argLen; i++) {
-            str = str.replace('%s', arguments[i])
-        }
-        return str*/
-
-    let i = 0;
-    return str.replace(/%s/g, () => <string>args[i++] ?? '%s');
-  }
-
-  // e.g. the return value of sprintf('{a.b}', {a: {b: 33}}) should be string 33
-  if (rep != null && typeof rep === 'object') {
-    // const chars = str.match(/{[^{}]+}/g);
-    // if (chars) {
-    //   for (const v of chars) {
-    //     str = str.replace(v, getPath(rep, v.replace(/[{}]/g, '')) ?? '');
-    //   }
-    // }
-    // return str;
-    return str.replace(/{[^{}]+}/g, (v) => getPathValue(rep, v.replace(/[{}]/g, '')) ?? '');
-  }
-
-  return str;
-}
-
+type Scroller = HTMLElement & {
+  _scrollAt: number | null;
+  _scrollTid: number | null;
+  _scrollbars?: {
+    barX: HTMLElement;
+    barY: HTMLElement;
+    // [x:string]: Element
+  } | null;
+};
 /**
- * 移动数组某项
- * @param arr 数组
- * @param from 移动前的index
- * @param to 移动后的index
+ * 滚动条滑块
  */
-export function moveArrItem(arr: any[], from: number, to: number) {
-  if (Array.isArray(arr) && arr.length > 0 && from != undefined && to != undefined) {
-    arr.splice(to, 0, ...arr.splice(from, 1));
-  }
-  return arr;
-}
-
+type Thumb = HTMLElement & {
+  _ratio: number;
+};
 /**
- * 获取滚动条尺寸
- * @param force 是否重新计算一次
- * @returns 滚动条尺寸
+ * 内容区域，为了便于监测到内容改动导致的尺寸变化
  */
-export function getScrollBarSize(force?: boolean): number {
-  if (force || (<Obj>getScrollBarSize).barSize === undefined) {
-    const outer = document.createElement('div'),
-      style = outer.style;
-    style.position = 'absolute';
-    style.top = '0';
-    style.left = '0';
-    style.zIndex = '-1';
-    style.visibility = 'hidden';
-    style.width = '50px';
-    style.height = '50px';
-    style.overflow = 'scroll';
-    style.pointerEvents = 'none';
-    document.body.appendChild(outer);
-    (<Obj>getScrollBarSize).barSize = outer.offsetWidth - outer.clientWidth;
-    document.body.removeChild(outer);
-  }
-  return (<Obj>getScrollBarSize).barSize;
-}
-
-export function isObject(obj: any) {
-  return obj != null && typeof obj === 'object';
-  // return Object.prototype.toString.call(obj) === '[object Object]';
-}
-
+type List = HTMLElement & {
+  _barUpdated: boolean | null;
+  _scrollbars: [barX: HTMLElement, barY: HTMLElement] | null;
+};
 /**
- * 深度合并对象与数组。仅检测对象自身的可枚举属性，忽略继承而来的
- * @param target 待合并的目标对象或数组
- * @param source 深度合并至target的对象或数组
- * @param skipHandle 单独处理合并过程中的每一项，返回Truthy则不进行深度合并
- * @returns target
+ * 自定义滚动条对象
  */
-export function deepMerge(
-  target: Obj,
-  source: Obj,
-  skipHandle?: (key: string, target: Obj, from: any) => boolean | void
-) {
-  if (!target || !source) return target;
-  // 只合并 source 自身可枚举属性，不处理不可枚举及原型上的属性
-  for (const [k, v] of Object.entries(source)) {
-    // 优先尝试执行skipHandle，避免当 v === target[k] 时直接continue而漏执行skipHandle
-    if (typeof skipHandle === 'function' && skipHandle(k, target, v)) continue;
-    // 检测 target 上是否存在键 k，避免当 v 是 undefined 且 target 也木有键 k 时直接continue了，从而导致target上没有加上新的 k 键
-    if (Object.hasOwn(target, k) && v === target[k]) continue;
-    if (isObject(v) && isObject(target[k])) {
-      deepMerge(target[k], v, skipHandle);
-    } else {
-      target[k] = v;
-    }
-  }
-  return target;
-}
-
-/**
- * 根据给定索引删除源数组对应项
- * @param arr any[]
- * @param indexes 包含待删除索引的数组
- * @returns 包含被删除项的数组
- * @example delArrItem([null, 5, 'as', {}, false], [3,1,7]) => [5, {}]
- */
-export function delArrItem(arr: any[], indexes: number[]) {
-  if (!Array.isArray(arr) || !Array.isArray(indexes)) return [];
-  const len = arr.length,
-    res: any[] = [];
-  new Set(indexes.filter((e) => e >= 0 && e < len).sort((a, b) => b - a)).forEach((e) => {
-    res.unshift(arr.splice(e, 1)[0]);
-  });
-  return res;
-}
-
-/**
- * 从arr中删除items里的元素
- * @param arr 需要删除指定项的数组
- * @param items 要从arr中移除掉的项
- * @returns 删除了给定项的源数组arr
- * @example delArrItemByVal([2, '', alert, console, false, NaN], ['', alert, console, NaN]) => [2, false]
- */
-export function delArrItemByVal(arr: any[], items: any[]) {
-  if (!Array.isArray(arr) || !Array.isArray(items)) return arr;
-  let index;
-  for (const v of items) {
-    // 唯一与自身不等的只有NaN，indexOf使用严格相等（与 === 运算符使用的算法相同），故indexOf(NaN)结果是 -1。此处通过findIndex单独查找NaN的索引
-    index = !Number.isNaN(v) ? arr.indexOf(v) : arr.findIndex((e) => Number.isNaN(e) /* e !== e */);
-    index > -1 && arr.splice(index, 1);
-  }
-  return arr;
-}
-
-/**
- * 复制到剪贴板
- * @param val
- * @returns boolean
- */
-export function setClipboard(val: string) {
-  if (!val) return;
-  const el = document.createElement('textarea');
-  el.value = val;
-  el.readOnly = true;
-  el.style.position = 'fixed';
-  el.style.top = '0';
-  el.style.left = '0';
-  el.style.zIndex = '-1';
-  el.style.opacity = '0';
-  document.body.appendChild(el);
-  el.select();
-  el.setSelectionRange(0, val.length);
-  const res = document.execCommand('copy');
-  el.remove();
-  return res;
-}
-
-/**
- * 异步复制到剪贴板
- * @param val
- * @returns Promise<void> | Promise<boolean | undefined>
- *
- * @example
- * const res = await asyncCopy('1')
- */
-export function asyncCopy(val: string) {
-  /*
-   * 由于浏览器对clipboard的支持比 ?. 早的多，按理来说支持 ?. 的一定支持clipboard，此处的 clipboard?.writeText 应当是无意义的，可以改成 clipboard ? clipboard.writeText : Promise.resolve
-   * 但考虑到clipboard仅在安全域下可用，在非localhost域的http站点上是无法访问clipboard的，即使客户端支持 ?. 写法，所以此处可以考虑依旧用clipboard?.writeText
-   * 并且最终打包时是否要兼容不支持 ?. 的老平台也是由开发者决定的，综上此处还是使用 ?.writeText
+type CustomBar = {
+  /**
+   * 是否禁用自定义滚动条。默认在移动端上停用
+   *
+   * 可按需修改生效条件如 Scrollbar.disabled = Scrollbar.disabled && /Firefox|Linux|Macintosh/.test(navigator.userAgent)
    */
-  return val
-    ? navigator.clipboard
-        ?.writeText(val)
-        .then(() => true)
-        .catch(() => setClipboard(val)) || Promise.resolve(setClipboard(val))
-    : Promise.resolve();
-}
-
-/**
- * 使用给定string结合随机数生成唯一id
- * @param prefix id前缀，默认无前缀
- * @param level 调用Math.random时的取值范围，默认 100
- * @param step 取到重复值时会将 step 加到 level 上重新计算随机值，默认 50
- * @returns prefix + random uid
- */
-export function genUID(prefix: string = '', level = 100, step = 50): string {
-  if (!(<Obj>genUID).uids) (<Obj>genUID).uids = new Set();
-  const uids: Set<string> = (<Obj>genUID).uids;
-  let uid;
-  while (true) {
-    uid = prefix + ~~(Math.random() * level);
-    if (!uids.has(uid)) break;
-    level += step;
-  }
-  uids.add(uid);
-  return uid;
-}
-
-/**
- * 通过id判断性别 1：男，2：女
- * @param id
- * @returns 1: male, 2: female
- */
-export function getSexById(id: string) {
-  return id ? (Number(id.slice(-2, -1)) % 2 !== 0 ? 1 : 2) : null;
-}
-
-/**
- * 通过id获取出生日期
- * @param id
- * @returns YYYY-MM-DD
- */
-export function getBirthById(id: string) {
-  return id ? id.slice(6, 14).replace(/(\d{4})(\d{2})/, '$1-$2-') : '';
-}
+  disabled: boolean;
+  /**
+   * 是否在使用滚动条时清除页面已选项，默认禁用
+   */
+  clearSelection: boolean | null;
+  /**
+   * 是否在使用滚动条时阻止（chromium）默认的selectstart事件，默认禁用
+   */
+  stopSelect: boolean | null;
+  /**
+   * 是否监听body&html的样式变化从而切换window的滚动条，默认禁用
+   *
+   * 如需要展示modal时，通常组件会将body的overflow改为hidden从而隐藏滚动条以及避免scroll chaining
+   */
+  watchPageStyle: boolean | null;
+  /**
+   * @description
+   * 更新滚动条尺寸后是否同步位置
+   */
+  syncPos: boolean | null;
+  _stylingPage: boolean | null;
+  stylingPage: boolean | null;
+  pageWatcher?: MutationObserver | null;
+  sizeWatcher?: ResizeObserver | null;
+  scrollerWatcher?: ResizeObserver;
+  getBar: (el: HTMLElement) => {
+    isPage: boolean;
+    barX?: HTMLElement;
+    barY?: HTMLElement;
+    thumbX?: Thumb;
+    thumbY?: Thumb;
+    scrollTarget: Scroller;
+  };
+  /**
+   * 移除滚动条，无需手动调用
+   *
+   * @param el 使用Scrollbar.attach附加过滚动条的元素
+   */
+  remove: (el: Scroller) => void;
+  /**
+   * 对指定元素附加自定义滚动条
+   *
+   * @param el html元素
+   * @returns this
+   *
+   * @example
+   * // 只给窗口本身使用时仅需为html添加scroller类并调用attach，无需传参
+   * <html class="scroller"> & Scrollbar.attach()
+   * @example
+   * // 给局部元素使用，为便于监测滚动容器&内容区域的尺寸变化，应符合类似下列结构
+   * <!-- 用于包裹滚动容器&滚动条的非静态定位元素，添加定位属性如style="position:relative"以适配不支持原生:has()的环境 -->
+   * <div style="width:200px;height:200px">
+   *  <!-- 滚动容器。必须添加scroller类，添加fill类以继承父元素高度（便于调整样式） -->
+   *  <div class="scroller fill">
+   *   <!-- 内容区域，如列表 -->
+   *   <div id="list"></div>
+   *  </div>
+   * </div>
+   *
+   * Scrollbar.attach(document.getElementById('list'))
+   *
+   * // attach支持链式调用
+   * Scrollbar.attach().attach(document.querySelector('.list'))
+   */
+  attach: (el?: HTMLElement | null) => CustomBar;
+  init?: () => void;
+  updateBar: (container: HTMLElement) => void;
+  updatePos: (thumbX: Thumb, thumbY: Thumb, scrollTarget: HTMLElement) => void;
+  getDownData: (
+    dir: 'X' | 'Y',
+    bar: HTMLElement,
+    thumb: Thumb,
+    scrollTarget: HTMLElement
+  ) => {
+    distance: number;
+    lastScroll: number;
+  };
+  mouseMove: (
+    dir: 'X' | 'Y',
+    type: 'scrollTop' | 'scrollLeft',
+    pos: number,
+    distance: number,
+    thumb: Thumb,
+    scrollTarget: HTMLElement
+  ) => void;
+  addMouseUp: (
+    onmousemove: (e: MouseEvent) => void,
+    listenOn: Scroller | Window,
+    scrollTarget: Scroller,
+    onScroll: () => void
+  ) => void;
+  showBar: (this: Scroller) => void;
+  hideBar: (obj: Scroller) => void;
+};
 
 /**
  * 自定义滚动条对象

@@ -10,7 +10,7 @@ const plugins = [
 
 export default [
   {
-    input: 'src/events.ts',
+    input: 'src/events/index.ts',
     output: [
       {
         file: 'dist/cjs/events.cjs',
@@ -59,7 +59,7 @@ export default [
     plugins: [dts()]
   },
   {
-    input: 'src/validator.ts',
+    input: 'src/validator/index.ts',
     // input: {
     //   validator: 'src/validator.ts'
     // },
@@ -90,7 +90,7 @@ export default [
     plugins
   },
   {
-    input: 'src/validator.ts',
+    input: 'src/validator/index.ts',
     output: [
       {
         file: 'dist/validator.d.ts',

@@ -22,4 +22,4 @@ declare interface Node {
   }[];
 }
 
-declare module 'utils-where/events' {}
+// declare module 'utils-where/events' {}

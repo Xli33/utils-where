@@ -15,6 +15,6 @@
     // "noEmitOnError": true
     // "typeRoots": ["./node_modules/@types", "./src"] // 由于同目录下与.ts同名的.d.ts会被ts忽略，可以将该.d.ts强制加入typeRoots以使ts识别到，但非必要不建议改typeRoots
   },
-  "include": ["src/*.ts", "types/*.d.ts"],
+  "include": ["src/**/*.ts", "types/*.d.ts"],
   "exclude": ["__tests__/"]
 }

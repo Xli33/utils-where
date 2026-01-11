@@ -1,4 +1,4 @@
-import type { TimeoutId } from './types';
+import type { TimeoutId } from '../types';
 
 /**
  * add custom longpress event for Node instance, default timeout is 500ms, which could be set by Node's _longPressDelay /
