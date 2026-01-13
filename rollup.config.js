@@ -57,8 +57,8 @@ export default [
       }
     ],
     plugins: [dts()]
-  },
-  {
+  }
+  /* {
     input: 'src/validator/index.ts',
     // input: {
     //   validator: 'src/validator.ts'
@@ -98,7 +98,7 @@ export default [
       }
     ],
     plugins: [dts()]
-  }
+  } */
 ];
 
 // export default  {
