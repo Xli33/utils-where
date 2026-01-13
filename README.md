@@ -4,7 +4,8 @@ English | [简体中文](README.zh-CN.md)
 
 pure js utils for web, original output for minimal integration, without any dependency
 
-taking advantage of modern features (e.g. `?.` `??`) and providing minimal size, **it contains neither syntax transformation nor api polyfill**
+taking advantage of modern features (e.g. `?.` `??`) and providing minimal size, **it contains neither syntax transformation nor api polyfill**  
+Determine your backward compatibility needs according to your actual use case (e.g., using `vite`, or only adding polyfills through `core-js`).
 
 ## Install
 
