@@ -1,14 +1,14 @@
 /**
  * 验证手机号
- * @param val
- * @param lazy 是否仅判断1开头的号码长度而不验证具体格式
+ * @param str
  * @returns boolean
  */
-export function checkMobile(val: string, lazy?: boolean) {
-  if (typeof val !== 'string') val = val + '';
-  return (
-    !lazy ? /^((13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8})$/ : /^1\d{10}$/
-  ).test(val);
+export function checkMobile(str: string) {
+  if (typeof str !== 'string') str = str + '';
+  return /^1[3-9]\d{9}$/.test(str);
+  // return (
+  //   !lazy ? /^((13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8})$/ : /^1\d{10}$/
+  // ).test(str);
 }
 
 // export const asyncCheckMobile = (
@@ -26,78 +26,90 @@ export function checkMobile(val: string, lazy?: boolean) {
 
 /**
  * 验证固话
- * @param val
+ * @param str
  * @returns boolean
  */
-export function checkTel(val: string) {
-  if (typeof val !== 'string') val = val + '';
-  return /^\d{3}-\d{7,8}|\d{4}-\d{7,8}$/.test(val);
+export function checkTel(str: string) {
+  if (typeof str !== 'string') str = str + '';
+  return /^(\d{3,4}-?)?\d{7,8}$/.test(str);
 }
 
 /**
  * 验证邮箱
- * @param val
+ * @param str
  * @returns boolean
  */
-export function checkMail(val: string) {
-  if (typeof val !== 'string') val = val + '';
-  return /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/.test(val);
+export function checkMail(str: string) {
+  if (typeof str !== 'string') str = str + '';
+  return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(
+    str
+  );
 }
 
 /**
  * 验证身份证
- * @param val
+ * @param str
  * @returns boolean
  */
-export function checkID(val: string) {
-  if (typeof val !== 'string') val = val + '';
-  return /^[1-9][0-9]{5}(19|20)[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|30|31)|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}([0-9]|x|X)$/.test(
-    val
-  );
+export function checkID(str: string) {
+  if (typeof str !== 'string') str = str + '';
+  if (!/^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9X]$/.test(str)) {
+    return false;
+  }
+  // 校验码加权求和算法 (ISO 7064:1983.MOD 11-2)
+  const weights = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+  const codes = '10X98765432';
+  let sum = 0;
+  for (let i = 0; i < 17; i++) {
+    sum += parseInt(str[i]) * weights[i];
+  }
+  return codes[sum % 11] === str[17];
 }
 
 /**
  * 验证港澳通行证
- * @param val
+ * @param str
  * @returns boolean
  */
-export function checkHKMP(val: string) {
-  if (typeof val !== 'string') val = val + '';
-  return /^[a-zA-Z0-9]{5,21}$/.test(val);
+export function checkHKMP(str: string) {
+  if (typeof str !== 'string') str = str + '';
+  return /^[a-zA-Z0-9]{5,21}$/.test(str);
 }
 
 /**
  * 匹配所有统一表意文字
- * @param val
+ * @param str
  * @returns boolean
  */
-export function checkUnifiedIdeograph(val: string) {
-  if (typeof val !== 'string') val = val + '';
-  return /\p{Unified_Ideograph}/u.test(val);
+export function checkUnifiedIdeograph(str: string) {
+  if (typeof str !== 'string') str = str + '';
+  return /\p{Unified_Ideograph}/u.test(str);
 }
 
 /**
  * 验证经度
- * @param val
+ * @param str
  * @returns boolean
  */
-export function checkLongitude(val: string) {
-  if (typeof val !== 'string') val = val + '';
-  return /^(-|\+)?(((\d|[1-9]\d|1[0-7]\d|0{1,3})\.\d{0,6})|(\d|[1-9]\d|1[0-7]\d|0{1,3})|180\.0{0,6}|180)$/.test(
-    val
-  );
+export function checkLongitude(str: string) {
+  const num = Number(str);
+  if (isNaN(num) || num < -180 || num > 180) return false;
+  if (typeof str !== 'string') str = str + '';
+  return /^-?\d+(\.\d{1,6})?$/.test(str);
 }
 
 //   const msg = '请输入正确的经度(整数部分为0-180, 小数部分为0到6位, 180时只能是0)';
 
 /**
  * 验证纬度
- * @param val
+ * @param str
  * @returns boolean
  */
-export function checkLatitude(val: string) {
-  if (typeof val !== 'string') val = val + '';
-  return /^(-|\+)?([0-8]?\d{1}\.\d{0,6}|90\.0{0,6}|[0-8]?\d{1}|90)$/.test(val);
+export function checkLatitude(str: string) {
+  const num = Number(str);
+  if (isNaN(num) || num < -90 || num > 90) return false;
+  if (typeof str !== 'string') str = str + '';
+  return /^-?\d+(\.\d{1,6})?$/.test(str);
 }
 
 //   const msg = '请输入正确的纬度(整数部分为0-90, 小数部分为0到6位, 90时只能是0)';
