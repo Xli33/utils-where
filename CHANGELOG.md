@@ -1,6 +1,26 @@
 # Changelog
 
 
+## [0.5.0](https://github.com/Xli33/utils-where/compare/v0.4.3...v0.5.0) (2026-01-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* 废弃`validator` 模块，不再提供导出
+* 仅`Func` `Truthy` `Falsy` SelfKeyPath`类型可导出到外部使用
+
+### build
+
+* 废弃`validator` 模块，不再提供导出 ([765611a](https://github.com/Xli33/utils-where/commit/765611acf91f4f7249876a5116ba5535239e8c71))
+
+
+* 仅`Func` `Truthy` `Falsy` SelfKeyPath`类型可导出到外部使用 ([1deffa8](https://github.com/Xli33/utils-where/commit/1deffa822e0f0a53736697f02d4e30e2f0c36bc2))
+
+
+### Features
+
+* 在 `unusual` 添加 `saveFile` 方法，用于保存文件到本地 ([78a6b1e](https://github.com/Xli33/utils-where/commit/78a6b1e9455a3da4da2a7e5480d7f9c739a71945))
+
 ## [0.4.3](https://github.com/Xli33/utils-where/compare/v0.4.2...v0.4.3) (2025-12-09)
 
 
