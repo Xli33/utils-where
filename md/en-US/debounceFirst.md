@@ -50,5 +50,11 @@ onmousemove = () => {
 - type
 
 ```ts
+interface DebounceFirstWrap<T extends Func> {
+  (...args: Parameters<T>): ReturnType<T> | void;
+  _tid?: number;
+  flag?: true | null;
+}
+
 debounceFirst<T extends Func>(callback: T, timeout: number): DebounceFirstWrap<T>
 ```

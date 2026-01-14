@@ -76,6 +76,9 @@ or remove the specified own properties from the given object and return the give
 [polling](./md/en-US/polling.md)  
 polls the callback and only continues the next poll after the function call
 
+[saveFile](./md/en-US/saveFile.md)  
+saves file to local
+
 [Emitter](./md/en-US/Emitter.md)  
 get an event emitter with generics
 

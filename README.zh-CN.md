@@ -73,6 +73,9 @@ yarn add utils-where
 [polling](./md/zh-CN/polling.md)  
 轮询传入的函数，仅在当次函数调用后才继续下次轮询
 
+[saveFile](./md/zh-CN/saveFile.md)  
+保存文件到本地
+
 [Emitter](./md/zh-CN/Emitter.md)  
 获取一个事件触发器，支持泛型
 

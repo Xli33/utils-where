@@ -21,5 +21,10 @@ addEventListener(
 - type
 
 ```ts
+interface DebounceLastWrap<T extends Func> {
+  (...args: Parameters<T>): void;
+  _tid?: number;
+}
+
 debounceLast<T extends Func>(callback: T, timeout: number): DebounceLastWrap<T>
 ```

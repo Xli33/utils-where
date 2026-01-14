@@ -36,6 +36,7 @@ emitter
 interface Evt {
   [x: string]: ((...args: any[]) => any)[];
 }
+
 interface Emitter<T extends Evt> {
   evts: T;
   on<K extends keyof T>(name: K, func: T[K][number]): this;
@@ -43,5 +44,6 @@ interface Emitter<T extends Evt> {
   off<K extends keyof T>(name: K, func?: T[K][number]): this;
   emit(name: keyof T, ...args: any[]): this;
 }
+
 Emitter<T extends Evt>() => Emitter<T>
 ```
