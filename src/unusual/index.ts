@@ -6,6 +6,7 @@ export * from './genUID';
 export * from './getScrollBarSize';
 export * from './isObject';
 export * from './moveArrItem';
+export * from './saveFile';
 export * from './Scrollbar';
 export * from './setClipboard';
 export * from './sprintf';
