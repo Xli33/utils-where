@@ -1,0 +1,13 @@
+<h2>genUID</h2>
+<p>生成带有给定前缀的唯一 ID</p>
+<pre class="shiki material-theme-palenight" style="background-color:#292D3E;color:#babed8" tabindex="0"><code><span class="line"><span style="color:#89DDFF;font-style:italic">import</span><span style="color:#89DDFF"> {</span><span style="color:#BABED8"> genUID</span><span style="color:#89DDFF"> }</span><span style="color:#89DDFF;font-style:italic"> from</span><span style="color:#89DDFF"> '</span><span style="color:#C3E88D">utils-where</span><span style="color:#89DDFF">'</span><span style="color:#89DDFF">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic">// 获取一个不带前缀的随机数字 ID</span></span>
+<span class="line"><span style="color:#82AAFF">genUID</span><span style="color:#BABED8">()</span><span style="color:#89DDFF">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic">// 获取一个带前缀的唯一 ID，应为 'Some' + 小于 1000 的数字</span></span>
+<span class="line"><span style="color:#82AAFF">genUID</span><span style="color:#BABED8">(</span><span style="color:#89DDFF">'</span><span style="color:#C3E88D">Some</span><span style="color:#89DDFF">'</span><span style="color:#89DDFF">,</span><span style="color:#F78C6C"> 1000</span><span style="color:#BABED8">)</span><span style="color:#89DDFF">;</span></span></code></pre>
+<ul>
+<li>type</li>
+</ul>
+<pre class="shiki material-theme-palenight" style="background-color:#292D3E;color:#babed8" tabindex="0"><code><span class="line"><span style="color:#82AAFF">genUID</span><span style="color:#BABED8">(prefix</span><span style="color:#89DDFF">?:</span><span style="color:#BABED8"> string</span><span style="color:#89DDFF">,</span><span style="color:#BABED8"> level</span><span style="color:#89DDFF">?:</span><span style="color:#BABED8"> number</span><span style="color:#89DDFF">,</span><span style="color:#BABED8"> step</span><span style="color:#89DDFF">?:</span><span style="color:#BABED8"> number): string</span></span></code></pre>

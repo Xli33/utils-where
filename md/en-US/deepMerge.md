@@ -1,4 +1,4 @@
-# deepMerge
+## deepMerge
 
 deep merge for object & array
 

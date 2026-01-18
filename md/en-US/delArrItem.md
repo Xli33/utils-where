@@ -1,4 +1,4 @@
-# delArrItem
+## delArrItem
 
 remove array items by indexes
 

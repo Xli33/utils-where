@@ -1,4 +1,4 @@
-# debounceFirst
+## debounceFirst
 
 the next call will be **sync** triggerd after `timeout` the last call went by
 

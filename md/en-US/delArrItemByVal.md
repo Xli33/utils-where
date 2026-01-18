@@ -1,4 +1,4 @@
-# delArrItemByVal
+## delArrItemByVal
 
 remove array items by equal values
 

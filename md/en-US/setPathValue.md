@@ -1,4 +1,4 @@
-# setPathValue
+## setPathValue
 
 set value in object with the key path like a.b.c
 

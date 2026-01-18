@@ -109,7 +109,7 @@ clock in pure js
 
 ### [events](./md/en-US/events.md)
 
-utils-where/events makes it possible to support "longpress" on mobile, which differs from contextmenu<br>
+`utils-where/events` makes it possible to support "longpress" on mobile, which differs from contextmenu<br>
 it simulates longpress by touchstart and touchend, **only import it when the contextmenu doesn't work as u wish!**
 
 ## ~~type list~~(deprecated)

@@ -1,4 +1,4 @@
-# Clock
+## Clock
 
 clock in pure js
 

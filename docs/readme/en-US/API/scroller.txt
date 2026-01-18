@@ -1,0 +1,30 @@
+<h2>scroller</h2>
+<p>smooth scroll content to target position</p>
+<pre class="shiki material-theme-palenight" style="background-color:#292D3E;color:#babed8" tabindex="0"><code><span class="line"><span style="color:#89DDFF;font-style:italic">import</span><span style="color:#89DDFF"> {</span><span style="color:#BABED8"> scroller</span><span style="color:#89DDFF"> }</span><span style="color:#89DDFF;font-style:italic"> from</span><span style="color:#89DDFF"> '</span><span style="color:#C3E88D">utils-where</span><span style="color:#89DDFF">'</span><span style="color:#89DDFF">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic">// try the element's smooth scroll</span></span>
+<span class="line"><span style="color:#82AAFF">scroller</span><span style="color:#BABED8">(</span><span style="color:#89DDFF">{</span></span>
+<span class="line"><span style="color:#F07178">  top</span><span style="color:#89DDFF">:</span><span style="color:#F78C6C"> 0</span></span>
+<span class="line"><span style="color:#89DDFF">}</span><span style="color:#BABED8">)</span><span style="color:#89DDFF">;</span></span>
+<span class="line"><span style="color:#676E95;font-style:italic">// scroll element[id=list]</span></span>
+<span class="line"><span style="color:#82AAFF">scroller</span><span style="color:#BABED8">(</span><span style="color:#89DDFF">{</span></span>
+<span class="line"><span style="color:#F07178">  el</span><span style="color:#89DDFF">:</span><span style="color:#BABED8"> document</span><span style="color:#89DDFF">.</span><span style="color:#82AAFF">querySelector</span><span style="color:#BABED8">(</span><span style="color:#89DDFF">'</span><span style="color:#C3E88D">#list</span><span style="color:#89DDFF">'</span><span style="color:#BABED8">)</span><span style="color:#89DDFF">,</span></span>
+<span class="line"><span style="color:#F07178">  top</span><span style="color:#89DDFF">:</span><span style="color:#F78C6C"> 0</span></span>
+<span class="line"><span style="color:#89DDFF">}</span><span style="color:#BABED8">)</span><span style="color:#89DDFF">;</span></span>
+<span class="line"><span style="color:#676E95;font-style:italic">// try other smooth scroll, done in 500ms</span></span>
+<span class="line"><span style="color:#82AAFF">scroller</span><span style="color:#BABED8">(</span><span style="color:#89DDFF">{</span></span>
+<span class="line"><span style="color:#F07178">  top</span><span style="color:#89DDFF">:</span><span style="color:#F78C6C"> 0</span><span style="color:#89DDFF">,</span></span>
+<span class="line"><span style="color:#F07178">  duration</span><span style="color:#89DDFF">:</span><span style="color:#F78C6C"> 500</span><span style="color:#89DDFF">,</span></span>
+<span class="line"><span style="color:#F07178">  type</span><span style="color:#89DDFF">:</span><span style="color:#89DDFF"> '</span><span style="color:#C3E88D">easeOut</span><span style="color:#89DDFF">'</span></span>
+<span class="line"><span style="color:#89DDFF">}</span><span style="color:#BABED8">)</span><span style="color:#89DDFF">;</span></span>
+<span class="line"><span style="color:#676E95;font-style:italic">// scroll element[id=list]</span></span>
+<span class="line"><span style="color:#82AAFF">scroller</span><span style="color:#BABED8">(</span><span style="color:#89DDFF">{</span></span>
+<span class="line"><span style="color:#F07178">  el</span><span style="color:#89DDFF">:</span><span style="color:#BABED8"> document</span><span style="color:#89DDFF">.</span><span style="color:#82AAFF">querySelector</span><span style="color:#BABED8">(</span><span style="color:#89DDFF">'</span><span style="color:#C3E88D">#list</span><span style="color:#89DDFF">'</span><span style="color:#BABED8">)</span><span style="color:#89DDFF">,</span></span>
+<span class="line"><span style="color:#F07178">  top</span><span style="color:#89DDFF">:</span><span style="color:#F78C6C"> 0</span><span style="color:#89DDFF">,</span></span>
+<span class="line"><span style="color:#F07178">  duration</span><span style="color:#89DDFF">:</span><span style="color:#F78C6C"> 500</span><span style="color:#89DDFF">,</span></span>
+<span class="line"><span style="color:#F07178">  type</span><span style="color:#89DDFF">:</span><span style="color:#89DDFF"> '</span><span style="color:#C3E88D">easeOut</span><span style="color:#89DDFF">'</span></span>
+<span class="line"><span style="color:#89DDFF">}</span><span style="color:#BABED8">)</span><span style="color:#89DDFF">;</span></span></code></pre>
+<ul>
+<li>type</li>
+</ul>
+<pre class="shiki material-theme-palenight" style="background-color:#292D3E;color:#babed8" tabindex="0"><code><span class="line"><span style="color:#82AAFF">scroller</span><span style="color:#BABED8">(</span><span style="color:#89DDFF">{</span><span style="color:#BABED8"> el</span><span style="color:#89DDFF">,</span><span style="color:#BABED8"> duration</span><span style="color:#89DDFF">,</span><span style="color:#BABED8"> top</span><span style="color:#89DDFF">,</span><span style="color:#BABED8"> left</span><span style="color:#89DDFF">,</span><span style="color:#BABED8"> type </span><span style="color:#89DDFF">}</span><span style="color:#BABED8">: </span><span style="color:#89DDFF">{</span><span style="color:#BABED8"> el?</span><span style="color:#89DDFF">:</span><span style="color:#BABED8"> Element; duration</span><span style="color:#89DDFF">?:</span><span style="color:#BABED8"> number; top</span><span style="color:#89DDFF">?:</span><span style="color:#BABED8"> number; left</span><span style="color:#89DDFF">?:</span><span style="color:#BABED8"> number; type</span><span style="color:#89DDFF">?:</span><span style="color:#BABED8"> timingTypes; </span><span style="color:#89DDFF">}</span><span style="color:#BABED8">): </span><span style="color:#89DDFF">void;</span></span></code></pre>

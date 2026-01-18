@@ -1,4 +1,4 @@
-# serialize
+## serialize
 
 turn object into url param like 'a=1&b='
 

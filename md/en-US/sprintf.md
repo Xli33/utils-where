@@ -1,4 +1,4 @@
-# sprintf
+## sprintf
 
 replace all `%s` or `{a.b}` in first string param, inspired by template string `${}` from es
 

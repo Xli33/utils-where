@@ -1,4 +1,4 @@
-# Emitter
+## Emitter
 
 get an event emitter with generics
 

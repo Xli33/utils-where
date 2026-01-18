@@ -1,4 +1,4 @@
-# delArrItemByVal
+## delArrItemByVal
 
 通过相等的值移除数组项
 

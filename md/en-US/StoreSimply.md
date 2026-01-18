@@ -1,4 +1,4 @@
-# StoreSimply
+## StoreSimply
 
 simple store with localStorage
 

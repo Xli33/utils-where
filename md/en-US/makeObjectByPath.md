@@ -1,4 +1,4 @@
-# makeObjectByPath
+## makeObjectByPath
 
 make object from key path like 'a.b.c'
 

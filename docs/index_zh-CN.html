@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>utils-where</title>
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quasar@2.18.6/dist/quasar.prod.css" />
+    <link
+      id="markdown-css"
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.8.1/github-markdown.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.5.26/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@4.6.4/dist/vue-router.global.prod.js"></script>
+    <style>
+      /* html.dark {
+        .shiki,
+        .shiki span {
+          color: var(--shiki-dark) !important;
+          background-color: var(--shiki-dark-bg) !important;
+        }
+      } */
+      body {
+        margin: 0;
+        font-family: 'Microsoft YaHei', '微软雅黑', 'PingFang SC', ' Hiragino Sans GB', 'SimSun', 'sans-serif';
+      }
+
+      #app {
+        /* width: 70vw; */
+        height: 100vh;
+        /* margin: 0 auto; */
+      }
+
+      ul {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      [v-cloak] {
+        display: none;
+      }
+
+      .q-layout {
+        height: 100%;
+      }
+
+      .q-drawer {
+        position: fixed;
+        padding: 2vh 0 2vh 20px;
+      }
+      .markdown-body {
+        padding: 0 20px 20px;
+      }
+      @media screen and (min-width: 1200px) {
+        .q-drawer {
+          margin-left: 5vw;
+        }
+        .markdown-body {
+          width: 70vw;
+          margin: 0 auto;
+        }
+      }
+    </style>
+    <script>
+      const matchDark = window.matchMedia('(prefers-color-scheme: dark)');
+      matchDark.addEventListener('change', (e) => {
+        const $markdownCss = document.getElementById('markdown-css');
+        if (e.target.matches) {
+          $markdownCss.href = $markdownCss.href.replace('github-markdown.min.css', 'github-markdown-dark.min.css');
+          Quasar.Dark.set(true);
+        } else {
+          $markdownCss.href = $markdownCss.href.replace('github-markdown-dark.min.css', 'github-markdown.min.css');
+          Quasar.Dark.set(false);
+        }
+        document.documentElement.classList.toggle('dark', e.target.matches);
+      });
+      matchDark.dispatchEvent(new Event('change'));
+    </script>
+  </head>
+
+  <body>
+    <div id="app" v-cloak>
+      <q-layout view="hHh lpR fFf">
+        <q-header elevated class="bg-primary text-white">
+          <q-toolbar>
+            <q-btn dense flat round icon="menu" @click="toggleLeftDrawer"></q-btn>
+            <q-toolbar-title>utils where</q-toolbar-title>
+            <q-btn flat round dense icon="translate">
+              <q-menu auto-close>
+                <q-list>
+                  <q-item class="items-center">
+                    <a href="index.html">English</a>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+          </q-toolbar>
+        </q-header>
+        <q-drawer show-if-above v-model="leftDrawerOpen" side="left">
+          <q-scroll-area class="fit">
+            <q-list v-if="menus.length">
+              <template v-for="(item, index) in menus" :key="index">
+                <!-- 一级菜单 -->
+
+                <q-item v-if="!item.sub" clickable :active="activeMenu === item.route" v-ripple @click="open(item)">
+                  <q-item-section>{{ item.name }}</q-item-section>
+                </q-item>
+
+                <q-expansion-item v-else :model-value="true" :label="item.name">
+                  <!-- 二级菜单 -->
+                  <q-item
+                    v-for="(subMenu, subMenuIndex) in item.sub"
+                    :key="subMenuIndex"
+                    clickable
+                    :active="activeMenu === subMenu.name"
+                    v-ripple
+                    @click="open(subMenu)"
+                  >
+                    <q-item-section>{{ subMenu.name }}</q-item-section>
+                  </q-item>
+                </q-expansion-item>
+              </template>
+            </q-list>
+          </q-scroll-area>
+        </q-drawer>
+
+        <q-page-container>
+          <main class="markdown-body">
+            <router-view v-slot="{ Component, route }">
+              <keep-alive>
+                <component v-if="route.name" :is="Component" :key="route.name"></component>
+                <!-- :content="route.meta.content" -->
+              </keep-alive>
+            </router-view>
+          </main>
+        </q-page-container>
+      </q-layout>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/quasar@2.18.6/dist/quasar.umd.prod.js"></script>
+    <script>
+      const contentCache = {};
+      const { createApp, onMounted, ref, shallowRef, computed } = Vue;
+      const app = createApp({
+        setup() {
+          const leftDrawerOpen = ref(false);
+          const menus = shallowRef([]),
+            autoOpends = [];
+          const ViewMD = {
+            template: `<div v-once v-html='content' class='md-content'></div>`,
+            // props: {
+            //   content: String
+            // },
+            setup(props) {
+              // onMounted(() => {
+              //   // document
+              //   //   .getElementById('app')
+              //   //   .querySelectorAll('.md-content pre code')
+              //   //   .forEach((block) => {
+              //   //     hljs.highlightElement(block)
+              //   //   })
+              // });
+              const content = contentCache[route.name];
+              if (content) {
+                delete contentCache[route.name];
+              }
+
+              return {
+                content
+              };
+            }
+          };
+          const route = VueRouter.useRoute();
+          const activeMenu = computed(() => route.name);
+
+          const open = (e) => {
+            if (e.name === router.currentRoute.value.name) return;
+            // console.log(e);
+            router.replace({
+              name: e.route || e.name
+            });
+          };
+
+          onMounted(async () => {
+            const res = await fetch('menus_zh-CN.json').then((res) => res.json());
+            menus.value = res;
+
+            const recursiveAddRoute = (menus) => {
+              menus.forEach((e, i) => {
+                if (!e.sub) {
+                  router.addRoute({
+                    name: e.route || e.name,
+                    path: '/' + (e.route || e.url.replace(/\.txt$/, '')),
+                    meta: {
+                      url: e.url
+                    },
+                    component: ViewMD
+                  });
+                  return;
+                }
+                autoOpends.push(e.name);
+                recursiveAddRoute(e.sub);
+              });
+            };
+            recursiveAddRoute(menus.value);
+            router.addRoute({
+              path: '/',
+              redirect: { name: 'start' }
+            });
+            loadingRoutes = null;
+            router.replace(route.fullPath);
+            console.log(menus, autoOpends, router.getRoutes(), route);
+          });
+
+          return {
+            leftDrawerOpen,
+            activeMenu,
+            menus,
+            autoOpends,
+            open,
+            toggleLeftDrawer() {
+              leftDrawerOpen.value = !leftDrawerOpen.value;
+            }
+          };
+        }
+      });
+      const router = VueRouter.createRouter({
+        history: VueRouter.createWebHashHistory(),
+        routes: []
+      });
+      let loadingRoutes = true;
+      router.beforeEach(async (to, from) => {
+        // console.log(to, from);
+        const toRoute = to.matched[to.matched.length - 1];
+        // 当未获取到路由配置时允许跳转不存在的地址，以免始终会重定向到 /start。当路由配置加载后会通过 replace 尝试导航到存在的路由
+        if (to.fullPath !== '/' && !toRoute) return loadingRoutes;
+        // 若加载过对应txt则不重复获取
+        if (!toRoute || toRoute.meta.loaded) return;
+        try {
+          const res = await fetch('readme/' + to.meta.url).then((res) => res.text());
+          // to.meta.content = toRoute.meta.content = res;
+          contentCache[to.name] = res;
+          to.meta.loaded = toRoute.meta.loaded = true;
+        } catch (err) {
+          console.error(err);
+        }
+      });
+      router.afterEach((to) => {
+        // activeMenu.value = to.name;
+        // console.log(to);
+        // const matchedRoute = to.matched[to.matched.length - 1];
+        // if (matchedRoute?.meta?.content) {
+        //   matchedRoute.meta.content = undefined;
+        // }
+      });
+      app.use(router);
+      app.use(Quasar);
+      app.mount('#app');
+    </script>
+  </body>
+</html>

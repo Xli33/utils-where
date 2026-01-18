@@ -1,4 +1,4 @@
-# Countdown
+## Countdown
 
 countdown in pure js
 

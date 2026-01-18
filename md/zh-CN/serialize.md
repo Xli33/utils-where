@@ -1,4 +1,4 @@
-# serialize
+## serialize
 
 将对象转换为类似 'a=1\&b=' 的 url 参数
 

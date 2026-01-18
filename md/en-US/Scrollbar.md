@@ -1,4 +1,4 @@
-# custom Scrollbar
+## custom Scrollbar
 
 only hide the default scrollbars and render custom ones for styling, based on [`ResizeObserver`](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver#browser_compatibility)  
 **it's unnecessary to manually call `Scrollbar.init` in advance, but it'd be ok/better to do so if not style window/page**

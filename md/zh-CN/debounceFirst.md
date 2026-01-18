@@ -1,4 +1,4 @@
-# debounceFirst
+## debounceFirst
 
 下一次调用将在上一次调用经过 `timeout` 后被**同步**触发
 

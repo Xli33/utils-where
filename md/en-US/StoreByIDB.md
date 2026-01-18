@@ -1,4 +1,4 @@
-# StoreByIDB
+## StoreByIDB
 
 store in object form with indexedDB
 

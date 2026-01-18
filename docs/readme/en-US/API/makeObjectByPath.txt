@@ -1,0 +1,14 @@
+<h2>makeObjectByPath</h2>
+<p>make object from key path like &#39;a.b.c&#39;</p>
+<pre class="shiki material-theme-palenight" style="background-color:#292D3E;color:#babed8" tabindex="0"><code><span class="line"><span style="color:#89DDFF;font-style:italic">import</span><span style="color:#89DDFF"> {</span><span style="color:#BABED8"> makeObjectByPath</span><span style="color:#89DDFF"> }</span><span style="color:#89DDFF;font-style:italic"> from</span><span style="color:#89DDFF"> '</span><span style="color:#C3E88D">utils-where</span><span style="color:#89DDFF">'</span><span style="color:#89DDFF">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic">// return an object like {one: {two: {three: null}}}</span></span>
+<span class="line"><span style="color:#C792EA">const</span><span style="color:#BABED8"> obj </span><span style="color:#89DDFF">=</span><span style="color:#82AAFF"> makeObjectByPath</span><span style="color:#BABED8">(</span><span style="color:#89DDFF">'</span><span style="color:#C3E88D">one.two.three</span><span style="color:#89DDFF">'</span><span style="color:#89DDFF">,</span><span style="color:#89DDFF"> null</span><span style="color:#BABED8">)</span><span style="color:#89DDFF">;</span></span>
+<span class="line"><span style="color:#BABED8;font-style:italic">obj</span><span style="color:#C792EA"> =></span><span style="color:#89DDFF"> {</span><span style="color:#FFCB6B"> one</span><span style="color:#89DDFF">:</span><span style="color:#89DDFF"> {</span><span style="color:#FFCB6B"> two</span><span style="color:#89DDFF">:</span><span style="color:#89DDFF"> {</span><span style="color:#FFCB6B"> three</span><span style="color:#89DDFF">:</span><span style="color:#89DDFF"> null</span><span style="color:#89DDFF"> }</span><span style="color:#89DDFF"> }</span><span style="color:#89DDFF"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic">// return empty object if keyPath is invalid</span></span>
+<span class="line"><span style="color:#82AAFF">makeObjectByPath</span><span style="color:#BABED8">(</span><span style="color:#89DDFF">''</span><span style="color:#BABED8">) </span><span style="color:#C792EA">=></span><span style="color:#89DDFF"> {}</span></span></code></pre>
+<ul>
+<li>type</li>
+</ul>
+<pre class="shiki material-theme-palenight" style="background-color:#292D3E;color:#babed8" tabindex="0"><code><span class="line"><span style="color:#82AAFF">makeObjectByPath</span><span style="color:#BABED8">(keyPath: string</span><span style="color:#89DDFF">,</span><span style="color:#BABED8"> value</span><span style="color:#89DDFF">?:</span><span style="color:#BABED8"> any): Obj</span><span style="color:#89DDFF">;</span></span></code></pre>

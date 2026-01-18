@@ -1,4 +1,4 @@
-# `setClipboard` & `asyncCopy`
+## `setClipboard` & `asyncCopy`
 
 synchronously or asynchronously copy text to clipboard
 

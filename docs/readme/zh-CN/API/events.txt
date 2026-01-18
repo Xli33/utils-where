@@ -1,0 +1,26 @@
+<h2>events</h2>
+<p><code>utils-where/events</code> 使得在移动设备上支持 &quot;longpress&quot; 成为可能，不同于 contextmenu<br>
+它通过 touchstart 和 touchend 模拟长按，<strong>仅在 contextmenu 的行为不符合您的要求时才导入它！</strong></p>
+<pre class="shiki material-theme-palenight" style="background-color:#292D3E;color:#babed8" tabindex="0"><code><span class="line"><span style="color:#89DDFF;font-style:italic">import</span><span style="color:#89DDFF"> '</span><span style="color:#C3E88D">utils-where/events</span><span style="color:#89DDFF">'</span><span style="color:#89DDFF">;</span><span style="color:#676E95;font-style:italic"> // 这将导入 utils-where/dist/esm/events.js 中的代码，然后像原始事件一样添加 "longpress"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C792EA">const</span><span style="color:#BABED8"> longPress </span><span style="color:#89DDFF">=</span><span style="color:#BABED8;font-style:italic"> e</span><span style="color:#C792EA"> =></span><span style="color:#89DDFF"> {</span></span>
+<span class="line"><span style="color:#BABED8">    console</span><span style="color:#89DDFF">.</span><span style="color:#82AAFF">log</span><span style="color:#F07178">(</span><span style="color:#89DDFF">'</span><span style="color:#C3E88D">the longpress event will happen after 500ms</span><span style="color:#89DDFF">'</span><span style="color:#F07178">)</span></span>
+<span class="line"><span style="color:#89DDFF">}</span></span>
+<span class="line"><span style="color:#BABED8">document</span><span style="color:#89DDFF">.</span><span style="color:#82AAFF">addEventListener</span><span style="color:#BABED8">(</span><span style="color:#89DDFF">'</span><span style="color:#C3E88D">longpress</span><span style="color:#89DDFF">'</span><span style="color:#89DDFF">,</span><span style="color:#BABED8"> longPress)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic">// 移除监听器</span></span>
+<span class="line"><span style="color:#BABED8">document</span><span style="color:#89DDFF">.</span><span style="color:#82AAFF">removeEventListener</span><span style="color:#BABED8">(</span><span style="color:#89DDFF">'</span><span style="color:#C3E88D">longpress</span><span style="color:#89DDFF">'</span><span style="color:#89DDFF">,</span><span style="color:#BABED8"> longPress)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic">// 通过节点的 _longPressDelay 更改超时时间</span></span>
+<span class="line"><span style="color:#BABED8">document</span><span style="color:#89DDFF">.</span><span style="color:#BABED8">_longPressDelay </span><span style="color:#89DDFF">=</span><span style="color:#F78C6C"> 1000</span></span>
+<span class="line"><span style="color:#BABED8">document</span><span style="color:#89DDFF">.</span><span style="color:#82AAFF">addEventListener</span><span style="color:#BABED8">(</span><span style="color:#89DDFF">'</span><span style="color:#C3E88D">longpress</span><span style="color:#89DDFF">'</span><span style="color:#89DDFF">,</span><span style="color:#BABED8;font-style:italic"> e</span><span style="color:#C792EA"> =></span><span style="color:#89DDFF"> {</span></span>
+<span class="line"><span style="color:#BABED8">    console</span><span style="color:#89DDFF">.</span><span style="color:#82AAFF">log</span><span style="color:#F07178">(</span><span style="color:#89DDFF">'</span><span style="color:#C3E88D">the longpress event will happen after 1000ms</span><span style="color:#89DDFF">'</span><span style="color:#F07178">)</span></span>
+<span class="line"><span style="color:#89DDFF">}</span><span style="color:#BABED8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic">// 除非您真的需要，否则不要设置此属性！大多数情况下无需更改！</span></span>
+<span class="line"><span style="color:#676E95;font-style:italic">// "_longPressOption" 包含 EventInit 属性，它更改 longpress 事件的 bubbles, cancelable 和 composed</span></span>
+<span class="line"><span style="color:#BABED8">document</span><span style="color:#89DDFF">.</span><span style="color:#BABED8">_longPressOption: </span><span style="color:#89DDFF">{</span></span>
+<span class="line"><span style="color:#F07178">    bubbles</span><span style="color:#89DDFF">:</span><span style="color:#FF9CAC"> false</span><span style="color:#89DDFF">,</span></span>
+<span class="line"><span style="color:#F07178">    cancelable</span><span style="color:#89DDFF">:</span><span style="color:#FF9CAC"> false</span><span style="color:#89DDFF">,</span></span>
+<span class="line"><span style="color:#F07178">    composed</span><span style="color:#89DDFF">:</span><span style="color:#FF9CAC"> false</span></span>
+<span class="line"><span style="color:#89DDFF">}</span></span></code></pre>

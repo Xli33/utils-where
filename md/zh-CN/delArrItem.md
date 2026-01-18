@@ -1,4 +1,4 @@
-# delArrItem
+## delArrItem
 
 通过索引移除数组项
 

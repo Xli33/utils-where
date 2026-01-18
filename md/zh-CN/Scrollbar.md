@@ -1,4 +1,4 @@
-# custom Scrollbar
+## custom Scrollbar
 
 仅隐藏默认滚动条并渲染自定义滚动条以进行样式设置，基于 [`ResizeObserver`](<https://www.google.com/search?q=%5Bhttps://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver%23browser_compatibility%5D(https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver%23browser_compatibility)>)
 **不必提前手动调用 `Scrollbar.init`，但如果不为窗口/页面设置样式，这样做会更好/更佳**

@@ -1,4 +1,4 @@
-# debounceLast
+## debounceLast
 
 each call will be **async** triggerd always after `timeout`
 

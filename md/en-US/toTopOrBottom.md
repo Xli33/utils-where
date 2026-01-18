@@ -1,4 +1,4 @@
-# toTopOrBottom
+## toTopOrBottom
 
 make scrollable element's content scroll to top/bottom
 

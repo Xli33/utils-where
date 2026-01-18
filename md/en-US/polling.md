@@ -1,4 +1,4 @@
-# polling
+## polling
 
 polls the callback and only continues the next poll after the function call
 

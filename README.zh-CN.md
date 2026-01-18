@@ -5,7 +5,7 @@
 为利用现代特性（例如 `?.` `??`）并提供最小体积，**既不包含语法转换也不包含 api polyfill**  
 请自行按实际情况决定是否要向下兼容（如使用打包工具像 `vite`，或单独使用 `core-js` 添加 polyfill）
 
-## Install
+## 安装
 
 ```bash
 npm install utils-where
@@ -106,7 +106,7 @@ yarn add utils-where
 
 ### [events](./md/zh-CN/events.md)
 
-utils-where/events 使得在移动设备上支持 "longpress" 成为可能，不同于 contextmenu<br>
+`utils-where/events` 使得在移动设备上支持 "longpress" 成为可能，不同于 contextmenu<br>
 它通过 touchstart 和 touchend 模拟长按，**仅在 contextmenu 的行为不符合您的要求时才导入它！**
 
 ## License

@@ -1,4 +1,4 @@
-# StoreSimply
+## StoreSimply
 
 使用 localStorage 的简单存储
 

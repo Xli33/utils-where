@@ -1,4 +1,4 @@
-# debounceLast
+## debounceLast
 
 每次调用总是在 `timeout` 之后被**异步**触发
 

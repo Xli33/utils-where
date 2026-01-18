@@ -1,4 +1,4 @@
-# genUID
+## genUID
 
 generate a unique id with given prefix
 

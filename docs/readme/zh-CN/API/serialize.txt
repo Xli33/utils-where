@@ -1,0 +1,17 @@
+<h2>serialize</h2>
+<p>将对象转换为类似 &#39;a=1&amp;b=&#39; 的 url 参数</p>
+<pre class="shiki material-theme-palenight" style="background-color:#292D3E;color:#babed8" tabindex="0"><code><span class="line"><span style="color:#89DDFF;font-style:italic">import</span><span style="color:#89DDFF"> {</span><span style="color:#BABED8"> serialize</span><span style="color:#89DDFF"> }</span><span style="color:#89DDFF;font-style:italic"> from</span><span style="color:#89DDFF"> '</span><span style="color:#C3E88D">utils-where</span><span style="color:#89DDFF">'</span><span style="color:#89DDFF">;</span></span>
+<span class="line"><span style="color:#676E95;font-style:italic">// 或者在必要时使用 commonJS 风格：const {serialize} = require('utils-where')</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic">// 结果是 'name=unknown&#x26;num=1&#x26;null=&#x26;undefined=&#x26;more=false'</span></span>
+<span class="line"><span style="color:#82AAFF">serialize</span><span style="color:#BABED8">(</span><span style="color:#89DDFF">{</span></span>
+<span class="line"><span style="color:#F07178">  name</span><span style="color:#89DDFF">:</span><span style="color:#89DDFF"> '</span><span style="color:#C3E88D">unknown</span><span style="color:#89DDFF">'</span><span style="color:#89DDFF">,</span></span>
+<span class="line"><span style="color:#F07178">  num</span><span style="color:#89DDFF">:</span><span style="color:#F78C6C"> 1</span><span style="color:#89DDFF">,</span></span>
+<span class="line"><span style="color:#F07178">  null</span><span style="color:#89DDFF">:</span><span style="color:#89DDFF"> null,</span></span>
+<span class="line"><span style="color:#F07178">  undefined</span><span style="color:#89DDFF">:</span><span style="color:#89DDFF"> void</span><span style="color:#F78C6C"> 0</span><span style="color:#89DDFF">,</span></span>
+<span class="line"><span style="color:#F07178">  more</span><span style="color:#89DDFF">:</span><span style="color:#FF9CAC"> false</span></span>
+<span class="line"><span style="color:#89DDFF">}</span><span style="color:#BABED8">)</span><span style="color:#89DDFF">;</span></span></code></pre>
+<ul>
+<li>type</li>
+</ul>
+<pre class="shiki material-theme-palenight" style="background-color:#292D3E;color:#babed8" tabindex="0"><code><span class="line"><span style="color:#82AAFF">serialize</span><span style="color:#BABED8">(obj: Obj): string</span><span style="color:#89DDFF">;</span></span></code></pre>

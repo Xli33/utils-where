@@ -1,4 +1,4 @@
-# Emitter
+## Emitter
 
 获取一个事件触发器，支持泛型
 

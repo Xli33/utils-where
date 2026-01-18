@@ -1,4 +1,4 @@
-# toTopOrBottom
+## toTopOrBottom
 
 使可滚动元素的内容滚动到顶部/底部
 

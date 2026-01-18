@@ -1,4 +1,4 @@
-# StoreByIDB
+## StoreByIDB
 
 使用 indexedDB 的对象形式存储
 

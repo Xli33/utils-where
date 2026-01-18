@@ -1,4 +1,4 @@
-# omitOwnKeys
+## omitOwnKeys
 
 return a new object excluding the specified own properties and non-enumerable properties  
 or remove the specified own properties from the given object and return the given object

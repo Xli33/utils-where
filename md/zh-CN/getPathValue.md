@@ -1,4 +1,4 @@
-# getPathValue
+## getPathValue
 
 通过 a.b.c 这样的键路径在对象中获取值
 
