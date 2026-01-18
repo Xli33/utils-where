@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="<%lang%>">
   <head>
     <meta charset="UTF-8" />
@@ -71,10 +71,8 @@
         const $markdownCss = document.getElementById('markdown-css');
         if (e.target.matches) {
           $markdownCss.href = $markdownCss.href.replace('github-markdown.min.css', 'github-markdown-dark.min.css');
-          Quasar.Dark.set(true);
         } else {
           $markdownCss.href = $markdownCss.href.replace('github-markdown-dark.min.css', 'github-markdown.min.css');
-          Quasar.Dark.set(false);
         }
         document.documentElement.classList.toggle('dark', e.target.matches);
       });
@@ -260,6 +258,7 @@
       app.use(router);
       app.use(Quasar);
       app.mount('#app');
+      Quasar.Dark.set(matchDark.matches);
     </script>
   </body>
 </html>
