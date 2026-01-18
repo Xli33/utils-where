@@ -1,5 +1,5 @@
 <h2>custom Scrollbar</h2>
-<p>仅隐藏默认滚动条并渲染自定义滚动条以进行样式设置，基于 <a href="https://www.google.com/search?q=%5Bhttps://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver%23browser_compatibility%5D(https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver%23browser_compatibility)"><code>ResizeObserver</code></a>
+<p>仅隐藏默认滚动条并渲染自定义滚动条以进行样式设置，基于 <a href="https://www.google.com/search?q=%5Bhttps://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver%23browser_compatibility%5D(https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver%23browser_compatibility)"><code>ResizeObserver</code></a><br>
 <strong>不必提前手动调用 <code>Scrollbar.init</code>，但如果不为窗口/页面设置样式，这样做会更好/更佳</strong></p>
 <ul>
 <li>用于页面/窗口</li>
@@ -37,11 +37,11 @@
 <span class="line"></span>
 <span class="line"><span style="color:#82AAFF">createApp</span><span style="color:#BABED8">(App)</span><span style="color:#89DDFF">.</span><span style="color:#82AAFF">mount</span><span style="color:#BABED8">(</span><span style="color:#89DDFF">'</span><span style="color:#C3E88D">#app</span><span style="color:#89DDFF">'</span><span style="color:#BABED8">)</span></span></code></pre>
 <ul>
-<li>和 Vue 单文件组件 (SFC)</li>
+<li>具体 Vue SFC</li>
 </ul>
 <pre class="shiki material-theme-palenight" style="background-color:#292D3E;color:#babed8" tabindex="0"><code><span class="line"><span style="color:#89DDFF">&#x3C;</span><span style="color:#F07178">template</span><span style="color:#89DDFF">></span></span>
 <span class="line"><span style="color:#89DDFF">  &#x3C;</span><span style="color:#F07178">div</span><span style="color:#C792EA"> class</span><span style="color:#89DDFF">=</span><span style="color:#89DDFF">"</span><span style="color:#C3E88D">custom</span><span style="color:#89DDFF">"</span><span style="color:#C792EA"> style</span><span style="color:#89DDFF">=</span><span style="color:#89DDFF">"</span><span style="color:#C3E88D">max-height: 50vh</span><span style="color:#89DDFF">"</span><span style="color:#89DDFF">></span></span>
-<span class="line"><span style="color:#89DDFF">    &#x3C;</span><span style="color:#F07178">div</span><span style="color:#C792EA"> :class</span><span style="color:#89DDFF">=</span><span style="color:#89DDFF">"</span><span style="color:#C3E88D">['scroller', 'fill', {scrollClass}]</span><span style="color:#89DDFF">"</span><span style="color:#89DDFF">></span></span>
+<span class="line"><span style="color:#89DDFF">    &#x3C;</span><span style="color:#F07178">div</span><span style="color:#C792EA"> :class</span><span style="color:#89DDFF">=</span><span style="color:#89DDFF">"</span><span style="color:#C3E88D">['scroller', 'fill', { scrollClass }]</span><span style="color:#89DDFF">"</span><span style="color:#89DDFF">></span></span>
 <span class="line"><span style="color:#89DDFF">      &#x3C;</span><span style="color:#F07178">div</span><span style="color:#C792EA"> ref</span><span style="color:#89DDFF">=</span><span style="color:#89DDFF">"</span><span style="color:#C3E88D">list</span><span style="color:#89DDFF">"</span><span style="color:#89DDFF">></span></span>
 <span class="line"><span style="color:#89DDFF">        &#x3C;</span><span style="color:#F07178">slot</span><span style="color:#89DDFF">>&#x3C;/</span><span style="color:#F07178">slot</span><span style="color:#89DDFF">></span></span>
 <span class="line"><span style="color:#89DDFF">      &#x3C;/</span><span style="color:#F07178">div</span><span style="color:#89DDFF">></span></span>
@@ -50,15 +50,15 @@
 <span class="line"><span style="color:#89DDFF">&#x3C;/</span><span style="color:#F07178">template</span><span style="color:#89DDFF">></span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#89DDFF">&#x3C;</span><span style="color:#F07178">script</span><span style="color:#C792EA"> setup</span><span style="color:#89DDFF">></span></span>
-<span class="line"><span style="color:#89DDFF;font-style:italic">  import</span><span style="color:#89DDFF"> {</span><span style="color:#BABED8"> Scrollbar</span><span style="color:#89DDFF"> }</span><span style="color:#89DDFF;font-style:italic"> from</span><span style="color:#89DDFF"> '</span><span style="color:#C3E88D">utils-where</span><span style="color:#89DDFF">'</span><span style="color:#89DDFF">;</span></span>
-<span class="line"><span style="color:#89DDFF;font-style:italic">  import</span><span style="color:#89DDFF"> {</span><span style="color:#BABED8"> useTemplateRef</span><span style="color:#89DDFF">,</span><span style="color:#BABED8"> onMounted</span><span style="color:#89DDFF"> }</span><span style="color:#89DDFF;font-style:italic"> from</span><span style="color:#89DDFF"> '</span><span style="color:#C3E88D">vue</span><span style="color:#89DDFF">'</span><span style="color:#89DDFF">;</span></span>
+<span class="line"><span style="color:#89DDFF;font-style:italic">import</span><span style="color:#89DDFF"> {</span><span style="color:#BABED8"> Scrollbar</span><span style="color:#89DDFF"> }</span><span style="color:#89DDFF;font-style:italic"> from</span><span style="color:#89DDFF"> '</span><span style="color:#C3E88D">utils-where</span><span style="color:#89DDFF">'</span><span style="color:#89DDFF">;</span></span>
+<span class="line"><span style="color:#89DDFF;font-style:italic">import</span><span style="color:#89DDFF"> {</span><span style="color:#BABED8"> useTemplateRef</span><span style="color:#89DDFF">,</span><span style="color:#BABED8"> onMounted</span><span style="color:#89DDFF"> }</span><span style="color:#89DDFF;font-style:italic"> from</span><span style="color:#89DDFF"> '</span><span style="color:#C3E88D">vue</span><span style="color:#89DDFF">'</span><span style="color:#89DDFF">;</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#82AAFF">  defineProps</span><span style="color:#BABED8">([</span><span style="color:#89DDFF">'</span><span style="color:#C3E88D">scrollClass</span><span style="color:#89DDFF">'</span><span style="color:#BABED8">])</span><span style="color:#89DDFF">;</span></span>
-<span class="line"><span style="color:#C792EA">  const</span><span style="color:#BABED8"> $list </span><span style="color:#89DDFF">=</span><span style="color:#82AAFF"> useTemplateRef</span><span style="color:#BABED8">(</span><span style="color:#89DDFF">'</span><span style="color:#C3E88D">list</span><span style="color:#89DDFF">'</span><span style="color:#BABED8">)</span><span style="color:#89DDFF">;</span></span>
+<span class="line"><span style="color:#82AAFF">defineProps</span><span style="color:#BABED8">([</span><span style="color:#89DDFF">'</span><span style="color:#C3E88D">scrollClass</span><span style="color:#89DDFF">'</span><span style="color:#BABED8">])</span><span style="color:#89DDFF">;</span></span>
+<span class="line"><span style="color:#C792EA">const</span><span style="color:#BABED8"> $list </span><span style="color:#89DDFF">=</span><span style="color:#82AAFF"> useTemplateRef</span><span style="color:#BABED8">(</span><span style="color:#89DDFF">'</span><span style="color:#C3E88D">list</span><span style="color:#89DDFF">'</span><span style="color:#BABED8">)</span><span style="color:#89DDFF">;</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#82AAFF">  onMounted</span><span style="color:#BABED8">(</span><span style="color:#89DDFF">()</span><span style="color:#C792EA"> =></span><span style="color:#89DDFF"> {</span></span>
-<span class="line"><span style="color:#BABED8">    Scrollbar</span><span style="color:#89DDFF">.</span><span style="color:#82AAFF">attach</span><span style="color:#F07178">(</span><span style="color:#BABED8">$list</span><span style="color:#89DDFF">.</span><span style="color:#BABED8">value</span><span style="color:#F07178">)</span><span style="color:#89DDFF">;</span></span>
-<span class="line"><span style="color:#89DDFF">  }</span><span style="color:#BABED8">)</span><span style="color:#89DDFF">;</span></span>
+<span class="line"><span style="color:#82AAFF">onMounted</span><span style="color:#BABED8">(</span><span style="color:#89DDFF">()</span><span style="color:#C792EA"> =></span><span style="color:#89DDFF"> {</span></span>
+<span class="line"><span style="color:#BABED8">  Scrollbar</span><span style="color:#89DDFF">.</span><span style="color:#82AAFF">attach</span><span style="color:#F07178">(</span><span style="color:#BABED8">$list</span><span style="color:#89DDFF">.</span><span style="color:#BABED8">value</span><span style="color:#F07178">)</span><span style="color:#89DDFF">;</span></span>
+<span class="line"><span style="color:#89DDFF">}</span><span style="color:#BABED8">)</span><span style="color:#89DDFF">;</span></span>
 <span class="line"><span style="color:#89DDFF">&#x3C;/</span><span style="color:#F07178">script</span><span style="color:#89DDFF">></span></span></code></pre>
 <ul>
 <li>与其他框架（如 React）集成</li>
@@ -79,7 +79,7 @@
 <span class="line"><span style="color:#89DDFF">  &#x3C;/</span><span style="color:#FFCB6B">StrictMode</span><span style="color:#89DDFF">></span></span>
 <span class="line"><span style="color:#BABED8">)</span><span style="color:#89DDFF">;</span></span></code></pre>
 <ul>
-<li>和 React 组件</li>
+<li>具体 React 组件</li>
 </ul>
 <pre class="shiki material-theme-palenight" style="background-color:#292D3E;color:#babed8" tabindex="0"><code><span class="line"><span style="color:#89DDFF;font-style:italic">import</span><span style="color:#89DDFF"> {</span><span style="color:#BABED8"> Scrollbar</span><span style="color:#89DDFF"> }</span><span style="color:#89DDFF;font-style:italic"> from</span><span style="color:#89DDFF"> '</span><span style="color:#C3E88D">utils-where</span><span style="color:#89DDFF">'</span><span style="color:#89DDFF">;</span></span>
 <span class="line"><span style="color:#89DDFF;font-style:italic">import</span><span style="color:#BABED8"> React</span><span style="color:#89DDFF">,</span><span style="color:#89DDFF"> {</span><span style="color:#BABED8"> useRef</span><span style="color:#89DDFF">,</span><span style="color:#BABED8"> useEffect</span><span style="color:#89DDFF"> }</span><span style="color:#89DDFF;font-style:italic"> from</span><span style="color:#89DDFF"> '</span><span style="color:#C3E88D">react</span><span style="color:#89DDFF">'</span><span style="color:#89DDFF">;</span></span>

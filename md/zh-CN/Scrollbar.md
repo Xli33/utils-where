@@ -1,6 +1,6 @@
 ## custom Scrollbar
 
-仅隐藏默认滚动条并渲染自定义滚动条以进行样式设置，基于 [`ResizeObserver`](<https://www.google.com/search?q=%5Bhttps://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver%23browser_compatibility%5D(https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver%23browser_compatibility)>)
+仅隐藏默认滚动条并渲染自定义滚动条以进行样式设置，基于 [`ResizeObserver`](<https://www.google.com/search?q=%5Bhttps://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver%23browser_compatibility%5D(https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver%23browser_compatibility)>)<br>
 **不必提前手动调用 `Scrollbar.init`，但如果不为窗口/页面设置样式，这样做会更好/更佳**
 
 - 用于页面/窗口
@@ -44,12 +44,12 @@ import App from './App.vue'
 createApp(App).mount('#app')
 ```
 
-- 和 Vue 单文件组件 (SFC)
+- 具体 Vue SFC
 
-```html
+```vue
 <template>
   <div class="custom" style="max-height: 50vh">
-    <div :class="['scroller', 'fill', {scrollClass}]">
+    <div :class="['scroller', 'fill', { scrollClass }]">
       <div ref="list">
         <slot></slot>
       </div>
@@ -58,15 +58,15 @@ createApp(App).mount('#app')
 </template>
 
 <script setup>
-  import { Scrollbar } from 'utils-where';
-  import { useTemplateRef, onMounted } from 'vue';
+import { Scrollbar } from 'utils-where';
+import { useTemplateRef, onMounted } from 'vue';
 
-  defineProps(['scrollClass']);
-  const $list = useTemplateRef('list');
+defineProps(['scrollClass']);
+const $list = useTemplateRef('list');
 
-  onMounted(() => {
-    Scrollbar.attach($list.value);
-  });
+onMounted(() => {
+  Scrollbar.attach($list.value);
+});
 </script>
 ```
 
@@ -90,7 +90,7 @@ app.render(
 );
 ```
 
-- 和 React 组件
+- 具体 React 组件
 
 ```jsx
 import { Scrollbar } from 'utils-where';

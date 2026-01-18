@@ -49,10 +49,10 @@ createApp(App).mount('#app')
 
 - and vue sfc
 
-```html
+```vue
 <template>
   <div class="custom" style="max-height: 50vh">
-    <div :class="['scroller', 'fill', {scrollClass}]">
+    <div :class="['scroller', 'fill', { scrollClass }]">
       <div ref="list">
         <slot></slot>
       </div>
@@ -61,15 +61,15 @@ createApp(App).mount('#app')
 </template>
 
 <script setup>
-  import { Scrollbar } from 'utils-where';
-  import { useTemplateRef, onMounted } from 'vue';
+import { Scrollbar } from 'utils-where';
+import { useTemplateRef, onMounted } from 'vue';
 
-  defineProps(['scrollClass']);
-  const $list = useTemplateRef('list');
+defineProps(['scrollClass']);
+const $list = useTemplateRef('list');
 
-  onMounted(() => {
-    Scrollbar.attach($list.value);
-  });
+onMounted(() => {
+  Scrollbar.attach($list.value);
+});
 </script>
 ```
 
