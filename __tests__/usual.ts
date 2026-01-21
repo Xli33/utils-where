@@ -25,15 +25,21 @@ describe('usual modules', () => {
       validKeys: 'a.p.at',
       value: String.prototype.at
     });
-    expect(getPathValue({ a: { p: { '': { ' ': {} } } } }, 'a.p.', true)).toEqual({
+    expect(getPathValue({ a: { p: { ' ': { ' ': {} } } } }, 'a.p. ', true)).toEqual({
       isValidKeys: true,
-      validKeys: 'a.p.',
+      validKeys: 'a.p. ',
       value: { ' ': {} }
     });
-    expect(getPathValue({ a: { p: { '': { ' ': {} } } } }, 'a.p.. ', true)).toEqual({
+    expect(getPathValue({ a: { p: { ' ': { ' ': {} } } } }, 'a.p. . ', true)).toEqual({
       isValidKeys: true,
-      validKeys: 'a.p.. ',
+      validKeys: 'a.p. . ',
       value: {}
+    });
+    expect(getPathValue({ a: { 'b.c': [{ d: 1 }] } }, 'a.[b.c].0.d')).toBe(1);
+    expect(getPathValue({ a: { 'b.c': [{ d: 1 }] } }, 'a.[b.c].0.d', true)).toEqual({
+      isValidKeys: true,
+      validKeys: 'a.[b.c].0.d',
+      value: 1
     });
   });
   test('makeObjectByPath', () => {
@@ -41,7 +47,8 @@ describe('usual modules', () => {
       one: { two: { three: null } }
     });
     expect(makeObjectByPath('')).toEqual({});
-    expect(makeObjectByPath('k.a. .', 33)).toEqual({ k: { a: { ' ': { '': 33 } } } });
+    expect(makeObjectByPath('k.a. . ', 33)).toEqual({ k: { a: { ' ': { ' ': 33 } } } });
+    expect(makeObjectByPath('a.[b.c].d', 1)).toEqual({ a: { 'b.c': { d: 1 } } });
   });
   test('setPathValue', () => {
     const temp = { one: { two: [3, {} as any] } };
@@ -51,9 +58,12 @@ describe('usual modules', () => {
     expect(setPathValue(temp, 'one.two.1.four.2', false)).toBe(undefined);
     expect(temp.one.two[1].four === '').toBe(true);
     expect(setPathValue(temp, 'one.', 0)).toBe(true);
-    expect(setPathValue(temp, 'one..', 0)).toBe(undefined);
+    expect(setPathValue(temp, 'one..', 0)).toBe(true);
     expect(setPathValue(temp, 'one.. ', 0)).toBe(undefined);
-    expect(temp).toEqual({ one: { '': 0, two: [3, { four: '', six: [0n] }] } });
+    expect(temp).toEqual({ one: 0 });
+    const p = { a: { 'b.c': { d: 1 } } };
+    setPathValue(p, 'a.[b.c].d', 2);
+    expect(p.a['b.c'].d).toBe(2);
   });
   test('Emitter', () => {
     const emitter = Emitter<{

@@ -8,7 +8,7 @@ import type { Obj } from '../types';
  * @example makeObjectByPath('one.two.three', 0)
  * 返回结果 { one: { two: { three: 0 } } }
  *
- * 特殊情况：某层key本身是点连接的字符串，如 { 'a': { 'b.c': {d:1} } }
+ * 特殊情况：某层key本身是点连接的字符串，如 { 'a': { 'b.c': { d: 1 } } }
  * makeObjectByPath('a.[b.c].d', 1)
  * 返回结果 { a: { 'b.c': { d: 1 } } }
  */
