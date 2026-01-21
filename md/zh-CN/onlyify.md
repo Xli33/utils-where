@@ -2,7 +2,7 @@
 
 源数组的去重
 
-```js
+```ts
 import { onlyify } from 'utils-where';
 
 // 需要根据 `same` id 去重的数组

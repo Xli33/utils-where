@@ -2,7 +2,7 @@
 
 生成带有给定前缀的唯一 ID
 
-```js
+```ts
 import { genUID } from 'utils-where';
 
 // 获取一个不带前缀的随机数字 ID

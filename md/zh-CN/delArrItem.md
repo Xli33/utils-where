@@ -2,7 +2,7 @@
 
 通过索引移除数组项
 
-```js
+```ts
 import { delArrItem } from 'utils-where';
 
 // 移除索引 1,3 处的项。返回被移除的项 [5, {}]

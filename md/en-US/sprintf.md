@@ -2,7 +2,7 @@
 
 replace all `%s` or `{a.b}` in first string param, inspired by template string `${}` from es
 
-```js
+```ts
 import { sprintf } from 'utils-where';
 
 // return 'this is a demo and see'

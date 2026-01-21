@@ -2,7 +2,7 @@
 
 countdown in pure js
 
-```js
+```ts
 import { Countdown } from 'utils-where';
 
 // start a countdown in 1 min & 20 seconds
@@ -26,7 +26,7 @@ new Countdown(new Date(2030, 1, 1, 0, 0, 0), true, ({ day, hour, minute, second 
 
 - integrated with vue
 
-```jsx
+```tsx
 import { ref, onBeforeUnmount, onDeactivated } from 'vue';
 import { Countdown } from 'utils-where';
 
@@ -65,7 +65,7 @@ export default {
 
 - integrated with react
 
-```jsx
+```tsx
 import React, { useState, useEffect, useRef } from 'react';
 import { Countdown } from 'utils-where';
 

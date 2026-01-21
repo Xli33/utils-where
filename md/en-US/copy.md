@@ -2,7 +2,7 @@
 
 synchronously or asynchronously copy text to clipboard
 
-```js
+```ts
 import { setClipboard, asyncCopy } from 'utils-where';
 
 // result is true if copied or false if failed

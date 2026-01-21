@@ -2,7 +2,7 @@
 
 polls the callback and only continues the next poll after the function call
 
-```js
+```ts
 import { polling } from 'utils-where';
 
 // polls the function every 2s

@@ -2,7 +2,7 @@
 
 保存文件到本地
 
-```js
+```ts
 import { saveFile } from 'utils-where';
 
 // 从字符串保存

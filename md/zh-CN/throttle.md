@@ -2,7 +2,7 @@
 
 获取一个节流函数，它只在 `interval` 之后被**同步**调用。一个用于**异步**调用的 `onEnd` 监听器可以被添加到返回的函数上
 
-```js
+```ts
 import { throttle } from 'utils-where';
 
 const o = {

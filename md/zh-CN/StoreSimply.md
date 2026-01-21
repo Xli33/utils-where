@@ -2,7 +2,7 @@
 
 使用 localStorage 的简单存储
 
-```js
+```ts
 import { StoreSimply } from 'utils-where';
 
 // localStorage[''] 类似于 {theme: 1, other: ''}

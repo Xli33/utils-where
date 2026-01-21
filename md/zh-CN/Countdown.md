@@ -2,7 +2,7 @@
 
 纯 js 倒计时
 
-```js
+```ts
 import { Countdown } from 'utils-where';
 
 // 开始一个 1 分 20 秒的倒计时
@@ -26,7 +26,7 @@ new Countdown(new Date(2030, 1, 1, 0, 0, 0), true, ({ day, hour, minute, second 
 
 - 与 vue 集成
 
-```jsx
+```tsx
 import { ref, onBeforeUnmount, onDeactivated } from 'vue';
 import { Countdown } from 'utils-where';
 
@@ -65,7 +65,7 @@ export default {
 
 - 与 react 集成
 
-```jsx
+```tsx
 import React, { useState, useEffect, useRef } from 'react';
 import { Countdown } from 'utils-where';
 

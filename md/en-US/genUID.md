@@ -2,7 +2,7 @@
 
 generate a unique id with given prefix
 
-```js
+```ts
 import { genUID } from 'utils-where';
 
 // get a random number id without prefix

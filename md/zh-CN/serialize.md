@@ -2,7 +2,7 @@
 
 将对象转换为类似 'a=1\&b=' 的 url 参数
 
-```js
+```ts
 import { serialize } from 'utils-where';
 // 或者在必要时使用 commonJS 风格：const {serialize} = require('utils-where')
 

@@ -2,7 +2,7 @@
 
 轮询传入的函数，仅在当次函数调用后才继续下次轮询
 
-```js
+```ts
 import { polling } from 'utils-where';
 
 // 每2秒执行一次cb

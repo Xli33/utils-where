@@ -2,7 +2,7 @@
 
 remove array items by indexes
 
-```js
+```ts
 import { delArrItem } from 'utils-where';
 
 // remove items at index 1,3. return the removed [5, {}]

@@ -2,7 +2,7 @@
 
 同步或异步复制文本到剪贴板
 
-```js
+```ts
 import { setClipboard, asyncCopy } from 'utils-where';
 
 // 如果复制成功返回 true，失败返回 false

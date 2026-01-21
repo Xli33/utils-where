@@ -2,7 +2,7 @@
 
 the next call will be **sync** triggerd after `timeout` the last call went by
 
-```js
+```ts
 import { debounceFirst } from 'utils-where';
 
 // not click for at least 1s and to be triggered
@@ -14,7 +14,7 @@ when cursor moves, it shows as well, then it be hidden if it stops for about 2s.
 
 the original code could be like
 
-```js
+```ts
 let tid;
 onmousemove = () => {
   clearTimeout(tid);
@@ -32,7 +32,7 @@ onmousemove = () => {
 
 with debounceFirst & debounceLast
 
-```js
+```ts
 import { debounceFirst, debounceLast } from 'utils-where';
 
 const showCursor = debounceFirst(() => (document.body.style.cursor = ''), 2000),

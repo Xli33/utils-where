@@ -2,7 +2,7 @@
 
 deep merge for object & array
 
-```js
+```ts
 import { deepMerge } from 'utils-where';
 
 const obj = {

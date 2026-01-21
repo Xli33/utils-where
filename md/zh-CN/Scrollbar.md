@@ -33,7 +33,7 @@
 
 - 与其他框架（如 Vue）集成
 
-```js
+```ts
 // 在 main.js 中
 import { Scrollbar } from 'utils-where';
 import { createApp } from 'vue'
@@ -72,7 +72,7 @@ onMounted(() => {
 
 - 与其他框架（如 React）集成
 
-```jsx
+```tsx
 // 在 main.js 中
 import { Scrollbar } from 'utils-where';
 import React, { StrictMode } from 'react';
@@ -92,7 +92,7 @@ app.render(
 
 - 具体 React 组件
 
-```jsx
+```tsx
 import { Scrollbar } from 'utils-where';
 import React, { useRef, useEffect } from 'react';
 

@@ -36,7 +36,7 @@ only hide the default scrollbars and render custom ones for styling, based on [`
 
 - integrated with others like Vue
 
-```js
+```ts
 // in main.js
 import { Scrollbar } from 'utils-where';
 import { createApp } from 'vue'
@@ -75,7 +75,7 @@ onMounted(() => {
 
 - integrated with others like react
 
-```jsx
+```tsx
 // in main.js
 import { Scrollbar } from 'utils-where';
 import React, { StrictMode } from 'react';
@@ -95,7 +95,7 @@ app.render(
 
 - and react component
 
-```jsx
+```tsx
 import { Scrollbar } from 'utils-where';
 import React, { useRef, useEffect } from 'react';
 

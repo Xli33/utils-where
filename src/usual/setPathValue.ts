@@ -10,7 +10,7 @@ import type { Obj } from '../types';
  * setPathValue(a, 'one.two.1.four', 1) === true
  * a.one.two[1].four === 1
  *
- * 特殊情况：某层key本身是点连接的字符串，如 { 'a': { 'b.c': { d: 1 } } }
+ * 特殊情况：某层key本身是点连接的字符串，如 { a: { 'b.c': { d: 1 } } }
  * const p = { a: { 'b.c': { d: 1 } } }
  * setPathValue(p, 'a.[b.c].d', 2)
  * p.a['b.c'].d === 2

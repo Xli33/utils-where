@@ -2,7 +2,7 @@
 
 turn object into url param like 'a=1&b='
 
-```js
+```ts
 import { serialize } from 'utils-where';
 // or use commonJS style if necessary: const {serialize} = require('utils-where')
 

@@ -2,7 +2,7 @@
 
 make scrollable element's content scroll to top/bottom
 
-```js
+```ts
 import { toTopOrBottom } from 'utils-where';
 
 // scroll page to top, like window.scroll({top: 0, behavior: 'smooth'})

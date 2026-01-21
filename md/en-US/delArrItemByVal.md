@@ -2,7 +2,7 @@
 
 remove array items by equal values
 
-```js
+```ts
 import { delArrItemByVal } from 'utils-where';
 
 // remove all same items from second param. return the handled array(first param) [2, false]

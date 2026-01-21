@@ -2,7 +2,7 @@
 
 平滑滚动内容到目标位置
 
-```js
+```ts
 import { scroller } from 'utils-where';
 
 // 尝试元素的平滑滚动

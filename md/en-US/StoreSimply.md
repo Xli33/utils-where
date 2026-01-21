@@ -2,7 +2,7 @@
 
 simple store with localStorage
 
-```js
+```ts
 import { StoreSimply } from 'utils-where';
 
 // localStorage[''] be like {theme: 1, other: ''}

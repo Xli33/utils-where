@@ -2,7 +2,7 @@
 
 下一次调用将在上一次调用经过 `timeout` 后被**同步**触发
 
-```js
+```ts
 import { debounceFirst } from 'utils-where';
 
 // 至少 1 秒没有点击时触发
@@ -14,7 +14,7 @@ onclick = debounceFirst(() => console.log('1'), 1000);
 
 原始代码可能像这样
 
-```js
+```ts
 let tid;
 onmousemove = () => {
   clearTimeout(tid);
@@ -32,7 +32,7 @@ onmousemove = () => {
 
 使用 debounceFirst & debounceLast
 
-```js
+```ts
 import { debounceFirst, debounceLast } from 'utils-where';
 
 const showCursor = debounceFirst(() => (document.body.style.cursor = ''), 2000),

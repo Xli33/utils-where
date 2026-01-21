@@ -2,7 +2,7 @@
 
 纯 js 时钟
 
-```js
+```ts
 import { Clock } from 'utils-where';
 
 // 从现在开始每秒更新一次的时钟
@@ -26,7 +26,7 @@ new Clock(new Date(2000, 0,1,0,0,0), 60, true, (parts, date) => {
 
 - 与 vue 集成
 
-```jsx
+```tsx
 import { ref, onBeforeUnmount, onDeactivated } from 'vue';
 import { Clock } from 'utils-where';
 
@@ -69,7 +69,7 @@ export default {
 
 - 与 react 集成
 
-```jsx
+```tsx
 import React, { useState, useEffect, useRef } from 'react';
 import { Clock } from 'utils-where';
 

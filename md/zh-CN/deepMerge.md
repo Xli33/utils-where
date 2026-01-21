@@ -2,7 +2,7 @@
 
 对象和数组的深度合并
 
-```js
+```ts
 import { deepMerge } from 'utils-where';
 
 const obj = {

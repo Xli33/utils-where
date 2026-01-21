@@ -3,7 +3,7 @@
 `utils-where/events` 使得在移动设备上支持 "longpress" 成为可能，不同于 contextmenu<br>
 它通过 touchstart 和 touchend 模拟长按，**仅在 contextmenu 的行为不符合您的要求时才导入它！**
 
-```js
+```ts
 import 'utils-where/events'; // 这将导入 utils-where/dist/esm/events.js 中的代码，然后像原始事件一样添加 "longpress"
 
 const longPress = e => {

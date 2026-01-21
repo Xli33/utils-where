@@ -2,7 +2,7 @@
 
 each call will be **async** triggerd always after `timeout`
 
-```js
+```ts
 import { debounceLast } from 'utils-where';
 
 // resize window and callback triggered only after 1s when stop resizing

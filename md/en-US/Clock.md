@@ -2,7 +2,7 @@
 
 clock in pure js
 
-```js
+```ts
 import { Clock } from 'utils-where';
 
 // start a clock updating every second from now
@@ -26,7 +26,7 @@ new Clock(new Date(2000, 0,1,0,0,0), 60, true, (parts, date) => {
 
 - integrated with vue
 
-```jsx
+```tsx
 import { ref, onBeforeUnmount, onDeactivated } from 'vue';
 import { Clock } from 'utils-where';
 
@@ -69,7 +69,7 @@ export default {
 
 - integrated with react
 
-```jsx
+```tsx
 import React, { useState, useEffect, useRef } from 'react';
 import { Clock } from 'utils-where';
 

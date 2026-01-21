@@ -2,7 +2,7 @@
 
 save file to local
 
-```js
+```ts
 import { saveFile } from 'utils-where';
 
 // save file from string

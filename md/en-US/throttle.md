@@ -2,7 +2,7 @@
 
 get a throttled function, only to be **sync** called after `interval`. an `onEnd` listener to be async called could be added to the returned function
 
-```js
+```ts
 import { throttle } from 'utils-where';
 
 const o = {

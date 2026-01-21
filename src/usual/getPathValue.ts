@@ -11,7 +11,7 @@ import type { Obj } from '../types';
  * getPathValue({a: {b: null}}, 'a.b', true) => {isValidKeys: true, validKeys: 'a.b', value: null}
  * getPathValue<null>({a: {b: null}}, 'a.b', true) => {isValidKeys: true, validKeys: 'a.b', value: null}
  *
- * 特殊情况：某层key本身是点连接的字符串，如 { 'a': { 'b.c': [ { d: 1 } ] } }
+ * 特殊情况：某层key本身是点连接的字符串，如 { a: { 'b.c': [ { d: 1 } ] } }
  * getPathValue({ a: { 'b.c': [ { d: 1 } ] } }, 'a.[b.c].0.d') === 1
  */
 export function getPathValue<T = any>(obj: Obj, keyPath: string): T;

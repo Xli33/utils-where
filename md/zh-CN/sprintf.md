@@ -2,7 +2,7 @@
 
 替换第一个字符串参数中的所有 `%s` 或 `{a.b}`，灵感来源于 es 的模板字符串 `${}`
 
-```js
+```ts
 import { sprintf } from 'utils-where';
 
 // 返回 'this is a demo and see'

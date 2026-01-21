@@ -2,7 +2,7 @@
 
 deduplication for source array
 
-```js
+```ts
 import { onlyify } from 'utils-where';
 
 // the array to be deduplicated with `same` id

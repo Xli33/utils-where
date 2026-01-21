@@ -2,7 +2,7 @@
 
 通过 a.b.c 这样的键路径在对象中获取值
 
-```js
+```ts
 import { getPathValue } from 'utils-where';
 
 const obj = {
@@ -20,6 +20,15 @@ getPathValue<3>(obj, 'first.second.third') === 3;
 getPathValue(obj, 'first.second.third', true) => {isValidKeys: true, validKeys: 'first.second.third', value: 3}
 obj.first.second.third = 'str'
 getPathValue<'str'>(obj, 'first.second.third', true) => {isValidKeys: true, validKeys: 'first.second.third', value: 'str'}
+
+// 特殊情况：某层key本身是点连接的字符串，如 { a: { 'b.c': [ { d: 1 } ] } }
+const obj2 = {
+  a: {
+    'b.c': [ { d: 1 } ]
+  }
+}
+getPathValue(obj2, 'a.[b.c].0.d') === 1
+getPathValue(obj2, 'a.[b.c].0.d', true) => {isValidKeys: true, validKeys: 'a.[b.c].0.d', value: 1}
 ```
 
 - type

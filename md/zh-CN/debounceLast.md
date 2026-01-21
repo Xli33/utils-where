@@ -2,7 +2,7 @@
 
 每次调用总是在 `timeout` 之后被**异步**触发
 
-```js
+```ts
 import { debounceLast } from 'utils-where';
 
 // 调整窗口大小，停止调整 1 秒后才触发回调

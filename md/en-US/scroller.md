@@ -2,7 +2,7 @@
 
 smooth scroll content to target position
 
-```js
+```ts
 import { scroller } from 'utils-where';
 
 // try the element's smooth scroll

@@ -2,7 +2,7 @@
 
 使可滚动元素的内容滚动到顶部/底部
 
-```js
+```ts
 import { toTopOrBottom } from 'utils-where';
 
 // 滚动页面到顶部，类似 window.scroll({top: 0, behavior: 'smooth'})
