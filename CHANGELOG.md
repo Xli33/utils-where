@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [0.5.1](https://github.com/Xli33/utils-where/compare/v0.5.0...v0.5.1) (2026-01-21)
+
+
+### Features
+
+* **getPathValue:** 支持通过如 `a.[b.c].d` 的形式识别单层key为点连接字符串的情况 ([60c9c3b](https://github.com/Xli33/utils-where/commit/60c9c3b9ed5493522b22c1afbf95952b04aa372f))
+* **makeObjectByPath:** 支持通过如 `a.[b.c].d` 的形式构造单层key为点连接字符串的对象 ([d8fbccc](https://github.com/Xli33/utils-where/commit/d8fbcccf41748071b3e32b1ba470694a831db200))
+* **Scrollbar:** 在disabled时不默认隐藏滚动容器的滚动条 ([2fe60e9](https://github.com/Xli33/utils-where/commit/2fe60e9b265a10b8e9c501a44272068c8a811ebf))
+* **setPathValue:** 支持通过如 `a.[b.c].d` 的形式访问单层key为点连接字符串的属性 ([c25fda0](https://github.com/Xli33/utils-where/commit/c25fda03d70c1c103e9d1e6fa07a39143464c3ee))
+
 ## [0.5.0](https://github.com/Xli33/utils-where/compare/v0.4.3...v0.5.0) (2026-01-14)
 
 
