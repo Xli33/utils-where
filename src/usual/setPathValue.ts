@@ -9,6 +9,11 @@ import type { Obj } from '../types';
  * @example const a = { one: { two: [ 3, {} ] } }
  * setPathValue(a, 'one.two.1.four', 1) === true
  * a.one.two[1].four === 1
+ *
+ * 特殊情况：某层key本身是点连接的字符串，如 { 'a': { 'b.c': { d: 1 } } }
+ * const p = { a: { 'b.c': { d: 1 } } }
+ * setPathValue(p, 'a.[b.c].d', 2)
+ * p.a['b.c'].d === 2
  */
 export function setPathValue(obj: Obj, keyPath: string, value?: any) {
   if (!obj || typeof obj !== 'object' || !keyPath) {
@@ -16,7 +21,7 @@ export function setPathValue(obj: Obj, keyPath: string, value?: any) {
     return;
   }
   let curr = obj;
-  const arr = keyPath.split('.'); //.map((e) => e.trim()).filter((e) => !!e);
+  const arr = Array.from(keyPath.matchAll(/([^.[\]]+)|\[(.*?)\]/g), (m) => m[1] || m[2]); //keyPath.split('.'); //.map((e) => e.trim()).filter((e) => !!e);
   for (let i = 0, len = arr.length; i < len; i++) {
     // 若curr不是对象，则不能赋值，应直接return
     // 如 setPathValue({a: { b: 0 } }, 'a.b.c', 1)，传入对象的 a.b 是 0，不存在属性 c，故无法对其设置值（在严格模式下对原始值设置属性会报错）
