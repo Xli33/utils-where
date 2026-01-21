@@ -157,7 +157,8 @@ export const Scrollbar: CustomBar = {
   disabled: /*@__PURE__*/ (() =>
     typeof ResizeObserver !== 'function' ||
     (navigator as Navigator & { userAgentData: { mobile?: boolean } }).userAgentData?.mobile ||
-    navigator.userAgent.includes('Mobile'))(),
+    navigator.userAgent.includes('Mobile') ||
+    window.matchMedia('(pointer: coarse)').matches)(),
   // 是否在使用滚动条时清除已选项
   clearSelection: null,
   // 是否在使用滚动条时阻止默认的selectstart事件
@@ -522,10 +523,13 @@ export const Scrollbar: CustomBar = {
       targetClass = '.scroller',
       barClass = '.scrollbar',
       notRule = ':not(.baring):not(.show-bar)',
-      inherit = 'inherit';
+      inherit = 'inherit',
+      hideInitialBar = Scrollbar.disabled
+        ? ''
+        : `${targetClass}{scrollbar-width:none}${targetClass}::-webkit-scrollbar{display:none;width:0;height:0}`;
 
     css.textContent =
-      `body :has(>${targetClass}){position:relative}${targetClass}{scrollbar-width:none}${targetClass}::-webkit-scrollbar{display:none;width:0;height:0}` +
+      `body :has(>${targetClass}){position:relative}${hideInitialBar}` +
       `${targetClass}:not(html){overflow:auto}${targetClass}${notRule}>body>${barClass},${targetClass}${notRule}~${barClass}{visibility:hidden;opacity:0}` +
       `${targetClass}.fill{height:${inherit};min-height:${inherit};max-height:${inherit}}${barClass}{position:absolute;z-index:10;transition:visibility .1s,opacity .1s}` +
       `body>${barClass}{position:fixed}${barClass}-x{right:0;bottom:0;left:0;height:12px}${barClass}-y{top:0;right:0;bottom:0;width:12px}` +
