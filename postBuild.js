@@ -84,7 +84,9 @@ async function buildComponentHtml(lang) {
         name: 'API',
         sub: []
       },
-      files = (await glob('**/*.md', { cwd: mdDir, posix: true })).sort();
+      files = (await glob('**/*.md', { cwd: mdDir, posix: true })).sort((a, b) =>
+        a.localeCompare(b, 'en', { sensitivity: 'base' })
+      );
 
     menus.push(first);
     const { name: apiDir, sub: apiSub } = first;

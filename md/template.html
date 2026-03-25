@@ -238,6 +238,7 @@
       });
       let loadingRoutes = true;
       router.beforeEach(async (to, from) => {
+        Quasar.LoadingBar.start()
         // console.log(to, from);
         const toRoute = to.matched[to.matched.length - 1];
         // 当未获取到路由配置时允许跳转不存在的地址，以免始终会重定向到 /start。当路由配置加载后会通过 replace 尝试导航到存在的路由
@@ -254,6 +255,7 @@
         }
       });
       router.afterEach((to) => {
+        Quasar.LoadingBar.stop()
         // activeMenu.value = to.name;
         // console.log(to);
         // const matchedRoute = to.matched[to.matched.length - 1];

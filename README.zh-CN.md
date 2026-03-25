@@ -17,69 +17,71 @@ yarn add utils-where
 
 ## API
 
+[view doc](https://xli33.github.io/utils-where/index_zh-CN.html)
+
 ### function
 
-[serialize](./md/zh-CN/serialize.md)  
+`serialize`  
 将对象转换为类似 'a=1\&b=' 的 url 参数
 
-[getPathValue](./md/zh-CN/getPathValue.md)  
+`getPathValue`  
 通过 a.b.c 这样的键路径在对象中获取值
 
-[makeObjectByPath](./md/zh-CN/makeObjectByPath.md)  
+`makeObjectByPath`  
 通过 'a.b.c' 这样的键路径创建对象
 
-[setPathValue](./md/zh-CN/setPathValue.md)  
+`setPathValue`  
 通过 a.b.c 这样的键路径在对象中设置值
 
-[setClipboard&asyncCopy](./md/zh-CN/copy.md)  
+`setClipboard&asyncCopy`  
 同步或异步复制文本到剪贴板
 
-[sprintf](./md/zh-CN/sprintf.md)  
+`sprintf`  
 替换第一个字符串参数中的所有 `%s` 或 `{a.b}`，灵感来源于 es 的模板字符串 `${}`
 
-[deepMerge](./md/zh-CN/deepMerge.md)  
+`deepMerge`  
 对象和数组的深度合并
 
-[scroller](./md/zh-CN/scroller.md)  
+`scroller`  
 平滑滚动内容到目标位置
 
-[toTopOrBottom](./md/zh-CN/toTopOrBottom.md)  
+`toTopOrBottom`  
 使可滚动元素的内容滚动到顶部/底部
 
-[delArrItem](./md/zh-CN/delArrItem.md)  
+`delArrItem`  
 通过索引移除数组项
 
-[delArrItemByVal](./md/zh-CN/delArrItemByVal.md)  
+`delArrItemByVal`  
 通过相等的值移除数组项
 
-[throttle](./md/zh-CN/throttle.md)  
+`throttle`  
 获取一个节流函数，它只在 `interval` 之后被**同步**调用。一个用于**异步**调用的 `onEnd` 监听器可以被添加到返回的函数上
 
-[debounceFirst](./md/zh-CN/debounceFirst.md)  
+`debounceFirst`  
 下一次调用将在上一次调用经过 `timeout` 后被**同步**触发
 
-[debounceLast](./md/zh-CN/debounceLast.md)  
+`debounceLast`  
 每次调用总是在 `timeout` 之后被**异步**触发
 
-[onlyify](./md/zh-CN/onlyify.md)  
+`onlyify`  
 源数组的去重
 
-[genUID](./md/zh-CN/genUID.md)  
+`genUID`  
 生成带有给定前缀的唯一 ID
 
-[omitOwnKeys](./md/zh-CN/omitOwnKeys.md)  
+`omitOwnKeys`  
 返回不含指定自有属性及不可枚举属性的新对象，或剔除给定对象的指定自有属性并返回该对象
 
-[polling](./md/zh-CN/polling.md)  
+`polling`  
 轮询传入的函数，仅在当次函数调用后才继续下次轮询
 
-[saveFile](./md/zh-CN/saveFile.md)  
+`saveFile`  
 保存文件到本地
 
-[Emitter](./md/zh-CN/Emitter.md)  
+`Emitter`  
 获取一个事件触发器，支持泛型
 
-### [custom Scrollbar](./md/zh-CN/Scrollbar.md)
+### custom Scrollbar
 
 仅隐藏默认滚动条并渲染自定义滚动条以进行样式设置，基于 [`ResizeObserver`](<https://www.google.com/search?q=%5Bhttps://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver%23browser_compatibility%5D(https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver%23browser_compatibility)>)  
 **不必提前手动调用 `Scrollbar.init`，但如果不为窗口/页面设置样式，提前调用 `init` 会更好/更佳**
@@ -89,22 +91,22 @@ yarn add utils-where
 新的 `StoreXXX()` 的同步方法 "setVal()" 和 "save()" 只会改变 localStorage/indexedDB 一次（在 setTimeout 回调中）<br>
 因此，像 `.setVal().setVal().save().save().setVal()` 这样的调用**只会修改本地存储一次**
 
-[StoreSimply](./md/zh-CN/StoreSimply.md)  
+`StoreSimply`  
 使用 localStorage 的简单存储
 
-[StoreById](./md/zh-CN/StoreById.md)  
+`StoreById`  
 使用 localStorage 的对象形式存储
 
-[StoreByIDB](./md/zh-CN/StoreByIDB.md)  
+`StoreByIDB`  
 使用 indexedDB 的对象形式存储
 
-[Countdown](./md/zh-CN/Countdown.md)  
+`Countdown`  
 纯 js 倒计时
 
-[Clock](./md/zh-CN/Clock.md)  
+`Clock`  
 纯 js 时钟
 
-### [events](./md/zh-CN/events.md)
+### events
 
 `utils-where/events` 使得在移动设备上支持 "longpress" 成为可能，不同于 contextmenu<br>
 它通过 touchstart 和 touchend 模拟长按，**仅在 contextmenu 的行为不符合您的要求时才导入它！**
