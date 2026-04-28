@@ -2,7 +2,7 @@ import globals from 'globals';
 import pluginJs from '@eslint/js';
 import tseslint from 'typescript-eslint';
 
-export default tseslint.config(
+export default [
   {
     ignores: ['.husky/', 'dist/']
   },
@@ -26,7 +26,7 @@ export default tseslint.config(
     }
   },
   pluginJs.configs.recommended,
-  tseslint.configs.recommended,
+  ...tseslint.configs.recommended,
   {
     rules: {
       '@typescript-eslint/no-unused-expressions': 'off',
@@ -48,4 +48,4 @@ export default tseslint.config(
       'no-empty': ['error', { allowEmptyCatch: true }]
     }
   }
-);
+];

@@ -22,6 +22,7 @@ export function makeObjectByPath(keyPath: string, value?: any) {
     // if (!arr[i]) continue;
     curr = curr![arr[i]] = i < len - 1 ? {} : value;
   }
+  // eslint-disable-next-line no-useless-assignment
   curr = null;
   return pureObj;
 }
