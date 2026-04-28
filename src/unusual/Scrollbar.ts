@@ -129,6 +129,15 @@ type CustomBar = {
   hideBar: (obj: Scroller) => void;
 };
 
+// vite 8 起，像以前那样直接在对象上写 disabled: PURE注释紧跟 (()=>typeof Rexxx())() 也依旧可能导致打包时意外包含整个Scrollbar的代码
+// 改成这种方式更利于构建工具进行tree-shaking，外部没显示import Scrollbar 就不会打包对应代码
+const autoDisabled = () =>
+  typeof ResizeObserver !== 'function' ||
+  (navigator as Navigator & { userAgentData: { mobile?: boolean } }).userAgentData?.mobile ||
+  navigator.userAgent.includes('Mobile') ||
+  window.matchMedia('(pointer: coarse)').matches;
+const disabled = /*@__PURE__*/ autoDisabled();
+
 /**
  * 自定义滚动条对象
  *
@@ -151,14 +160,11 @@ type CustomBar = {
  * // attach支持链式调用
  * Scrollbar.attach().attach(document.querySelector('.list'))
  */
+
 export const Scrollbar: CustomBar = {
   // 移动端上应该不需要用到吧~ ~
   // 具体到特定环境 Scrollbar.disabled = Scrollbar.disabled && /Firefox|Linux|Macintosh/.test(navigator.userAgent)
-  disabled: /*@__PURE__*/ (() =>
-    typeof ResizeObserver !== 'function' ||
-    (navigator as Navigator & { userAgentData: { mobile?: boolean } }).userAgentData?.mobile ||
-    navigator.userAgent.includes('Mobile') ||
-    window.matchMedia('(pointer: coarse)').matches)(),
+  disabled,
   // 是否在使用滚动条时清除已选项
   clearSelection: null,
   // 是否在使用滚动条时阻止默认的selectstart事件
