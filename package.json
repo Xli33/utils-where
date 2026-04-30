@@ -56,7 +56,8 @@
     "esbuild:cjs": "esbuild ./src/index.ts --bundle --target=esnext --outfile=dist/index.cjs --format=cjs",
     "esbuild:esm": "esbuild ./src/index.ts --bundle --target=esnext --outfile=dist/index.js --format=esm",
     "build-esb": "npm run esbuild:cjs && npm run esbuild:esm && tsc --allowJs --declaration --emitDeclarationOnly dist/index.cjs dist/index.js",
-    "build-ts": "tsc --build tsconfig.json tsconfig.esm.json"
+    "build-ts": "tsc --build tsconfig.json tsconfig.esm.json",
+    "format": "prettier --write --experimental-cli src/"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
@@ -84,6 +85,7 @@
     "globals": "^17.5.0",
     "husky": "^9.1.7",
     "jest": "^30.3.0",
+    "lint-staged": "^16.4.0",
     "marked": "^18.0.2",
     "marked-shiki": "^1.2.1",
     "prettier": "^3.8.3",
