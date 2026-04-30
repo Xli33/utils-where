@@ -58,6 +58,15 @@
       .markdown-body {
         padding: 0 20px 20px;
       }
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation-duration: 0.6s;
+        animation-timing-function: ease-in;
+        mix-blend-mode: normal;
+      }
+      ::view-transition-new(root) {
+        animation-name: theme-expand;
+      }
       @media screen and (min-width: 1200px) {
         .q-toolbar {
           padding: 0 2vw;
@@ -70,20 +79,15 @@
           margin: 0 10vw;
         }
       }
-    </style>
-    <script>
-      const matchDark = window.matchMedia('(prefers-color-scheme: dark)');
-      matchDark.addEventListener('change', (e) => {
-        const $markdownCss = document.getElementById('markdown-css');
-        if (e.target.matches) {
-          $markdownCss.href = $markdownCss.href.replace('github-markdown.min.css', 'github-markdown-dark.min.css');
-        } else {
-          $markdownCss.href = $markdownCss.href.replace('github-markdown-dark.min.css', 'github-markdown.min.css');
+      @keyframes theme-expand {
+        from {
+          clip-path: circle(0% at 50% 50%);
         }
-        document.documentElement.classList.toggle('dark', e.target.matches);
-      });
-      matchDark.dispatchEvent(new Event('change'));
-    </script>
+        to {
+          clip-path: circle(150% at 50% 50%);
+        }
+      }
+    </style>
   </head>
 
   <body>
@@ -93,6 +97,24 @@
           <q-toolbar>
             <q-btn dense flat round icon="menu" @click="toggleLeftDrawer"></q-btn>
             <q-toolbar-title>utils where</q-toolbar-title>
+            <q-btn flat round dense icon="settings_brightness" class="q-mr-md">
+              <q-menu auto-close>
+                <q-list>
+                  <q-item clickable :active="theme === 'auto'" class="items-center" @click="changeTheme('auto')">
+                    <q-icon name="brightness_medium" class="q-mr-xs"></q-icon>
+                    <span class="vertical-middle">自动</span>
+                  </q-item>
+                  <q-item clickable :active="theme === 'light'" class="items-center" @click="changeTheme('light')">
+                    <q-icon name="light_mode" class="q-mr-xs"></q-icon>
+                    <span class="vertical-middle">日间</span>
+                  </q-item>
+                  <q-item clickable :active="theme === 'dark'" class="items-center" @click="changeTheme('dark')">
+                    <q-icon name="dark_mode" class="q-mr-xs"></q-icon>
+                    <span class="vertical-middle">夜间</span>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
             <q-btn flat round dense icon="translate">
               <q-menu auto-close>
                 <q-list>
@@ -147,6 +169,45 @@
 
     <script src="https://cdn.jsdelivr.net/npm/quasar@2.18.6/dist/quasar.umd.prod.js"></script>
     <script>
+      if (document.startViewTransition === undefined) document.startViewTransition = (callback) => callback();
+      let appTheme = localStorage.theme || 'auto';
+      const matchDark = window.matchMedia('(prefers-color-scheme: dark)');
+      const setTheme = (theme, noTransition) => {
+        let goDark;
+        const isDark = document.documentElement.classList.contains('dark');
+        if (theme === 'auto') {
+          // 跟随浏览器
+          goDark = matchDark.matches;
+        } else if (theme === 'dark') {
+          goDark = true;
+        } else if (theme === 'light') {
+          goDark = false;
+        }
+        if ((isDark && !goDark) || (goDark && !isDark)) {
+          const $markdownCss = document.getElementById('markdown-css');
+          const toggleTheme = () => {
+            $markdownCss.href = goDark
+              ? $markdownCss.href.replace('github-markdown.min.css', 'github-markdown-dark.min.css')
+              : $markdownCss.href.replace('github-markdown-dark.min.css', 'github-markdown.min.css');
+            document.documentElement.classList.toggle('dark', goDark);
+            Quasar.Dark.set(goDark);
+          };
+          !noTransition && document.startViewTransition
+            ? setTimeout(() => document.startViewTransition(toggleTheme), 250)
+            : toggleTheme();
+        }
+        setTimeout(() => {
+          localStorage.theme = appTheme = theme;
+        });
+      };
+      setTimeout(() => setTheme(appTheme, true));
+      setTimeout(() => {
+        matchDark.onchange = () => {
+          setTheme(appTheme);
+        };
+      });
+    </script>
+    <script>
       const contentCache = {};
       const { createApp, onMounted, ref, shallowRef, computed } = Vue;
       const app = createApp({
@@ -180,6 +241,9 @@
           };
           const route = VueRouter.useRoute();
           const activeMenu = computed(() => route.name);
+          const theme = ref(appTheme);
+
+          const changeTheme = (which) => setTheme((theme.value = which));
 
           const open = (e) => {
             if (e.name === router.currentRoute.value.name) return;
@@ -221,6 +285,8 @@
           });
 
           return {
+            theme,
+            changeTheme,
             leftDrawerOpen,
             activeMenu,
             menus,
@@ -238,7 +304,7 @@
       });
       let loadingRoutes = true;
       router.beforeEach(async (to, from) => {
-        Quasar.LoadingBar.start()
+        Quasar.LoadingBar.start();
         // console.log(to, from);
         const toRoute = to.matched[to.matched.length - 1];
         // 当未获取到路由配置时允许跳转不存在的地址，以免始终会重定向到 /start。当路由配置加载后会通过 replace 尝试导航到存在的路由
@@ -255,7 +321,7 @@
         }
       });
       router.afterEach((to) => {
-        Quasar.LoadingBar.stop()
+        Quasar.LoadingBar.stop();
         // activeMenu.value = to.name;
         // console.log(to);
         // const matchedRoute = to.matched[to.matched.length - 1];
@@ -266,7 +332,7 @@
       app.use(router);
       app.use(Quasar);
       app.mount('#app');
-      Quasar.Dark.set(matchDark.matches);
+      // Quasar.Dark.set(appTheme === 'dark');
     </script>
   </body>
 </html>
