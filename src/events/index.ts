@@ -21,18 +21,21 @@ Node.prototype.addEventListener = function (type, listener, options) {
   let tid: TimeoutId | null;
   const evt = {
     touchstart(e: Event) {
-      tid = setTimeout(() => {
-        listener.call(
-          this,
-          new CustomEvent('longpress', {
-            bubbles: e.bubbles,
-            cancelable: e.cancelable,
-            composed: e.composed,
-            ...(<Node>(<unknown>this))._longPressOption,
-            detail: e
-          })
-        );
-      }, (<Node>(<unknown>this))._longPressDelay || 500);
+      tid = setTimeout(
+        () => {
+          listener.call(
+            this,
+            new CustomEvent('longpress', {
+              bubbles: e.bubbles,
+              cancelable: e.cancelable,
+              composed: e.composed,
+              ...(<Node>(<unknown>this))._longPressOption,
+              detail: e
+            })
+          );
+        },
+        (<Node>(<unknown>this))._longPressDelay || 500
+      );
     },
     touchend() {
       clearTimeout(tid!);

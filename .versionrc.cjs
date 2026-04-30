@@ -9,7 +9,7 @@
 //      '{{/if}}\n'
 
 module.exports = {
-  header: "# Changelog\n\n",
+  header: '# Changelog\n\n'
   // preset: "angular", //require.resolve('conventional-changelog-angular'),
   //"compareUrlFormat": " ",
   // options: {},

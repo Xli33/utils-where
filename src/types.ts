@@ -32,7 +32,7 @@ type KeyPath<T> = T extends object
         ? K extends Array<any>
           ? never // 排除数组原型方法
           : // 当前 key K 本身就是一个可访问的路径
-            | K
+              | K
               // 递归连接：Join<当前 key, 递归路径>
               | Join<
                   K,
