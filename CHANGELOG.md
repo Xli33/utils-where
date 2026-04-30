@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [0.5.2](https://github.com/Xli33/utils-where/compare/v0.5.1...v0.5.2) (2026-04-30)
+
+
+### Features
+
+* 优化代码，避免vite 8+等在打包时可能放弃对Scrollbar进行tree-shaking ([98b8c13](https://github.com/Xli33/utils-where/commit/98b8c131d1ba649f0fa41596cbecc96b5c3e7b5a))
+
 ## [0.5.1](https://github.com/Xli33/utils-where/compare/v0.5.0...v0.5.1) (2026-01-21)
 
 
