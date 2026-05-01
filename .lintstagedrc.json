@@ -1,4 +1,0 @@
-{
-  "*.{js,ts}": ["eslint --cache"],
-  "*.{js,ts,json,md}": ["prettier --check --ignore-unknown --experimental-cli"]
-}
