@@ -6,22 +6,27 @@ clock in pure js
 import { Clock } from 'utils-where';
 
 // start a clock updating every second from now
-const padZero = num => (num + '').padStart(2, '0')
-new Clock(null, null or 1, false, ({year, month, day, week, hour, minute, second}, date) => {
- console.log(`now: ${year}-${month}-${padZero(day)} ${padZero(hour)}:${padZero(minute)}:${padZero(second)}`)
-})
+const padZero = (num) => (num + '').padStart(2, '0');
+new Clock(null, 1, false, ({ year, month, day, week, hour, minute, second }, date) => {
+  console.log(`now: ${year}-${month}-${padZero(day)} ${padZero(hour)}:${padZero(minute)}:${padZero(second)}`);
+});
 
 // start from 2000-01-01 00:00:00 and updates every 5s, but paused to manually start
-const clock = new Clock(new Date(2000, 0,1,0,0,0), 5, false, ({year, month, day, week, hour, minute, second}, date) => {})
-clock.stop()
+const clock = new Clock(
+  new Date(2000, 0, 1, 0, 0, 0),
+  5,
+  false,
+  ({ year, month, day, week, hour, minute, second }, date) => {}
+);
+clock.stop();
 
 // start in 3s. if call clock.start(true), it will start from now!!
-setTimeout(() => clock.start(), 3000)
+setTimeout(() => clock.start(), 3000);
 
 // start a clock updating every 60 seconds from given time, the first param and only run when page visible
-new Clock(new Date(2000, 0,1,0,0,0), 60, true, (parts, date) => {
-    console.log(date.toLocaleString())
-})
+new Clock(new Date(2000, 0, 1, 0, 0, 0), 60, true, (parts, date) => {
+  console.log(date.toLocaleString());
+});
 ```
 
 - integrated with vue

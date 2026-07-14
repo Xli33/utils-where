@@ -6,22 +6,27 @@
 import { Clock } from 'utils-where';
 
 // 从现在开始每秒更新一次的时钟
-const padZero = num => (num + '').padStart(2, '0')
-new Clock(null, null or 1, false, ({year, month, day, week, hour, minute, second}, date) => {
- console.log(`now: ${year}-${month}-${padZero(day)} ${padZero(hour)}:${padZero(minute)}:${padZero(second)}`)
-})
+const padZero = (num) => (num + '').padStart(2, '0');
+new Clock(null, 1, false, ({ year, month, day, week, hour, minute, second }, date) => {
+  console.log(`now: ${year}-${month}-${padZero(day)} ${padZero(hour)}:${padZero(minute)}:${padZero(second)}`);
+});
 
 // 从 2000-01-01 00:00:00 开始每 5 秒更新一次，但暂停，需要手动启动
-const clock = new Clock(new Date(2000, 0,1,0,0,0), 5, false, ({year, month, day, week, hour, minute, second}, date) => {})
-clock.stop()
+const clock = new Clock(
+  new Date(2000, 0, 1, 0, 0, 0),
+  5,
+  false,
+  ({ year, month, day, week, hour, minute, second }, date) => {}
+);
+clock.stop();
 
 // 3 秒后启动。如果调用 clock.start(true)，它将从现在开始!!
-setTimeout(() => clock.start(), 3000)
+setTimeout(() => clock.start(), 3000);
 
 // 从给定时间开始每 60 秒更新一次的时钟，第一个参数，且只在页面可见时运行
-new Clock(new Date(2000, 0,1,0,0,0), 60, true, (parts, date) => {
-    console.log(date.toLocaleString())
-})
+new Clock(new Date(2000, 0, 1, 0, 0, 0), 60, true, (parts, date) => {
+  console.log(date.toLocaleString());
+});
 ```
 
 - 与 vue 集成

@@ -83,7 +83,7 @@ export class Clock {
    * @example
    * 生成一个每1秒更新当前时间的实例
    * const padZero = num => (num + '').padStart(2, '0')
-   * new Clock(null, null or 1, false, ({year, month, day, week, hour, minute, second}, date) => {
+   * new Clock(null, 1, false, ({year, month, day, week, hour, minute, second}, date) => {
    *  console.log(`now: ${year}-${month}-${padZero(day)} ${padZero(hour)}:${padZero(minute)}:${padZero(second)}`)
    * })
    *

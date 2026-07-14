@@ -76,7 +76,7 @@ export class Countdown {
    * const countdown = new Countdown(new Date(Date.now() + 3600000), false, ({minute, second}) => {})
    * countdown.stop()
    *
-   * 3秒后开始计时，若调用start(true)，则会以当前时刻为计时终止时间
+   * 3秒后开始计时，若调用start(true)，则会以当前时刻为基准计算实际剩余的时间，而不是从停止的那一刻继续
    * setTimeout(() => countdown.start(), 3000)
    */
   constructor(to: Date | Partial<dhms>, runOnVisible?: boolean, onCount?: onCount) {
@@ -129,7 +129,7 @@ export class Countdown {
   }
   /**
    * （重新）开始计时，实例化后自动调用
-   * @param fromNow 若为Truthy则始终以当前时间为计时终止时刻
+   * @param fromNow 若为Truthy则始终以当前时间为基准计算实际剩余时间
    */
   start(fromNow?: boolean) {
     this.stop(true);
