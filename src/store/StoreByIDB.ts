@@ -3,16 +3,17 @@ import { getPathValue, makeObjectByPath } from '../usual';
 import { isObject, deepMerge } from '../unusual';
 
 /**
- * 类似StoreById的api，但将数据存至indexedDB。由于indexedDB的操作属于异步，故需在实例的onsuccess事件中获取数据库的数据
+ * 类似StoreById的api，但将数据存至indexedDB
+ * 需初始化init()，并在init().then中获取数据库的数据
  * @param id 数据库名称，不传使用 '-'
  * @param table 数据库中的仓库（表）名称，不传使用数据库名
- * @param data 初始化的数据
  * @example
  * const d = new StoreByIDB()
- * d.onsuccess = () => {
- *  console.log(d.data)
+ * d.init().then((data) => {
+ *  console.log(data)
  *  d.setVal('APP.ui.theme', 'auto').setVal('login.agree.read', true).getVal('login.agree.read')
- * }
+ *  console.log(d.data)
+ * }).catch(err => console.log(err))
  *
  * 在读写时检测路径并获得路径提示
  * type Config = {
@@ -27,38 +28,78 @@ import { isObject, deepMerge } from '../unusual';
  *  const d = new StoreByIDB<Config, SelfKeyPath<Config>>()
  */
 export class StoreByIDB<T extends Obj = Obj, K extends string = string> {
+  /** 仓库名 */
   id: string;
+  /** 表名 */
   table: string;
   data!: T;
-  onsuccess?: () => void;
-  onerror!: (e: Event) => void;
+  // onOpensuccess?: (e: Event) => void;
+  // onOpenError!: (e: Event) => void;
+  /**
+   * 修改数据成功的回调
+   */
+  onSaveSuccess?: (e: Event) => void;
+  /**
+   * 修改数据失败的回调
+   */
+  onSaveError?: (e: Event) => void;
   private _tid!: TimeoutId | null;
   private _idb!: IDBDatabase;
-  constructor(id?: string, table?: string | null, data?: T) {
+  constructor(id?: string, table?: string | null /* data?: T */) {
     this.id = id || '-';
     this.table = table || this.id;
-    const openRequest = indexedDB.open(this.id, 1);
-    // 新建时 version 从无到有会触发版本变更事件，通过upgradeneeded接收
-    openRequest.onupgradeneeded = () => {
-      // 只建一个对象仓库，同时以当前table作为仓库名
-      if (!openRequest.result.objectStoreNames.contains(this.table)) {
-        openRequest.result.createObjectStore(this.table);
-      }
-    };
-    openRequest.onsuccess = () => {
-      // 进行事务操作
-      this._idb = openRequest.result;
-      this._idb.transaction(this.table, 'readonly').objectStore(this.table).get(0).onsuccess = (e) => {
-        const setting = (e.target as EventTarget & { result: Obj[] }).result;
-        // console.log(setting)
-        this.data = Object.assign({}, data, setting);
-        openRequest.onerror = null;
-        this.onsuccess?.();
+    // const openRequest = indexedDB.open(this.id, 1);
+    // // 新建时 version 从无到有会触发版本变更事件，通过upgradeneeded接收
+    // openRequest.onupgradeneeded = () => {
+    //   // 只建一个对象仓库，同时以当前table作为仓库名
+    //   if (!openRequest.result.objectStoreNames.contains(this.table)) {
+    //     openRequest.result.createObjectStore(this.table);
+    //   }
+    // };
+    // openRequest.onsuccess = () => {
+    //   // 进行事务操作
+    //   this._idb = openRequest.result;
+    //   this._idb.transaction(this.table, 'readonly').objectStore(this.table).get(0).onsuccess = (e) => {
+    //     const setting = (e.target as EventTarget & { result: Obj[] }).result;
+    //     // console.log(setting)
+    //     this.data = Object.assign({}, data, setting);
+    //     openRequest.onerror = null;
+    //     this.onOpensuccess?.(e);
+    //   };
+    // };
+    // openRequest.onerror = (e) => {
+    //   this.onOpenError?.(e);
+    // };
+  }
+  /**
+   * 初始化，返回Promise并在读取数据成功后 resolve
+   * @param data 初始化的数据
+   * @returns Promise
+   */
+  init(data?: T) {
+    return new Promise<T>((resolve, reject) => {
+      const openRequest = indexedDB.open(this.id, 1);
+      // 新建时 version 从无到有会触发版本变更事件，通过upgradeneeded接收
+      openRequest.onupgradeneeded = () => {
+        // 只建一个对象仓库，同时以当前table作为仓库名
+        if (!openRequest.result.objectStoreNames.contains(this.table)) {
+          openRequest.result.createObjectStore(this.table);
+        }
       };
-    };
-    openRequest.onerror = (e) => {
-      this.onerror?.(e);
-    };
+      openRequest.onsuccess = () => {
+        // 进行事务操作
+        this._idb = openRequest.result;
+        const res = this._idb.transaction(this.table, 'readonly').objectStore(this.table).get(0);
+        res.onsuccess = (e) => {
+          const setting = (e.target as any).result;
+          // console.log(setting)
+          this.data = Object.assign({}, data, setting);
+          resolve(this.data);
+        };
+        res.onerror = reject;
+      };
+      openRequest.onerror = reject;
+    });
   }
   /**
    * 以点语法获取对应配置
@@ -163,11 +204,15 @@ export class StoreByIDB<T extends Obj = Obj, K extends string = string> {
           .transaction(this.table, 'readwrite')
           .objectStore(this.table)
           .put(useJSON ? JSON.parse(JSON.stringify(this.data)) : this.data, 0);
-        tmp.onsuccess = () => {
-          (<unknown>tmp) = tmp.onerror = null;
+        tmp.onsuccess = (e) => {
+          this.onSaveSuccess?.(e);
+          (<unknown>tmp) = tmp.onerror = tmp.onsuccess = null;
           // console.log(`修改了本地数据库 ${this.id} ~ ${this.table} 的配置`)
         };
-        tmp.onerror = this.onerror;
+        tmp.onerror = (e) => {
+          this.onSaveError?.(e);
+          (<unknown>tmp) = tmp.onerror = tmp.onsuccess = null;
+        };
       });
     }
     return this;
