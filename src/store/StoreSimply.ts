@@ -25,20 +25,25 @@ export class StoreSimply<T extends object> {
    * 更改键值，支持链式调用
    * @param key 要求为实例化时所传data自身的key
    * @param value any
+   * @param flush boolean 是否同步写入storage，默认异步
    * @returns this
    * @example
    * new StoreSimply('app', {num: 1, more: false})
    *  .setVal('num',null)
    *  .setVal('more')
    */
-  setVal(key: keyof T, value?: any) {
+  setVal(key: keyof T, value?: any, flush?: boolean) {
     if (key == null) throw 'key is required';
     this.data[key] = value;
-    clearTimeout(this._tid!);
-    this._tid = setTimeout(() => {
-      this._tid = null;
+    if (!flush) {
+      clearTimeout(this._tid!);
+      this._tid = setTimeout(() => {
+        this._tid = null;
+        localStorage.setItem(this.id, JSON.stringify(this.data));
+      });
+    } else {
       localStorage.setItem(this.id, JSON.stringify(this.data));
-    });
+    }
     return this;
   }
 }

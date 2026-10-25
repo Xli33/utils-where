@@ -104,10 +104,12 @@ export class StoreById<T extends Obj = Obj, K extends string = string> {
     {
       deep,
       target,
+      flush,
       skipHandle
     }: {
       deep?: boolean;
       target?: Obj;
+      flush?: boolean;
       skipHandle?: (key: string, target: Obj, fromValue: any) => boolean;
     } = {}
   ) {
@@ -122,7 +124,7 @@ export class StoreById<T extends Obj = Obj, K extends string = string> {
     const configObj = makeObjectByPath(keyPath, value);
     // console.log(configObj)
     // 当 configObj 不为空对象时才需调用 save
-    return Object.keys(configObj).length > 0 ? this.save(configObj, target, skipHandle) : this;
+    return Object.keys(configObj).length > 0 ? this.save(configObj, target, flush, skipHandle) : this;
   }
   /**
    * 以对象形式修改配置，支持链式调用，默认进行深度合并
@@ -143,6 +145,7 @@ export class StoreById<T extends Obj = Obj, K extends string = string> {
   save(
     value: Obj,
     targetOrReplace?: boolean | Obj | null,
+    flush?: boolean,
     skipHandle?: (key: string, target: Obj, fromValue: any) => boolean | void
   ) {
     if (targetOrReplace !== true) {
@@ -161,13 +164,18 @@ export class StoreById<T extends Obj = Obj, K extends string = string> {
     } else {
       this.data = value as T;
     }
+    // 当 targetOrReplace 为非this.data的对象时，没改this.data，故不进行localStorage的赋值，避免不必要的磁盘io
     if (!targetOrReplace || targetOrReplace === true || targetOrReplace === this.data) {
-      clearTimeout(this._tid!);
-      this._tid = setTimeout(() => {
-        this._tid = null;
+      if (!flush) {
+        clearTimeout(this._tid!);
+        this._tid = setTimeout(() => {
+          this._tid = null;
+          localStorage.setItem(this.id, JSON.stringify(this.data));
+          // console.log(`修改了本地 ${this.id} 的配置`)
+        });
+      } else {
         localStorage.setItem(this.id, JSON.stringify(this.data));
-        // console.log(`修改了本地 ${this.id} 的配置`)
-      });
+      }
     }
     return this;
   }
