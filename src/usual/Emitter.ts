@@ -34,7 +34,7 @@ export function Emitter<T extends Evt>() {
   return {
     evts: {} as T,
     /**
-     * add listener for given name
+     * add listener for given name. Listen only once for the same event
      * @param name listener type
      * @param func listener
      * @returns this

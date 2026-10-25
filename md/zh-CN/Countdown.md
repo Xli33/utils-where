@@ -10,7 +10,7 @@ new Countdown({ minute: 1, second: 20 }, false, ({ minute, second }) => {
   console.log(minute, second);
 });
 
-// 开始一个 1 小时的倒计时，但暂停，然后手动启动
+// 开始一个 1 小时的倒计时，但暂停后手动启动
 const cd = new Countdown(new Date(Date.now() + 3600000), false, ({ day, hour, minute, second }) => {
   console.log(`days: ${day} hours: ${hour} minutes: ${minute} seconds: ${second}`);
 });
@@ -26,44 +26,43 @@ new Countdown(new Date(2030, 1, 1, 0, 0, 0), true, ({ day, hour, minute, second 
 
 - 与 vue 集成
 
-```tsx
+```vue
+<template>
+  <p>{{ leftH.value }}:{{ leftM.value }}:{{ leftS.value }}</p>
+</template>
+
+<script setup>
 import { ref, onBeforeUnmount, onDeactivated } from 'vue';
 import { Countdown } from 'utils-where';
 
-export default {
-  props: {
-    end: Number
-  },
-  setup(props, ctx) {
-    const leftH = ref(),
-      leftM = ref(),
-      leftS = ref();
-    const cd = new Countdown(new Date(Date.now() + props.end), false, ({ hour, minute, second }) => {
-      leftH.value = hour;
-      leftM.value = minute;
-      leftS.value = second;
-    });
-    cd.stop();
+const props = defineProps({
+  end: Number
+});
+const leftH = ref(),
+  leftM = ref(),
+  leftS = ref();
+const cd = new Countdown(new Date(Date.now() + props.end), false, ({ hour, minute, second }) => {
+  leftH.value = hour;
+  leftM.value = minute;
+  leftS.value = second;
+});
+cd.stop();
 
-    ctx.expose({ cd });
+defineExpose({ cd });
 
-    onBeforeUnmount(() => {
-      cd.remove();
-    });
-    onDeactivated(() => {
-      cd.stop();
-    });
-
-    return () => (
-      <p>
-        {leftH.value}:{leftM.value}:{leftS.value}
-      </p>
-    );
-  }
-};
+onBeforeUnmount(() => {
+  cd.remove();
+});
+onActivated(() => {
+  cd.start();
+});
+onDeactivated(() => {
+  cd.stop();
+});
+</script>
 ```
 
-- 与 react 集成
+- 与 react 集成(deprecated)
 
 ```tsx
 import React, { useState, useEffect, useRef } from 'react';

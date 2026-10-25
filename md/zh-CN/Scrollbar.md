@@ -70,7 +70,7 @@ onMounted(() => {
 </script>
 ```
 
-- 与其他框架（如 React）集成
+- 与其他框架（如 React）集成(deprecated)
 
 ```tsx
 // 在 main.js 中

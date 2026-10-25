@@ -7,8 +7,8 @@ import { type SelfKeyPath, StoreByIDB } from 'utils-where';
 
 // 存储在 indexedDB 中
 const d = new StoreByIDB();
-d.onsuccess = () => {
-  console.log(d.data);
+d.init().then((data) => {
+  console.log(data);
   d.setVal('APP.ui.theme', 'auto')
     .setVal('login.agree.read', null)
     .setVal('login.agree.remember', true)
@@ -19,7 +19,7 @@ d.onsuccess = () => {
   d.setVal('login.agree.read', undefined, { useJSON: true });
   // 仅设置成 `undefined`
   d.setVal('login.agree.read');
-};
+});
 
 type Config = {
   user: {
@@ -33,15 +33,15 @@ type Config = {
 
 // 需要访问 `data` 时获取其具体类型
 const d = new StoreByIDB<Config>();
-d.onsuccess = () => {
+d.init().then(() => {
   d.data.user;
-};
+});
 
 // 如果需要，检查键路径
 const d = new StoreByIDB<Config, SelfKeyPath<Config>>();
-d.onsuccess = () => {
+d.init().then(() => {
   d.setVal('app.theme', '').getVal('user.id');
-};
+});
 ```
 
 - type

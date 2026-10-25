@@ -72,7 +72,7 @@ export default {
 };
 ```
 
-- 与 react 集成
+- 与 react 集成(deprecated)
 
 ```tsx
 import React, { useState, useEffect, useRef } from 'react';

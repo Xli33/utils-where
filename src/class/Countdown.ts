@@ -63,7 +63,7 @@ export class Countdown {
   private _tid?: TimeoutId | null;
   private _last!: number;
   /**
-   * 生成倒计时，实例化即自动开始计时，实例化后立即调用stop可暂停计时
+   * 生成倒计时，会自动开始，实例化后立即调用stop可暂停
    *
    * @param to 计时终止时间，可以是一个Date，也可以是包含day、hour、minute、second属性的对象
    * @param runOnVisible 是否仅在页面可见时进行计时。建议仅在以当前时间为基准时启用。一般情况下浏览器会对定时器进行节流，故可能需要通过visibilitychange刷新当前剩余计时

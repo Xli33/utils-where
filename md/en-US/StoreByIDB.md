@@ -7,8 +7,8 @@ import { type SelfKeyPath, StoreByIDB } from 'utils-where';
 
 // store in indexedDB
 const d = new StoreByIDB();
-d.onsuccess = () => {
-  console.log(d.data);
+d.init().then((data) => {
+  console.log(data);
   d.setVal('APP.ui.theme', 'auto')
     .setVal('login.agree.read', null)
     .setVal('login.agree.remember', true)
@@ -19,7 +19,7 @@ d.onsuccess = () => {
   d.setVal('login.agree.read', undefined, { useJSON: true });
   // or just set `undefined`
   d.setVal('login.agree.read');
-};
+});
 
 type Config = {
   user: {
@@ -33,15 +33,15 @@ type Config = {
 
 // get the actual type of `data` when u need access to it
 const d = new StoreByIDB<Config>();
-d.onsuccess = () => {
+d.init().then((data) => {
   d.data.user;
-};
+});
 
 // check keyPath if necessary
 const d = new StoreByIDB<Config, SelfKeyPath<Config>>();
-d.onsuccess = () => {
+d.init().then(() => {
   d.setVal('app.theme', '').getVal('user.id');
-};
+});
 ```
 
 - type
