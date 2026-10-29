@@ -12,9 +12,10 @@ export default {
       : [];
   },
 
-  '*.{js,ts,json,md}': (filenames) => [
-    `prettier --check --ignore-unknown --experimental-cli ${getRelativePath(filenames)
-      .filter((e) => !/CHANGELOG.md|^docs\//.test(e))
-      .join(' ')}`
-  ]
+  '*.{js,ts,json,md}': (filenames) => {
+    const needFormat = getRelativePath(filenames).filter((e) => !/CHANGELOG.md|^public\/|^docs\//.test(e));
+    if (!needFormat.length) return [];
+
+    return [`prettier --check --ignore-unknown --experimental-cli ${needFormat.join(' ')}`];
+  }
 };
