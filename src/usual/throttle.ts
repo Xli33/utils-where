@@ -1,10 +1,10 @@
-import type { Func, Obj, TimeoutId } from '../types';
+import type { Func, FuncWrap, Obj, TimeoutId } from '../types';
 
-interface ThrottleWrap<T extends Func> {
-  (...args: Parameters<T>): ReturnType<T> | void;
-  _last?: number;
-  onEnd?: Func<{ _tid?: TimeoutId | null }>;
-}
+// interface ThrottleWrap<T extends Func> {
+//   (...args: Parameters<T>): ReturnType<T> | void;
+//   _last?: number;
+//   onEnd?: Func<{ _tid?: TimeoutId | null }>;
+// }
 
 /**
  * get a throttled function, only to be called after `interval`. an `onEnd` listener could be added to the returned function
@@ -26,7 +26,7 @@ interface ThrottleWrap<T extends Func> {
 export function throttle<T extends Func>(
   callback: T,
   interval: number
-): ThrottleWrap<T> /* (...args: Parameters<T>) => ReturnType<T> | void */ {
+): FuncWrap<T, { _last?: number; onEnd?: Func<{ _tid?: TimeoutId | null }> }> {
   return function wrap(this: any, ...args: Parameters<T>) {
     if (Date.now() - ((<Obj>wrap)._last || 0) >= interval) {
       (<Obj>wrap).onEnd && clearTimeout((<Obj>wrap).onEnd._tid!);

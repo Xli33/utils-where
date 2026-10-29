@@ -1,10 +1,10 @@
-import type { Func, Obj } from '../types';
+import type { Func, FuncWrap, Obj } from '../types';
 
-interface DebounceFirstWrap<T extends Func> {
-  (...args: Parameters<T>): ReturnType<T> | void;
-  _tid?: number;
-  flag?: true | null;
-}
+// interface DebounceFirstWrap<T extends Func> {
+//   (...args: Parameters<T>): ReturnType<T> | void;
+//   _tid?: number;
+//   flag?: true | null;
+// }
 
 /**
  * the next call will be triggerd after `timeout` the last call went by
@@ -15,7 +15,10 @@ interface DebounceFirstWrap<T extends Func> {
  * // not click for at least 1s and to be triggered
  * onclick = debounceFirst(() => console.log('1'), 1000)
  */
-export function debounceFirst<T extends Func>(callback: T, timeout: number): DebounceFirstWrap<T> {
+export function debounceFirst<T extends Func>(
+  callback: T,
+  timeout: number
+): FuncWrap<T, { _tid?: number; flag?: true | null }> {
   return function wrap(this: any, ...args: Parameters<T>) {
     clearTimeout((<Obj>wrap)._tid);
     (<Obj>wrap)._tid = setTimeout(() => {

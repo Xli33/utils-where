@@ -2,12 +2,16 @@ export interface Obj {
   [x: string]: any;
 }
 
-// export type AnyFunc<T extends Obj = object> = ((...args: any[]) => any) & T;
+export type Func<T extends Obj = object> = ((...args: any[]) => any) & T;
+
+export type FuncWrap<T extends Func, A extends Obj, R = ReturnType<T> | void> = {
+  (...args: Parameters<T>): R;
+} & A;
 // export type SomeFunc<F extends (...args: any[]) => any = (...args: any[]) => any, T extends Obj = object> = F & T;
 
-export type Func<T extends Obj = object, F = (...args: any[]) => any> = F extends (...args: infer A) => infer R // 判断F是否是函数类型
-  ? ((...args: A) => R) & T
-  : never;
+// export type Func<T extends Obj = object, F = (...args: any[]) => any> = F extends (...args: infer A) => infer R // 判断F是否是函数类型
+//   ? ((...args: A) => R) & T
+//   : never;
 
 export type TimeoutId = ReturnType<typeof setTimeout>;
 

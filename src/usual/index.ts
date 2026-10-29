@@ -1,5 +1,6 @@
 export * from './debounceFirst';
 export * from './debounceLast';
+export * from './debounceLastRaf';
 export * from './Emitter';
 export * from './getPathValue';
 export * from './makeObjectByPath';
@@ -10,4 +11,5 @@ export { scroller } from './scroller';
 export * from './serialize';
 export * from './setPathValue';
 export * from './throttle';
+export * from './throttleRaf';
 export * from './toTopOrBottom';

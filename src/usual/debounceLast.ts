@@ -1,9 +1,9 @@
-import type { Func, Obj } from '../types';
+import type { Func, FuncWrap, Obj } from '../types';
 
-interface DebounceLastWrap<T extends Func> {
-  (...args: Parameters<T>): void;
-  _tid?: number;
-}
+// interface DebounceLastWrap<T extends Func> {
+//   (...args: Parameters<T>): void;
+//   _tid?: number;
+// }
 
 /**
  * each call will be **async** triggerd always after `timeout`
@@ -20,7 +20,7 @@ interface DebounceLastWrap<T extends Func> {
  *  console.log('cleared')
  * }, 999))
  */
-export function debounceLast<T extends Func>(callback: T, timeout: number): DebounceLastWrap<T> {
+export function debounceLast<T extends Func>(callback: T, timeout: number): FuncWrap<T, { _tid?: number }, void> {
   return function wrap(this: any, ...args: Parameters<T>) {
     clearTimeout((<Obj>wrap)._tid);
     (<Obj>wrap)._tid = setTimeout(() => {
