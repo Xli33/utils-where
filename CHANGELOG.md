@@ -1,5 +1,18 @@
 # Changelog
 
+
+## [0.6.0](https://github.com/Xli33/utils-where/compare/v0.5.2...v0.6.0) (2026-10-29)
+
+### ⚠ BREAKING CHANGES
+
+* 优化`StoreByIDB`，调整为实例化后通过`init().then`获取data
+
+### Features
+
+* `StoreSimply` `StoreById`写入参数新增`flush`用于同步写入 ([a4dbede](https://github.com/Xli33/utils-where/commit/a4dbede677794bed04250e5037af536d4bf23e78))
+* 新增导出基于rAF的 `throttleRaf` `debounceLastRaf` ([c1637d1](https://github.com/Xli33/utils-where/commit/c1637d1dc571c8005b09db74b21b7993be60b3bc))
+* 优化`StoreByIDB`，调整为实例化后通过`init().then`获取data ([b04746d](https://github.com/Xli33/utils-where/commit/b04746df0a1ddc1ad27813daafa2bdd1b163f2f7))
+
 ## [0.5.2](https://github.com/Xli33/utils-where/compare/v0.5.1...v0.5.2) (2026-04-30)
 
 ### Features
