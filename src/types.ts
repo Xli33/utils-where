@@ -36,14 +36,14 @@ type KeyPath<T> = T extends object
         ? K extends Array<any>
           ? never // 排除数组原型方法
           : // 当前 key K 本身就是一个可访问的路径
-              | K
-              // 递归连接：Join<当前 key, 递归路径>
-              | Join<
-                  K,
-                  T[K] extends Array<infer E> // *** 数组特殊处理 ***
-                    ? number | Join<number, KeyPath<E>> // 强制路径为 number 或 number.子路径
-                    : KeyPath<T[K]> // 对象递归
-                >
+            | K
+            // 递归连接：Join<当前 key, 递归路径>
+            | Join<
+                K,
+                T[K] extends Array<infer E> // *** 数组特殊处理 ***
+                  ? number | Join<number, KeyPath<E>> // 强制路径为 number 或 number.子路径
+                  : KeyPath<T[K]> // 对象递归
+              >
         : never;
     }[keyof T]
   : ''; // 基础类型返回空字符串，用于 Join 停止递归并返回 'K'

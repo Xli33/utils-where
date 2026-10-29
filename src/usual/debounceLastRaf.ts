@@ -6,9 +6,9 @@ import type { Func, FuncWrap, Obj } from '../types';
 // }
 
 /**
- * get a debounced function, only to be **async called** next requestAnimationFrame
- * @param callback function to invoke after next animation frame
- * @returns function
+ * get a debounced function, only to be **async called** once in `requestAnimationFrame`
+ * @param callback function to invoke
+ * @returns debounced function
  * @example
  * onresize = debounceLastRaf(() => console.log('only happens after next animation frame'))
  */

@@ -26,5 +26,5 @@ click.onEnd = () => console.log('the end call maybe unnecessary');
 - type
 
 ```ts
-throttle<T extends Func>(callback: T, interval: number): ThrottleWrap<T>
+throttle<T extends Func>(callback: T, interval: number): FuncWrap<T, { _last?: number; onEnd?: Func<{ _tid?: TimeoutId | null }> }>
 ```

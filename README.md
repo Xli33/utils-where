@@ -59,11 +59,17 @@ remove array items by equal values
 `throttle`  
 get a throttled function, only to be **sync** called after `interval`. an `onEnd` listener to be async called could be added to the returned function
 
+`throttleRaf`  
+get a throttled function, only to be called once per `requestAnimationFrame`
+
 `debounceFirst`  
 the next call will be **sync** triggerd after `timeout` the last call went by
 
 `debounceLast`  
 each call will be **async** triggerd always after `timeout`
+
+`debounceLastRaf`  
+get a debounced function, only to be called once per `requestAnimationFrame`
 
 `onlyify`  
 deduplication for source array

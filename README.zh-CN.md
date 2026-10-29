@@ -5,6 +5,8 @@
 为利用现代特性（例如 `?.` `??`）并提供最小体积，**既不包含语法转换也不包含 api polyfill**  
 请自行按实际情况决定是否要向下兼容（如使用打包工具像 `vite`，或单独使用 `core-js` 添加 polyfill）
 
+[changelog](CHANGELOG.md)
+
 ## 安装
 
 ```bash
@@ -57,11 +59,17 @@ yarn add utils-where
 `throttle`  
 获取一个节流函数，它只在 `interval` 之后被**同步**调用。一个用于**异步**调用的 `onEnd` 监听器可以被添加到返回的函数上
 
+`throttleRaf`  
+获取一个基于requestAnimationFrame的节流函数，每一帧内至多触发一次
+
 `debounceFirst`  
-下一次调用将在上一次调用经过 `timeout` 后被**同步**触发
+返回一个防抖函数，下一次调用将在上一次调用经过 `timeout` 后被**同步**触发
 
 `debounceLast`  
-每次调用总是在 `timeout` 之后被**异步**触发
+返回一个防抖函数，每次调用总是在 `timeout` 之后被**异步**触发
+
+`debounceLastRaf`  
+返回一个基于requestAnimationFrame的防抖函数，每一帧内至多触发一次
 
 `onlyify`  
 源数组的去重
